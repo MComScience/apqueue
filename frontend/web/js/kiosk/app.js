@@ -1,4 +1,7 @@
-function RequestQ(service) {
+$(function () {
+    QueryQNum('AutoLoad','0');
+});
+function QService(serviceid) {
     swal({
         title: "Confirm?",
         text: "",
@@ -12,12 +15,57 @@ function RequestQ(service) {
             function (isConfirm) {
                 if (isConfirm) {
                     LoadingClass();
-                    swal.close();
-                   // swal("Deleted!", "Your imaginary file has been deleted.", "success");
+                    QueryQNum('ByConfirm',serviceid);
                 } else {
-                    
+
                 }
             });
+}
+function QueryQNum(Events,serviceid) {
+    if (Events === 'AutoLoad') {
+        $.ajax({
+            type: 'POST',
+            url: 'get-qnum',
+            data: {Events:'Autoload'},
+            dataType: "json",
+            success: function (result) {
+                $('#Service1').html('<strong>' + result.qserive1 + ' คิว</strong>');
+                $('#Service2').html('<strong>' + result.qserive2 + ' คิว</strong>');
+                $('#Service3').html('<strong>' + result.qserive3 + ' คิว</strong>');
+            },
+            error: function (xhr, status, error) {
+                swal({
+                    title: error,
+                    text: "",
+                    type: "error",
+                    confirmButtonText: "OK"
+                });
+            },
+        });
+    } else if (Events === 'ByConfirm') {
+        $.ajax({
+            type: 'POST',
+            url: 'get-qnum',
+            data: {serviceid: serviceid,Events:'ByConfirm'},
+            dataType: "json",
+            success: function (result) {
+                $('#Service' + serviceid).html('<strong>' + result + ' คิว</strong>');
+                $('#wrapper').waitMe('hide');
+                swal.close();
+            },
+            error: function (xhr, status, error) {
+                swal({
+                    title: error,
+                    text: "",
+                    type: "error",
+                    confirmButtonText: "OK"
+                });
+                $('#wrapper').waitMe('hide');
+            },
+        });
+    } else {
+
+    }
 }
 function LoadingClass() {
     $('#wrapper').waitMe({
