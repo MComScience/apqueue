@@ -8,16 +8,24 @@ $order = TbOrderdetail::find()->all();
 ?>
 <?php
 Modal::begin([
-    'header' => '<h4 class="modal-title">' . Html::encode('') . '</h4>',
-    'footer' => Html::button('Cancel',['class' => 'btn btn-default','data-dismiss' => 'modal'])
+    'id' => 'modal-orderdetail',
+    'header' => '<h4 class="modal-title" style="text-align: center;">' . Html::encode('') . '</h4>',
+    'footer' => Html::button('Cancel', ['class' => 'btn btn-default', 'data-dismiss' => 'modal']) . ' '
+    . Html::a('Print Withhout Order', false, ['class' => 'btn btn-info', 'onclick' => 'PrintWithoutOrder(this);']) . ' '
+    . Html::a('Print', false, ['class' => 'btn btn-success','onclick' => 'Print(this);']),
 ]);
 ?>
-<?= Html::beginForm(['order/update'], 'post', []) ?>
+<h2><?= Html::encode('เลือกช่องบริการ') ?></h2>
+<audio id="notif_audio">
+    <source src="/apqueue/sounds/alert.mp3" type="audio/mpeg">
+</audio>
+<?= Html::beginForm(['orderdetail'], 'post', []) ?>
 <?php foreach ($order as $v) : ?>
     <div class="radio">
-        <label><?= Html::input('radio', 'ordername', $v['orderdetailid'], ['class' => 'i-checks']) ?> <?= $v['orderdetail_dec']; ?></label>
+        <label style="font-size:16pt;"><?= Html::input('checkbox', 'ordername', $v['orderdetailid'], ['class' => 'i-checks']) ?> <?= $v['orderdetail_dec']; ?></label>
     </div>
 <?php endforeach; ?>
+<input id="service-room-id" name="service_room" class="form-control" type="hidden"/>
 <?= Html::endForm() ?>
 <?php
 Modal::end();

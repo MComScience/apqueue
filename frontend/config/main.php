@@ -119,7 +119,7 @@ return [
                 # Modules
                 '<module:\w+>' => '<module>/default/index',
                 '<module:\w+>/<controller:\w+>' => '<module>/<controller>/index',
-                '<module:\w+>/<controller:\w+>/<action>' => '<module>/<controller>/<action>',
+                //'<module:\w+>/<controller:\w+>/<action>' => '<module>/<controller>/<action>',
             ]
         ],
         'view' => [
