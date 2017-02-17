@@ -203,6 +203,10 @@ $(document).ready(function(){
                 socket.emit('new_count_message', { 
                   new_count_message: data.new_count_message
                 });
+                var status = "print";
+                socket.emit('status_request', { 
+                  status_request: status
+                });
 
                 socket.emit('new_message', { 
                   name: data.name,

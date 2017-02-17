@@ -1,48 +1,202 @@
 <?php
+
 use yii\helpers\Html;
 use frontend\assets\SweetAlertAsset;
 use frontend\assets\WaitMeAsset;
+use kartik\icons\Icon;
+
 SweetAlertAsset::register($this);
 WaitMeAsset::register($this);
 
 $this->title = Yii::$app->name;
 ?>
 <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12">
+    <div class="col-xs-12 col-sm-12 col-md-5">
         <div class="hpanel hgreen">
-            <div class="panel-heading hbuilt">
-                <h1>คัดกรองผู้ป่วยนอก</h1>
+            <div class="panel-heading hbuilt" style="font-size: 22pt;">
+                <?= Html::encode('คัดกรองผู้ป่วยนอก') ?>
             </div>
             <div class="panel-body">
-                
+
                 <div class="row">
-                    <div class="col-md-6 col-md-offset-1" style="border: 1px solid white;">
-                        <?= Html::a('<strong>ผู้ป่วยนัดหมาย</strong>',false,['class' => 'btn btn-success btn-lg btn-block','style' => 'font-size: 40pt;','onclick' => 'RequestQ(1);']) ?>
+                    <div class="col-sm-8" style="border: 1px solid white;">
+                        <?= Html::a('<strong>ผู้ป่วยนัดหมาย</strong>', false, ['class' => 'btn btn-info btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'QService(1,1,"ผู้ป่วยนัดหมาย");']) ?>
                     </div>
-                    <div class="col-md-2 loaddingq1" style="border: 1px solid white;font-size: 40pt;background-color: #74d348;color: white;text-align: center;height: 93px;border-radius: 3px;padding-top:10px">
-                        <strong><div id="content1">0 คิว</div></strong>
+                    <div class="col-sm-4" style="border: 1px solid white;font-size: 20pt;background-color: #3498db;color: white;text-align: center;height: 57px;border-radius: 6px;padding-top:10px">
+                        <div id="Service1">
+                            <strong>- คิว</strong>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6 col-md-offset-1" style="border: 1px solid white;">
-                        <?= Html::a('<strong>ผู้ป่วยใหม่</strong>',false,['class' => 'btn btn-success btn-lg btn-block','style' => 'font-size: 40pt;']) ?>
+                    <div class="col-sm-8" style="border: 1px solid white;">
+                        <?= Html::a('<strong>ผู้ป่วยใหม่/ไม่ตรงนัดหมาย</strong>', false, ['class' => 'btn btn-info btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'QService(1,2,"ผู้ป่วยใหม่/ไม่ตรงนัดหมาย");']) ?>
                     </div>
-                    <div class="col-md-2 loaddingq2" style="border: 1px solid white;font-size: 40pt;background-color: #74d348;color: white;text-align: center;height: 93px;border-radius: 3px;padding-top:10px">
-                        <strong>0 คิว</strong>
+                    <div class="col-sm-4" style="border: 1px solid white;font-size: 20pt;background-color: #3498db;color: white;text-align: center;height: 57px;border-radius: 6px;padding-top:10px">
+                        <div id="Service2">
+                            <strong>- คิว</strong>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6 col-md-offset-1" style="border: 1px solid white;">
-                        <?= Html::a('<strong>ผู้นัดหมาย ไม่ตรงนัด</strong>',false,['class' => 'btn btn-success btn-lg btn-block','style' => 'font-size: 40pt;']) ?>
+                    <div class="col-sm-8" style="border: 1px solid white;">
+                        <?= Html::a('<strong>ผู้สูงอายุ 70 ปี</strong>', false, ['class' => 'btn btn-info btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'QService(1,3,"ผู้สูงอายุ 70 ปี");']) ?>
                     </div>
-                    <div class="col-md-2 loaddingq3" style="border: 1px solid white;font-size: 40pt;background-color: #74d348;color: white;text-align: center;height: 93px;border-radius: 3px;padding-top:10px">
-                        <strong>0 คิว</strong>
+                    <div class="col-sm-4" style="border: 1px solid white;font-size: 20pt;background-color: #3498db;color: white;text-align: center;height: 57px;border-radius: 6px;padding-top:10px">
+                        <div id="Service3">
+                            <strong>- คิว</strong>
+                        </div>
                     </div>
                 </div>
-                <marquee direction="left"><p style="font-size: 18pt;">สถาบันบำราศนราดูล</p></marquee>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-7">
+        <div class="hpanel hgreen">
+            <div class="panel-heading hbuilt" style="font-size: 22pt;">
+                <?php echo Icon::show('address-card-o', []); ?><?= Html::encode('ห้องตรวจโรค') ?>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-4">
+
+                    </div>
+                    <div class="col-sm-2">
+                        <p style="font-size: 18pt;">รอ/จ่าย</p>
+                    </div>
+                    <div class="col-sm-4">
+
+                    </div>
+                    <div class="col-sm-2">
+                        <p style="font-size: 18pt;">รอ/จ่าย</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4" style="border: 1px solid white;">
+                        <?= Html::a(Icon::show('user-md', []).'<strong>ห้องตรวจ 1</strong><p style="line-height: 0.9;font-size: 14pt;">แพทย์</p>', false, ['class' => 'btn btn-success btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'QService(2,21,"ห้องตรวจ 1");']) ?>
+                    </div>
+                    <div class="col-sm-2" style="border: 1px solid white;font-size: 18pt;background-color: #62cb31;color: white;text-align: center;height: 80px;border-radius: 6px;padding-top:10px">
+                        <div id="Service21">
+                            <strong><?= Html::encode('0/0') ?></strong>
+                            <p style="line-height: 0.9;"><strong><?= Html::encode('คิว') ?></strong></p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4" style="border: 1px solid white;">
+                        <?= Html::a(Icon::show('user-md', []).'<strong>ห้องตรวจ 6</strong><p style="line-height: 0.9;font-size: 14pt;">แพทย์</p>', false, ['class' => 'btn btn-success btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'QService(2,26,"ห้องตรวจ 6");']) ?>
+                    </div>
+                    <div class="col-sm-2" style="border: 1px solid white;font-size: 18pt;background-color: #62cb31;color: white;text-align: center;height: 80px;border-radius: 6px;padding-top:10px">
+                        <div id="Service26">
+                            <strong><?= Html::encode('0/0') ?></strong>
+                            <p style="line-height: 0.9;"><strong><?= Html::encode('คิว') ?></strong></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4" style="border: 1px solid white;">
+                        <?= Html::a(Icon::show('user-md', []).'<strong>ห้องตรวจ 2</strong><p style="line-height: 0.9;font-size: 14pt;">แพทย์</p>', false, ['class' => 'btn btn-success btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'QService(2,22,"ห้องตรวจ 2");']) ?>
+                    </div>
+                    <div class="col-sm-2" style="border: 1px solid white;font-size: 18pt;background-color: #62cb31;color: white;text-align: center;height: 80px;border-radius: 6px;padding-top:10px">
+                        <div id="Service22">
+                            <strong><?= Html::encode('0/0') ?></strong>
+                            <p style="line-height: 0.9;"><strong><?= Html::encode('คิว') ?></strong></p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4" style="border: 1px solid white;">
+                        <?= Html::a(Icon::show('user-md', []).'<strong>ห้องตรวจ 7</strong><p style="line-height: 0.9;font-size: 14pt;">แพทย์</p>', false, ['class' => 'btn btn-success btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'QService(2,27,"ห้องตรวจ 7");']) ?>
+                    </div>
+                    <div class="col-sm-2" style="border: 1px solid white;font-size: 18pt;background-color: #62cb31;color: white;text-align: center;height: 80px;border-radius: 6px;padding-top:10px">
+                        <div id="Service27">
+                            <strong><?= Html::encode('0/0') ?></strong>
+                            <p style="line-height: 0.9;"><strong><?= Html::encode('คิว') ?></strong></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4" style="border: 1px solid white;">
+                        <?= Html::a(Icon::show('user-md', []).'<strong>ห้องตรวจ 3</strong><p style="line-height: 0.9;font-size: 14pt;">แพทย์</p>', false, ['class' => 'btn btn-success btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'QService(2,23,"ห้องตรวจ 3");']) ?>
+                    </div>
+                    <div class="col-sm-2" style="border: 1px solid white;font-size: 18pt;background-color: #62cb31;color: white;text-align: center;height: 80px;border-radius: 6px;padding-top:10px">
+                        <div id="Service23">
+                            <strong><?= Html::encode('0/0') ?></strong>
+                            <p style="line-height: 0.9;"><strong><?= Html::encode('คิว') ?></strong></p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4" style="border: 1px solid white;">
+                        <?= Html::a(Icon::show('user-md', []).'<strong>ห้องตรวจ 8</strong><p style="line-height: 0.9;font-size: 14pt;">แพทย์</p>', false, ['class' => 'btn btn-success btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'QService(2,28,"ห้องตรวจ 8");']) ?>
+                    </div>
+                    <div class="col-sm-2" style="border: 1px solid white;font-size: 18pt;background-color: #62cb31;color: white;text-align: center;height: 80px;border-radius: 6px;padding-top:10px">
+                        <div id="Service28">
+                            <strong><?= Html::encode('0/0') ?></strong>
+                            <p style="line-height: 0.9;"><strong><?= Html::encode('คิว') ?></strong></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4" style="border: 1px solid white;">
+                        <?= Html::a(Icon::show('user-md', []).'<strong>ห้องตรวจ 4</strong><p style="line-height: 0.9;font-size: 14pt;">แพทย์</p>', false, ['class' => 'btn btn-success btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'QService(2,24,"ห้องตรวจ 4");']) ?>
+                    </div>
+                    <div class="col-sm-2" style="border: 1px solid white;font-size: 18pt;background-color: #62cb31;color: white;text-align: center;height: 80px;border-radius: 6px;padding-top:10px">
+                        <div id="Service24">
+                            <strong><?= Html::encode('0/0') ?></strong>
+                            <p style="line-height: 0.9;"><strong><?= Html::encode('คิว') ?></strong></p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4" style="border: 1px solid white;">
+                        <?= Html::a(Icon::show('user-md', []).'<strong>ห้องตรวจ 9</strong><p style="line-height: 0.9;font-size: 14pt;">แพทย์</p>', false, ['class' => 'btn btn-success btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'QService(2,29,"ห้องตรวจ 9");']) ?>
+                    </div>
+                    <div class="col-sm-2" style="border: 1px solid white;font-size: 18pt;background-color: #62cb31;color: white;text-align: center;height: 80px;border-radius: 6px;padding-top:10px">
+                        <div id="Service29">
+                            <strong><?= Html::encode('0/0') ?></strong>
+                            <p style="line-height: 0.9;"><strong><?= Html::encode('คิว') ?></strong></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4" style="border: 1px solid white;">
+                        <?= Html::a(Icon::show('user-md', []).'<strong>ห้องตรวจ 5</strong><p style="line-height: 0.9;font-size: 14pt;">แพทย์</p>', false, ['class' => 'btn btn-success btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'QService(2,25,"ห้องตรวจ 5");']) ?>
+                    </div>
+                    <div class="col-sm-2" style="border: 1px solid white;font-size: 18pt;background-color: #62cb31;color: white;text-align: center;height: 80px;border-radius: 6px;padding-top:10px">
+                        <div id="Service25">
+                            <strong><?= Html::encode('0/0') ?></strong>
+                            <p style="line-height: 0.9;"><strong><?= Html::encode('คิว') ?></strong></p>
+                        </div>
+                    </div>
+                    <div class="col-sm-4" style="border: 1px solid white;">
+                        <?= Html::a(Icon::show('user-md', []).'<strong>ห้องตรวจ 10</strong><p style="line-height: 0.9;font-size: 14pt;">แพทย์</p>', false, ['class' => 'btn btn-success btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'QService(2,30,"ห้องตรวจ 10");']) ?>
+                    </div>
+                    <div class="col-sm-2" style="border: 1px solid white;font-size: 18pt;background-color: #62cb31;color: white;text-align: center;height: 80px;border-radius: 6px;padding-top:10px">
+                        <div id="Service30">
+                            <strong><?= Html::encode('0/0') ?></strong>
+                            <p style="line-height: 0.9;"><strong><?= Html::encode('คิว') ?></strong></p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
-<?php $this->registerJsFile(Yii::getAlias('@web') . '/js/kiosk/app.js', ['depends' => [\yii\web\JqueryAsset::className()]]); ?>
+<div class="row">
+    <div class="col-md-12">
+        <marquee direction="left"><p style="font-size: 18pt;">สถาบันบำราศนราดูล</p></marquee>
+    </div>
+</div>
+<br/>
+<?= $this->render('modal'); ?>
+<?php
+$script = <<< JS
+    var socket = io.connect('http://' + window.location.hostname + ':3000');
+    socket.on('status_request', function (data) {
 
+    QueryQNum('AutoLoad', '0');
+    QueryQNum('EXRoomAutoload', '0');
+        $('#notif_audio')[0].play();
+   });
+JS;
+$this->registerJs($script);
+?>
+<?php $this->registerJsFile(Yii::getAlias('@web') . '/js/kiosk/app.js', ['depends' => [\yii\web\JqueryAsset::className()]]); ?>
+<?php $this->registerJsFile(Yii::getAlias('@web') . '/js/socket.io.js', ['depends' => [\yii\web\JqueryAsset::className()]]); ?>
