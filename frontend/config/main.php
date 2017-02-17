@@ -22,6 +22,26 @@ return [
             'confirmWithin' => 21600,
             'cost' => 12,
             'admins' => ['admin'], #'admin',
+            'controllerMap' => [
+                'profile' => [
+                    'class' => 'common\themes\homer\controllers\ProfileController',
+                ],
+                'settings' => [
+                    'class' => 'common\themes\homer\controllers\SettingsController',
+                ],
+                'security' => [
+                    'class' => 'dektrium\user\controllers\SecurityController',
+                    //'layout' => '//login',
+                ],
+                'recovery' => [
+                    'class' => 'dektrium\user\controllers\RecoveryController',
+                    //'layout' => '//login',
+                ],
+                'registration' => [
+                    'class' => 'common\themes\homer\controllers\RegistrationController',
+                    //'layout' => '//login',
+                ],
+            ],
         /*
           'mailer' => [
           'sender' => ['procurementuch@gmail.com' => 'KM4'], // or ['no-reply@myhost.com' => 'Sender name']
@@ -86,7 +106,7 @@ return [
         ],
         # Yii2-User Extension
         'session' => [
-            //'class' => 'yii\web\DbSession',
+            'class' => 'yii\web\DbSession',
             'name' => 'FRONTENDSESSID',
             'cookieParams' => [
                 'httpOnly' => true,
@@ -119,13 +139,14 @@ return [
                 # Modules
                 '<module:\w+>' => '<module>/default/index',
                 '<module:\w+>/<controller:\w+>' => '<module>/<controller>/index',
-                //'<module:\w+>/<controller:\w+>/<action>' => '<module>/<controller>/<action>',
+            //'<module:\w+>/<controller:\w+>/<action>' => '<module>/<controller>/<action>',
             ]
         ],
         'view' => [
             'theme' => [
                 'pathMap' => [
-                    '@frontend/views' => '@frontend/themes/homer'
+                    '@frontend/views' => '@frontend/themes/homer',
+                    '@dektrium/user/views' => '@common/themes/homer/views/user',
                 ],
             ],
         ],

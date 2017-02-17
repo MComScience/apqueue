@@ -30,7 +30,8 @@
         "kartik-v/yii2-mpdf": "*",
         "kartik-v/yii2-export": "*",
         "wbraganca/yii2-videojs-widget": "~1.0",
-        "bluezed/yii2-scroll-top": "*"
+        "bluezed/yii2-scroll-top": "*",
+        "kartik-v/yii2-checkbox-x": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

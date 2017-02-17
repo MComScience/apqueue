@@ -4,6 +4,7 @@ $(function () {
     $('#modal-orderdetail').on('hidden.bs.modal', function (e) {
         $('input[type=radio]').iCheck('uncheck');
         $('input[type=checkbox]').iCheck('uncheck');
+        $('input[type=checkbox]').checkboxX('reset');
     });
 });
 function QService(group, serviceid, title) {
@@ -110,7 +111,7 @@ function QueryQNum(Events, serviceid) {
                 orderids.push($(this).val());
             }
         });
-
+        
         if (orderids.length === 0) {
             swal("เลือกช่องบริการ!", "", "warning");
         } else {
@@ -196,6 +197,7 @@ function blinker(id) {
 
 function PrintWithoutOrder() {
     $('input[type=radio]').iCheck('uncheck');
+    $('input[type=checkbox]').checkboxX('reset');
     var serviceid = $("#service-room-id").val();
     QueryQNum('PrintWithoutOrder', serviceid);
 }

@@ -10,7 +10,7 @@ return [
     'aliases' => [
         '@mdm/admin' => '@vendor/mdmsoft/yii2-admin'
     ],
-    'bootstrap' => ['languagepicker'],
+    'bootstrap' => ['languagepicker','log'],
     'components' => [
         'languagepicker' => [
             'class' => 'lajax\languagepicker\Component',
@@ -28,7 +28,26 @@ return [
             'datetimeFormat' => 'php:d-m-Y H:i a',
             'timeFormat' => 'php:H:i A',
             'timeZone' => 'Asia/Bangkok',
-        ]
+        ],
+        'log' => [
+            'targets' => [
+                [
+                    'class' => 'yii\log\DbTarget',
+                    'levels' => ['error', 'warning'],
+                ],
+                /*
+                [
+                    'class' => 'yii\log\EmailTarget',
+                    'levels' => ['error'],
+                    'categories' => ['yii\db\*'],
+                    'message' => [
+                       'from' => ['log@example.com'],
+                       'to' => ['admin@example.com', 'developer@example.com'],
+                       'subject' => 'Database errors at example.com',
+                    ],
+                ],*/
+            ],
+        ],
     ],
     'modules' => [
         # Yii2-User Extension

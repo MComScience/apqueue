@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use frontend\assets\SweetAlertAsset;
 use frontend\assets\WaitMeAsset;
+use kartik\icons\Icon;
 
 SweetAlertAsset::register($this);
 WaitMeAsset::register($this);
@@ -53,7 +54,7 @@ $this->title = Yii::$app->name;
     <div class="col-xs-12 col-sm-12 col-md-7">
         <div class="hpanel hgreen">
             <div class="panel-heading hbuilt" style="font-size: 22pt;">
-                <?= Html::encode('ห้องตรวจโรค') ?>
+                <?php echo Icon::show('address-card-o', []); ?><?= Html::encode('ห้องตรวจโรค') ?>
             </div>
             <div class="panel-body">
                 <div class="row">
@@ -72,7 +73,7 @@ $this->title = Yii::$app->name;
                 </div>
                 <div class="row">
                     <div class="col-sm-4" style="border: 1px solid white;">
-                        <?= Html::a('<strong>ห้องตรวจ 1</strong><p style="line-height: 0.9;font-size: 14pt;">แพทย์</p>', false, ['class' => 'btn btn-success btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'QService(2,21,"ห้องตรวจ 1");']) ?>
+                        <?= Html::a(Icon::show('user-md', []).'<strong>ห้องตรวจ 1</strong><p style="line-height: 0.9;font-size: 14pt;">แพทย์</p>', false, ['class' => 'btn btn-success btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'QService(2,21,"ห้องตรวจ 1");']) ?>
                     </div>
                     <div class="col-sm-2" style="border: 1px solid white;font-size: 18pt;background-color: #62cb31;color: white;text-align: center;height: 80px;border-radius: 6px;padding-top:10px">
                         <div id="Service21">
@@ -81,7 +82,7 @@ $this->title = Yii::$app->name;
                         </div>
                     </div>
                     <div class="col-sm-4" style="border: 1px solid white;">
-                        <?= Html::a('<strong>ห้องตรวจ 6</strong><p style="line-height: 0.9;font-size: 14pt;">แพทย์</p>', false, ['class' => 'btn btn-success btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'QService(2,26,"ห้องตรวจ 6");']) ?>
+                        <?= Html::a(Icon::show('user-md', []).'<strong>ห้องตรวจ 6</strong><p style="line-height: 0.9;font-size: 14pt;">แพทย์</p>', false, ['class' => 'btn btn-success btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'QService(2,26,"ห้องตรวจ 6");']) ?>
                     </div>
                     <div class="col-sm-2" style="border: 1px solid white;font-size: 18pt;background-color: #62cb31;color: white;text-align: center;height: 80px;border-radius: 6px;padding-top:10px">
                         <div id="Service26">
@@ -93,7 +94,7 @@ $this->title = Yii::$app->name;
 
                 <div class="row">
                     <div class="col-sm-4" style="border: 1px solid white;">
-                        <?= Html::a('<strong>ห้องตรวจ 2</strong><p style="line-height: 0.9;font-size: 14pt;">แพทย์</p>', false, ['class' => 'btn btn-success btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'QService(2,22,"ห้องตรวจ 2");']) ?>
+                        <?= Html::a(Icon::show('user-md', []).'<strong>ห้องตรวจ 2</strong><p style="line-height: 0.9;font-size: 14pt;">แพทย์</p>', false, ['class' => 'btn btn-success btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'QService(2,22,"ห้องตรวจ 2");']) ?>
                     </div>
                     <div class="col-sm-2" style="border: 1px solid white;font-size: 18pt;background-color: #62cb31;color: white;text-align: center;height: 80px;border-radius: 6px;padding-top:10px">
                         <div id="Service22">
@@ -102,7 +103,7 @@ $this->title = Yii::$app->name;
                         </div>
                     </div>
                     <div class="col-sm-4" style="border: 1px solid white;">
-                        <?= Html::a('<strong>ห้องตรวจ 7</strong><p style="line-height: 0.9;font-size: 14pt;">แพทย์</p>', false, ['class' => 'btn btn-success btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'QService(2,27,"ห้องตรวจ 7");']) ?>
+                        <?= Html::a(Icon::show('user-md', []).'<strong>ห้องตรวจ 7</strong><p style="line-height: 0.9;font-size: 14pt;">แพทย์</p>', false, ['class' => 'btn btn-success btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'QService(2,27,"ห้องตรวจ 7");']) ?>
                     </div>
                     <div class="col-sm-2" style="border: 1px solid white;font-size: 18pt;background-color: #62cb31;color: white;text-align: center;height: 80px;border-radius: 6px;padding-top:10px">
                         <div id="Service27">
@@ -114,7 +115,7 @@ $this->title = Yii::$app->name;
 
                 <div class="row">
                     <div class="col-sm-4" style="border: 1px solid white;">
-                        <?= Html::a('<strong>ห้องตรวจ 3</strong><p style="line-height: 0.9;font-size: 14pt;">แพทย์</p>', false, ['class' => 'btn btn-success btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'QService(2,23,"ห้องตรวจ 3");']) ?>
+                        <?= Html::a(Icon::show('user-md', []).'<strong>ห้องตรวจ 3</strong><p style="line-height: 0.9;font-size: 14pt;">แพทย์</p>', false, ['class' => 'btn btn-success btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'QService(2,23,"ห้องตรวจ 3");']) ?>
                     </div>
                     <div class="col-sm-2" style="border: 1px solid white;font-size: 18pt;background-color: #62cb31;color: white;text-align: center;height: 80px;border-radius: 6px;padding-top:10px">
                         <div id="Service23">
@@ -123,7 +124,7 @@ $this->title = Yii::$app->name;
                         </div>
                     </div>
                     <div class="col-sm-4" style="border: 1px solid white;">
-                        <?= Html::a('<strong>ห้องตรวจ 8</strong><p style="line-height: 0.9;font-size: 14pt;">แพทย์</p>', false, ['class' => 'btn btn-success btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'QService(2,28,"ห้องตรวจ 8");']) ?>
+                        <?= Html::a(Icon::show('user-md', []).'<strong>ห้องตรวจ 8</strong><p style="line-height: 0.9;font-size: 14pt;">แพทย์</p>', false, ['class' => 'btn btn-success btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'QService(2,28,"ห้องตรวจ 8");']) ?>
                     </div>
                     <div class="col-sm-2" style="border: 1px solid white;font-size: 18pt;background-color: #62cb31;color: white;text-align: center;height: 80px;border-radius: 6px;padding-top:10px">
                         <div id="Service28">
@@ -135,7 +136,7 @@ $this->title = Yii::$app->name;
 
                 <div class="row">
                     <div class="col-sm-4" style="border: 1px solid white;">
-                        <?= Html::a('<strong>ห้องตรวจ 4</strong><p style="line-height: 0.9;font-size: 14pt;">แพทย์</p>', false, ['class' => 'btn btn-success btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'QService(2,24,"ห้องตรวจ 4");']) ?>
+                        <?= Html::a(Icon::show('user-md', []).'<strong>ห้องตรวจ 4</strong><p style="line-height: 0.9;font-size: 14pt;">แพทย์</p>', false, ['class' => 'btn btn-success btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'QService(2,24,"ห้องตรวจ 4");']) ?>
                     </div>
                     <div class="col-sm-2" style="border: 1px solid white;font-size: 18pt;background-color: #62cb31;color: white;text-align: center;height: 80px;border-radius: 6px;padding-top:10px">
                         <div id="Service24">
@@ -144,7 +145,7 @@ $this->title = Yii::$app->name;
                         </div>
                     </div>
                     <div class="col-sm-4" style="border: 1px solid white;">
-                        <?= Html::a('<strong>ห้องตรวจ 9</strong><p style="line-height: 0.9;font-size: 14pt;">แพทย์</p>', false, ['class' => 'btn btn-success btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'QService(2,29,"ห้องตรวจ 9");']) ?>
+                        <?= Html::a(Icon::show('user-md', []).'<strong>ห้องตรวจ 9</strong><p style="line-height: 0.9;font-size: 14pt;">แพทย์</p>', false, ['class' => 'btn btn-success btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'QService(2,29,"ห้องตรวจ 9");']) ?>
                     </div>
                     <div class="col-sm-2" style="border: 1px solid white;font-size: 18pt;background-color: #62cb31;color: white;text-align: center;height: 80px;border-radius: 6px;padding-top:10px">
                         <div id="Service29">
@@ -156,7 +157,7 @@ $this->title = Yii::$app->name;
 
                 <div class="row">
                     <div class="col-sm-4" style="border: 1px solid white;">
-                        <?= Html::a('<strong>ห้องตรวจ 5</strong><p style="line-height: 0.9;font-size: 14pt;">แพทย์</p>', false, ['class' => 'btn btn-success btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'QService(2,25,"ห้องตรวจ 5");']) ?>
+                        <?= Html::a(Icon::show('user-md', []).'<strong>ห้องตรวจ 5</strong><p style="line-height: 0.9;font-size: 14pt;">แพทย์</p>', false, ['class' => 'btn btn-success btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'QService(2,25,"ห้องตรวจ 5");']) ?>
                     </div>
                     <div class="col-sm-2" style="border: 1px solid white;font-size: 18pt;background-color: #62cb31;color: white;text-align: center;height: 80px;border-radius: 6px;padding-top:10px">
                         <div id="Service25">
@@ -165,7 +166,7 @@ $this->title = Yii::$app->name;
                         </div>
                     </div>
                     <div class="col-sm-4" style="border: 1px solid white;">
-                        <?= Html::a('<strong>ห้องตรวจ 10</strong><p style="line-height: 0.9;font-size: 14pt;">แพทย์</p>', false, ['class' => 'btn btn-success btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'QService(2,30,"ห้องตรวจ 10");']) ?>
+                        <?= Html::a(Icon::show('user-md', []).'<strong>ห้องตรวจ 10</strong><p style="line-height: 0.9;font-size: 14pt;">แพทย์</p>', false, ['class' => 'btn btn-success btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'QService(2,30,"ห้องตรวจ 10");']) ?>
                     </div>
                     <div class="col-sm-2" style="border: 1px solid white;font-size: 18pt;background-color: #62cb31;color: white;text-align: center;height: 80px;border-radius: 6px;padding-top:10px">
                         <div id="Service30">
@@ -185,7 +186,7 @@ $this->title = Yii::$app->name;
 </div>
 <br/>
 <?= $this->render('modal'); ?>
-<?php 
+<?php
 $script = <<< JS
     var socket = io.connect('http://' + window.location.hostname + ':3000');
     socket.on('status_request', function (data) {
