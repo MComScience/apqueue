@@ -36,9 +36,9 @@ class DefaultController extends Controller {
             $userid = Yii::$app->user->getId();
 
             if ($request->post('Events') == 'Autoload') {
-                $qservice1 = TbQuequ::find()->where(['serviceid' => 1, 'q_statusid' => 1])->max('q_qty');
-                $qservice2 = TbQuequ::find()->where(['serviceid' => 2, 'q_statusid' => 1])->max('q_qty');
-                $qservice3 = TbQuequ::find()->where(['serviceid' => 3, 'q_statusid' => 1])->max('q_qty');
+                $qservice1 = TbQuequ::find()->where(['serviceid' => 1, 'q_statusid' => 1])->count('q_qty');
+                $qservice2 = TbQuequ::find()->where(['serviceid' => 2, 'q_statusid' => 1])->count('q_qty');
+                $qservice3 = TbQuequ::find()->where(['serviceid' => 3, 'q_statusid' => 1])->count('q_qty');
                 $arr = [
                     'qserive1' => $qservice1 == null ? 0 : $qservice1,
                     'qserive2' => $qservice2 == null ? 0 : $qservice2,

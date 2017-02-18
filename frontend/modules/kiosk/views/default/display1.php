@@ -4,7 +4,7 @@ $this->title = Yii::$app->name;
 
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12">
-
+        <a class="btn btn-default" onclick="Play();">Play</a>
         <div class="hpanel hgreen">
             <div class="panel-heading">
 
@@ -15,6 +15,7 @@ $this->title = Yii::$app->name;
                         <?php
                         echo \wbraganca\videojs\VideoJsWidget::widget([
                             'options' => [
+                                'id' => 'vedio-display',
                                 'class' => 'video-js vjs-default-skin vjs-big-play-centered',
                                 'poster' => "http://vjs.zencdn.net/v/oceans.png",
                                 'controls' => true,
@@ -42,41 +43,41 @@ $this->title = Yii::$app->name;
                     </div>
                     <div class="col-md-6">
                         <table width="100%" border="1">
+                            <thead>
+                                <tr>
+                                    <th width="300px" height="100px" style="font-size: 30pt;text-align: center;background-color: #74d348;border: 1px solid white;color: white;">
+                                        หมายเลข
+                                    </th>
+                                    <th width="300px" height="100px" style="font-size: 30pt;text-align: center;background-color: #74d348;border: 1px solid white;color: white;">
+                                        ช่อง
+                                    </th>
+                                </tr>
+                            </thead>
                             <tbody>
                                 <tr>
-                                    <td width="300px" height="100px" style="font-size: 30pt;text-align: center;background-color: #74d348;border: 1px solid white;color: white;">
-                                        หมายเลข
+                                    <td width="300px" height="100px" style="font-size: 30pt;text-align: center;background-color: white;border: 1px solid #62cb31;color: #62cb31;">
+                                        <div id="blink"><strong>A-001</strong></div>
                                     </td>
-                                    <td width="300px" height="100px" style="font-size: 30pt;text-align: center;background-color: #74d348;border: 1px solid white;color: white;">
-                                        ช่อง
+                                    <td width="300px" height="100px" style="font-size: 30pt;text-align: center;background-color: white;border: 1px solid #62cb31;color: #62cb31;">
+                                        <div class="blink"><strong>1</strong></div>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td width="300px" height="100px" style="font-size: 30pt;text-align: center;background-color: #74d348;border: 1px solid white;color: white;">
-                            <body onload="blinker();">
-                                <div id="blink">A001</div>
-                            </body>
-                            </td>
-                            <td width="300px" height="100px" style="font-size: 30pt;text-align: center;background-color: #74d348;border: 1px solid white;color: white;">
-                                <div class="blink">1</div>
-                            </td>
-                            </tr>
-                            <tr>
-                                <td width="300px" height="100px" style="font-size: 30pt;text-align: center;background-color: #74d348;border: 1px solid white;color: white;">
-                                    A001
-                                </td>
-                                <td width="300px" height="100px" style="font-size: 30pt;text-align: center;background-color: #74d348;border: 1px solid white;color: white;">
-                                    1
-                                </td>
-                            </tr>
-                            <tr>
-                                <td width="300px" height="100px" style="font-size: 30pt;text-align: center;background-color: #74d348;border: 1px solid white;color: white;">
-                                    A001
-                                </td>
-                                <td width="300px" height="100px" style="font-size: 30pt;text-align: center;background-color: #74d348;border: 1px solid white;color: white;">
-                                    1
-                                </td>
-                            </tr>
+                                    <td width="300px" height="100px" style="font-size: 30pt;text-align: center;background-color: white;border: 1px solid #62cb31;color: #62cb31;">
+                                        <div id="blink"><strong>A-001</strong></div>
+                                    </td>
+                                    <td width="300px" height="100px" style="font-size: 30pt;text-align: center;background-color: white;border: 1px solid #62cb31;color: #62cb31;">
+                                        <div class="blink"><strong>1</strong></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="300px" height="100px" style="font-size: 30pt;text-align: center;background-color: white;border: 1px solid #62cb31;color: #62cb31;">
+                                        <div id="blink"><strong>A-001</strong></div>
+                                    </td>
+                                    <td width="300px" height="100px" style="font-size: 30pt;text-align: center;background-color: white;border: 1px solid #62cb31;color: #62cb31;">
+                                        <div class="blink"><strong>1</strong></div>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -86,19 +87,5 @@ $this->title = Yii::$app->name;
         </div>
     </div>
 </div>
-<script>
-    function blinker()
-    {
-        if (document.getElementById("blink"))
-        {
-            var d = document.getElementById("blink");
-            d.style.color = (d.style.color == 'yellow' ? 'white' : 'yellow');
-            if($('.blink').css('color') === "rgb(255, 255, 255)"){
-                $('.blink').css('color',"yellow");
-            }else{
-                $('.blink').css('color',"white");
-            }
-            setTimeout('blinker()', 500);
-        }
-    }
-</script>
+<?php $this->registerJsFile(Yii::getAlias('@web') . '/js/kiosk/display.js', ['depends' => [\yii\web\JqueryAsset::className()]]); ?>
+<?php $this->registerJsFile(Yii::getAlias('@web') . '/js/socket.io.js', ['depends' => [\yii\web\JqueryAsset::className()]]); ?>

@@ -63,6 +63,7 @@ $url = '/' . $ctrl->module->id . '/' . $ctrl->id . '/' . $ctrl->action->id;
                                 ['label' => 'คัดกรองผู้ป่วยนอก', 'url' => Url::to(['/kiosk/default/index']),'active' => $url == '/kiosk/default/index'],
                                 ['label' => 'คิวห้องตรวจโรค', 'url' => Url::to(['/kiosk/default/exmroom']),'active' => $url == '/kiosk/default/exmroom'],
                                 ['label' => 'Dispaly1', 'url' => Url::to(['/kiosk/default/display1']),'active' => $url == '/kiosk/default/display1'],
+                                ['label' => 'เรียกคิว', 'url' => Url::to(['/main']),'active' => $url == '/main'],
                             ],
                         ],
                     ],
