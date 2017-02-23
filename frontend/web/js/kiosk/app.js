@@ -83,7 +83,7 @@ function QueryQNum(Events, serviceid) {
                 $('#wrapper').waitMe('hide');
                 swal.close();
                 $('#notif_audio')[0].play();
-                blinker('Service' + serviceid,"#3498db");
+                blinker('Service' + serviceid, "#3498db");
                 socket.emit('request_service', {
                     request_service: 1
                 });
@@ -110,7 +110,7 @@ function QueryQNum(Events, serviceid) {
                 $('#modal-orderdetail').modal('hide');
                 swal.close();
                 $('#notif_audio')[0].play();
-                blinker('Service' + serviceid,"#62cb31");
+                blinker('Service' + serviceid, "#62cb31");
                 socket.emit('request_service', {
                     request_service: serviceid
                 });
@@ -149,7 +149,7 @@ function QueryQNum(Events, serviceid) {
                     $('#modal-orderdetail').modal('hide');
                     swal.close();
                     $('#notif_audio')[0].play();
-                    blinker('Service' + serviceid,"#62cb31");
+                    blinker('Service' + serviceid, "#62cb31");
                     socket.emit('request_service', {
                         request_service: serviceid
                     });
@@ -205,7 +205,7 @@ function LoadingClass() {
         }
     });
 }
-function blinker(id,color) {
+function blinker(id, color) {
     if (document.getElementById(id))
     {
         var varCounter = 0;

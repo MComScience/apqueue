@@ -8,13 +8,13 @@ use kartik\icons\Icon;
 SweetAlertAsset::register($this);
 WaitMeAsset::register($this);
 
-$this->title = Yii::$app->name;
+$this->title = 'คัดกรองผู้ป่วยนอก';
 ?>
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-5">
         <div class="hpanel hgreen">
             <div class="panel-heading hbuilt" style="font-size: 22pt;">
-                <?= Html::encode('คัดกรองผู้ป่วยนอก') ?>
+                <?= Html::encode($this->title) ?>
                 <div class="panel-tools">
                     <a class="showhide"><i class="fa fa-chevron-up"></i></a>
                 </div>

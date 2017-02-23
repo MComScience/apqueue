@@ -1,10 +1,14 @@
 <?php
+use frontend\assets\SweetAlertAsset;
+
+SweetAlertAsset::register($this);
 $this->title = Yii::$app->name;
 ?>
 
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12">
-        <a class="btn btn-default" onclick="Play();">Play</a>
+<!--        <a class="btn btn-default" onclick="Play();">Play</a>
+        <a class="btn btn-default" onclick="QueryTableDisplay();">Play</a>-->
         <div class="hpanel hgreen">
             <div class="panel-heading">
 
@@ -22,9 +26,10 @@ $this->title = Yii::$app->name;
                                 'preload' => 'auto',
                                 'width' => '550',
                                 'height' => '400',
+                                'muted' => true,
                                 'data' => [
                                     'setup' => [
-                                        //'autoplay' => true,
+                                        'autoplay' => true,
                                         'loop' => true,
                                     // 'techOrder' => ['flash', 'html5']
                                     ],
@@ -42,46 +47,48 @@ $this->title = Yii::$app->name;
                         ?>
                     </div>
                     <div class="col-md-6">
-                        <table width="100%" border="1">
-                            <thead>
-                                <tr>
-                                    <th width="300px" height="100px" style="font-size: 30pt;text-align: center;background-color: #74d348;border: 1px solid white;color: white;">
-                                        หมายเลข
-                                    </th>
-                                    <th width="300px" height="100px" style="font-size: 30pt;text-align: center;background-color: #74d348;border: 1px solid white;color: white;">
-                                        ช่อง
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td width="300px" height="100px" style="font-size: 30pt;text-align: center;background-color: white;border: 1px solid #62cb31;color: #62cb31;">
-                                        <div id="blink"><strong>A-001</strong></div>
-                                    </td>
-                                    <td width="300px" height="100px" style="font-size: 30pt;text-align: center;background-color: white;border: 1px solid #62cb31;color: #62cb31;">
-                                        <div class="blink"><strong>1</strong></div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td width="300px" height="100px" style="font-size: 30pt;text-align: center;background-color: white;border: 1px solid #62cb31;color: #62cb31;">
-                                        <div id="blink"><strong>A-001</strong></div>
-                                    </td>
-                                    <td width="300px" height="100px" style="font-size: 30pt;text-align: center;background-color: white;border: 1px solid #62cb31;color: #62cb31;">
-                                        <div class="blink"><strong>1</strong></div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td width="300px" height="100px" style="font-size: 30pt;text-align: center;background-color: white;border: 1px solid #62cb31;color: #62cb31;">
-                                        <div id="blink"><strong>A-001</strong></div>
-                                    </td>
-                                    <td width="300px" height="100px" style="font-size: 30pt;text-align: center;background-color: white;border: 1px solid #62cb31;color: #62cb31;">
-                                        <div class="blink"><strong>1</strong></div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div id="content-display">
+                            <table width="100%" border="1" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th style="font-size: 30pt;text-align: center;background-color: #74d348;border: 1px solid #62cb31;color: white;width: 300px;height: 100px;">
+                                            หมายเลข
+                                        </th>
+                                        <th style="font-size: 30pt;text-align: center;background-color: #74d348;border: 1px solid #62cb31;color: white;width: 300px;height: 100px;">
+                                            ช่อง
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody-tabledisplay">
+                                    <tr>
+                                        <td width="300px" height="100px" style="font-size: 30pt;text-align: center;background-color: white;border: 1px solid #62cb31;">
+                                            <strong style="color:#62cb31">-</strong>
+                                        </td>
+                                        <td width="300px" height="100px" style="font-size: 30pt;text-align: center;background-color: white;border: 1px solid #62cb31;color: #62cb31;">
+                                            <strong style="color:#62cb31">-</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="300px" height="100px" style="font-size: 30pt;text-align: center;background-color: white;border: 1px solid #62cb31;color: #62cb31;">
+                                            <strong style="color:#62cb31">-</strong>
+                                        </td>
+                                        <td width="300px" height="100px" style="font-size: 30pt;text-align: center;background-color: white;border: 1px solid #62cb31;color: #62cb31;">
+                                            <strong style="color:#62cb31">-</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="300px" height="100px" style="font-size: 30pt;text-align: center;background-color: white;border: 1px solid #62cb31;color: #62cb31;">
+                                            <strong style="color:#62cb31">-</strong>
+                                        </td>
+                                        <td width="300px" height="100px" style="font-size: 30pt;text-align: center;background-color: white;border: 1px solid #62cb31;color: #62cb31;">
+                                            <strong style="color:#62cb31">-</strong>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    <marquee direction="left"><p style="font-size: 18pt;">ข้อความวิ่งจากขวาไปซ้าย</p></marquee>
+                    <marquee direction="left"><p style="font-size: 18pt;">สถาบันบำราศนราดูล</p></marquee>
                 </div>
             </div>
         </div>

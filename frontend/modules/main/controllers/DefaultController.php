@@ -9,6 +9,8 @@ use yii\web\Response;
 use yii\helpers\Html;
 use frontend\modules\main\classes\MainQuery;
 use frontend\modules\main\models\TbCaller;
+use frontend\modules\kiosk\models\TbOrderdetail;
+use frontend\modules\kiosk\models\TbQueueorderdetail;
 
 /**
  * Default controller for the `main` module
@@ -21,6 +23,12 @@ class DefaultController extends Controller {
      */
     public function actionIndex() {
         return $this->render('index');
+    }
+
+    public function actionOrderCheck() {
+
+        return $this->render('order-check', [
+        ]);
     }
 
     public function actionTablecalling() {
@@ -121,21 +129,23 @@ class DefaultController extends Controller {
             } elseif (TbQuequ::findAll(['q_num' => $request->post('QNumber')]) == null) {
                 return 'ไม่มีหมายเลขคิว';
             } else {
-
                 $TbQ = TbQuequ::findOne(['q_num' => $request->post('QNumber')]);
                 $TbQ->q_statusid = 2;
                 $TbQ->save();
-
                 $callserids = TbCaller::find()->max('caller_ids');
-                $Caller = new TbCaller();
-                $Caller->caller_ids = ($callserids + 1);
-                $Caller->qnum = $TbQ['q_num'];
-                $Caller->counterserviceid = empty($request->post('Counter1')) ? $request->post('Counter2') : $request->post('Counter1');
-                $Caller->callerid = Yii::$app->user->getId();
-                $Caller->call_timestp = date('Y-m-d H:i:s');
-                $Caller->call_status = 'calling';
-                $Caller->q_ids = $TbQ['q_ids'];
-                $Caller->save();
+                if (isset($_POST['counters'])) {
+                    foreach ($_POST['counters'] as $value) {
+                        $Caller = new TbCaller();
+                        $Caller->caller_ids = ($callserids + 1);
+                        $Caller->qnum = $TbQ['q_num'];
+                        $Caller->counterserviceid = $value;
+                        $Caller->callerid = Yii::$app->user->getId();
+                        $Caller->call_timestp = date('Y-m-d H:i:s');
+                        $Caller->call_status = 'calling';
+                        $Caller->q_ids = $TbQ['q_ids'];
+                        $Caller->save();
+                    }
+                }
 
                 $calldata = MainQuery::getTablecallingOncall($TbQ['q_ids']);
                 $rows = Html::beginTag('tr', ['id' => 'tr-' . $calldata['qnum'], 'class' => 'default']) .
@@ -188,10 +198,10 @@ class DefaultController extends Controller {
             $caller->call_timestp = date('Y-m-d H:i:s');
             $caller->call_status = 'calling';
             $caller->save();
-            return 'Recall Success!';
+            return $caller['qnum'];
         }
     }
-    
+
     public function actionEnd() {
         $request = Yii::$app->request;
         if ($request->isAjax) {
@@ -199,7 +209,99 @@ class DefaultController extends Controller {
             $model = TbQuequ::findOne($request->post('q_ids'));
             $model->q_statusid = 4;
             $model->save();
+            if (($tbcaller = TbCaller::findOne(['q_ids' => $request->post('q_ids')])) != null) {
+                $tbcaller->call_status = 'Finished';
+                $tbcaller->save();
+            }
             return 'End Success!';
+        }
+    }
+
+    public function actionGetOrderlist() {
+        $request = Yii::$app->request;
+        if ($request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            $tbq = TbQuequ::findOne(['q_num' => $request->post('QNumber')]);
+            $orderdetail = TbOrderdetail::find()->orderBy('orderdetailid ASC')->all();
+            $form = $this->renderAjax('order-list', [
+                'orderdetail' => $orderdetail,
+                'q_ids' => $tbq['q_ids'],
+            ]);
+            return $form;
+        }
+    }
+
+    public function actionSaveOrderdetail() {
+        $request = Yii::$app->request;
+        if ($request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            $orderids = [];
+            if (isset($_POST['orderids'])) {
+                foreach ($_POST['orderids'] as $data) {
+                    if (($model = TbQueueorderdetail::findOne(['q_ids' => $request->post('q_ids'), 'orderdetailid' => $data])) != null) {
+                        $model->q_result = 'Y';
+                    } else {
+                        $now = date('Y-m-d');
+                        $model = new TbQueueorderdetail();
+                        $model->q_ids = $request->post('q_ids');
+                        $model->orderdetailid = $data;
+                        $model->q_result_tsp = $now;
+                        $model->q_result = 'Y';
+                    }
+                    $model->save();
+                    $orderids[] = $data;
+                }
+                $rows = (new \yii\db\Query())
+                        ->select([
+                            'tb_queueorderdetail.ids'
+                        ])
+                        ->from('tb_queueorderdetail')
+                        ->where(['tb_queueorderdetail.q_ids' => $request->post('q_ids')])
+                        ->andWhere(['not in', 'orderdetailid', $orderids])
+                        ->all();
+                foreach ($rows as $d) {
+                    TbQueueorderdetail::findOne($d['ids'])->delete();
+                }
+            } else {
+                if ((TbQueueorderdetail::findAll(['q_ids' => $request->post('q_ids')])) != null) {
+                    TbQueueorderdetail::deleteAll(['q_ids' => $request->post('q_ids')]);
+                }
+            }
+            return 'Success!';
+        }
+    }
+
+    public function actionTableOrdercheck() {
+
+        $request = Yii::$app->request;
+        if ($request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            $rows = MainQuery::getOrderChecklist();
+            $table = Html::beginTag('table', ['class' => 'table table-bordered table-striped', 'id' => 'table-ordercheck', 'width' => '100%'])
+                    . Html::beginTag('thead', [])
+                    . Html::tag('th', 'QNum', ['style' => 'font-size: 14pt; text-align: center;'])
+                    . Html::tag('th', 'Service Name', ['style' => 'font-size: 14pt; text-align: center;'])
+                    . Html::tag('th', 'ห้องตรวจ', ['style' => 'font-size: 14pt; text-align: center;'])
+                    . Html::tag('th', 'รายการคำสั่ง', ['style' => 'font-size: 14pt; text-align: center;'])
+                    . Html::tag('th', 'Actions', ['style' => 'font-size: 14pt; text-align: center;'])
+                    . Html::endTag('thead')
+                    . Html::beginTag('tbody', []);
+            foreach ($rows as $result) {
+                $table .= Html::beginTag('tr', []);
+                $table .= Html::tag('td', $result['q_num'], ['style' => 'font-size:16pt; text-align: center;']);
+                $table .= Html::tag('td', $result['servicegroup_name'], ['style' => 'font-size:16pt; text-align: center;']);
+                $table .= Html::tag('td', $result['service_name'], ['style' => 'font-size:16pt; text-align: center;']);
+                $table .= Html::tag('td', $result['orderdetail'], ['style' => 'font-size:16pt; text-align: left;']);
+                $table .= Html::beginTag('td', ['style' => 'text-align: center;white-space: nowrap']);
+                $table .= Html::a('Select', false, ['class' => 'btn btn-info btn-sm', 'onclick' => 'Select(this);', 'data-id' => $result['q_num']]) . ' '
+                        . Html::a('Hold', false, ['class' => 'btn btn-primary btn-sm']) . ' '
+                        . Html::a('Delete', FALSE, ['class' => 'btn btn-danger btn-sm', 'onclick' => 'Delete(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num']]);
+                $table .= Html::endTag('td');
+                $table .= Html::endTag('tr');
+            }
+            $table .= Html::endTag('tbody');
+            $table .= Html::endTag('table');
+            return $table;
         }
     }
 

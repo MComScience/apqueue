@@ -177,9 +177,15 @@ use yii\helpers\Url;
                         </section>
                     </a>
                 </li>
+                <?php if(!Yii::$app->user->isGuest) : ?>
                 <li class="dropdown">
                     <?= Html::a('<i class="pe-7s-upload pe-rotate-90"></i>', ['/user/security/logout'], ['data-method' => 'post']); ?>
                 </li>
+                <?php else :  ?>
+                <li class="dropdown">
+                    <?= Html::a('<i class="pe-7s-unlock"></i> Login', ['/user/login'], []); ?>
+                </li>
+                <?php endif; ?>
             </ul>
         </div>
     </nav>

@@ -21,7 +21,7 @@ $(function () {
         QueryTableCalling($('#servicegroup :selected').val());
         QueryTableWaiting($('#servicegroup :selected').val());
         QueryTableHoldlist($('#servicegroup :selected').val());
-        console.log(data.qnum);
+        //console.log(data.qnum);
         $('#notif_audio')[0].play();
     });
     /* Socket Event Delete */
@@ -141,10 +141,19 @@ function SelectCall() {
     } else if (QNumber === null) {
         swal("กรุณากรอกเลขคิวหรือบาร์โค้ด!", "", "warning");
     } else {
-        if ($('.hide-input' + ServiceGroupID).hasClass('display-none')) {
-            $('.hide-input' + ServiceGroupID).removeClass('display-none');
-            $('.hide-input' + ServiceGroupID).show();
+        if ($('.hide-service').hasClass('display-none') && ServiceGroupID === '1') {
+            $('.hide-counter').addClass('display-none');
+            $('.hide-counter').hide();
+            $('.hide-service').removeClass('display-none');
+            $('.hide-service').show();
+        } else if ($('.hide-counter').hasClass('display-none') && ServiceGroupID === '2') {
+            $('.hide-service').addClass('display-none');
+            $('.hide-service').hide();
+            $('.hide-counter').removeClass('display-none');
+            $('.hide-counter').show();
         }
+        $('#modal-counter').modal('show');
+        $('.modal-title').html(ServiceGroupID === '1' ? "เลือกช่องบริการ Qnum " + QNumber : "เลือกห้องตรวจ Qnum " + QNumber);
     }
 }
 $('#form-horizontal').on('beforeSubmit', function (e) {
@@ -175,6 +184,7 @@ function HiddenInput() {
     $('#QNumber').val(null);
     $("#Counter1").val(null).trigger("change");
     $("#Counter2").val(null).trigger("change");
+    $("div[id=step-0]").css("display", "none");
 }
 /* On Change Counter1 */
 $('#Counter1').on('change', function (e) {
@@ -200,36 +210,49 @@ $('#Counter2').on('change', function (e) {
 });
 /* Call */
 function Call() {
-    var frm = $('#form-horizontal');
-    var dataArray = $('#form-horizontal').serializeArray();
-    dataObj = {};
-    $(dataArray).each(function (i, field) {
-        dataObj[field.name] = field.value;
-    });
+    var QNumber = $('input[id=QNumber]').val() || null; //เก็บค่า QNumber
     var socket = io.connect('http://' + window.location.hostname + ':3000');
-    $.ajax({
-        url: '/apqueue/main/default/call',
-        type: 'POST',
-        data: frm.serialize(),
-        dataType: 'json',
-        success: function (result) {
-            if (result === 'เรียกซ้ำ') {
-                swal(result, "", "error");
-            } else if (result === 'ไม่มีหมายเลขคิว') {
-                swal(result + ' ' + dataObj['QNumber'], "", "warning");
-            } else {
-                //$("#tbody-tablecalling").prepend(result);
-                socket.emit('request_calling', {
-                    request_calling: dataObj['QNumber'],
-                });
-                blinker("#tr-" + dataObj['QNumber']);
-                HiddenInput();
-            }
-        },
-        error: function (xhr, status, error) {
-            swal(error, "", "error");
+    var ServiceGroupID = $('#servicegroup :selected').val() || null; //เก็บค่า ServiceGroupID
+    var counters = new Array();
+    $('input[type=checkbox]').each(function () {
+        if ($(this).is(':checked'))
+        {
+            counters.push($(this).val());
         }
     });
+    if (counters.length === 0) {
+        if (ServiceGroupID === '1') {
+            swal("เลือกช่องบริการ!", "", "warning");
+        } else {
+            swal("เลือกห้องตรวจ!", "", "warning");
+        }
+    } else {
+        $.ajax({
+            url: '/apqueue/main/default/call',
+            type: 'POST',
+            data: {QNumber: QNumber, counters: counters},
+            dataType: 'json',
+            success: function (result) {
+                if (result === 'เรียกซ้ำ') {
+                    swal(result, "", "error");
+                } else if (result === 'ไม่มีหมายเลขคิว') {
+                    swal(result + ' ' + QNumber, "", "warning");
+                } else {
+                    //$("#tbody-tablecalling").prepend(result);
+                    socket.emit('request_calling', {
+                        request_calling: QNumber,
+                        service_name: $('#servicegroup :selected').text(),
+                    });
+                    blinker("#tr-" + QNumber);
+                    HiddenInput();
+                    $('#modal-counter').modal('hide');
+                }
+            },
+            error: function (xhr, status, error) {
+                swal(error, "", "error");
+            }
+        });
+    }
 }
 /* blinker กระพริบเวลาเรียก */
 function blinker(id) {
@@ -256,7 +279,7 @@ function blinkercall(id) {
             varCounter++;
             var d = document.getElementById(id);
             d.style.color = (d.style.color == 'black' ? 'red' : 'black');
-            if (varCounter === 10) {
+            if (varCounter === 5) {
                 clearInterval(intervalId);
                 d.style.color = '#6A6C6F';
             }
@@ -287,7 +310,8 @@ function Delete(e) {
                         dataType: 'json',
                         success: function (result) {
                             socket.emit('request_delete_hold_recall', {
-                                request_delete_hold_recall: result,
+                                request_delete_hold_recall: "Delete",
+                                service_name: $('#servicegroup :selected').text(),
                             });
                             swal.close();
                         },
@@ -323,7 +347,8 @@ function Hold(e) {
                         dataType: 'json',
                         success: function (result) {
                             socket.emit('request_delete_hold_recall', {
-                                request_delete_hold_recall: result,
+                                request_delete_hold_recall: "Hold",
+                                service_name: $('#servicegroup :selected').text(),
                             });
                             swal.close();
                         },
@@ -338,19 +363,9 @@ function Hold(e) {
 function CallButton(e) {
     var QNumber = (e.getAttribute("qnum"));
     $('input[id=QNumber]').val(e.getAttribute("qnum"));
-    var ServiceGroupID = $('#servicegroup :selected').val() || null; //เก็บค่า ServiceGroupID
-    if (ServiceGroupID === null) {
-        swal("กรุณาเลือก Service!", "", "warning");
-    } else if (QNumber === null) {
-        swal("กรุณากรอกเลขคิวหรือบาร์โค้ด!", "", "warning");
-    } else {
-        if ($('.hide-input' + ServiceGroupID).hasClass('display-none')) {
-            $('.hide-input' + ServiceGroupID).removeClass('display-none');
-            $('.hide-input' + ServiceGroupID).show();
-        }
-        $('html, body').animate({scrollTop: 0}, 300);
-        blinkercall('Select-Counter' + ServiceGroupID);
-    }
+    SelectCall();
+    //$('html, body').animate({scrollTop: 0}, 300);
+    //blinkercall('Select-Counter' + ServiceGroupID);
 }
 /* Recall */
 function Recall(e) {
@@ -376,8 +391,10 @@ function Recall(e) {
                         data: {caller_ids: caller_ids},
                         dataType: 'json',
                         success: function (result) {
+                            /* result == q_num */
                             socket.emit('request_delete_hold_recall', {
                                 request_delete_hold_recall: result,
+                                service_name: $('#servicegroup :selected').text(),
                             });
                             swal.close();
                             blinker("#tr-" + q_num);
@@ -414,7 +431,8 @@ function End(e) {
                         dataType: 'json',
                         success: function (result) {
                             socket.emit('request_delete_hold_recall', {
-                                request_delete_hold_recall: result,
+                                request_delete_hold_recall: "End",
+                                service_name: $('#servicegroup :selected').text(),
                             });
                             swal.close();
                         },
@@ -425,3 +443,21 @@ function End(e) {
                 }
             });
 }
+/* Reset From */
+function Reset() {
+    HiddenInput();
+}
+$('input[type=checkbox]').on('change', function () {
+    if ($(this).is(':checked')) {
+        $('input[type=checkbox]').checkboxX('reset');
+    } else {
+        $(this).prop('checked', true);
+    }
+});
+$('#modal-counter').on('shown.bs.modal', function () {
+    $('input[type=checkbox]').checkboxX('reset');
+})
+$('#modal-counter').on('hidden.bs.modal', function (e) {
+    $('input[type=checkbox]').checkboxX('reset');
+    HiddenInput();
+})
