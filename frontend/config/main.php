@@ -87,6 +87,12 @@ return [
         'kiosk' => [
             'class' => 'app\modules\kiosk\Module',
         ],
+        'menu' => [
+            'class' => 'firdows\menu\Module',
+        ],
+         'menuconfig' => [
+            'class' => 'app\modules\menu\Module',
+        ],
     ],
     'components' => [
         'request' => [
@@ -132,6 +138,9 @@ return [
             'showScriptName' => false,
             'enablePrettyUrl' => true,
             'rules' => [
+                'display' => 'kiosk/default/display1',
+                'display2' => 'kiosk/default/display2',
+                'ordercheck' => 'main/default/order-check',
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
@@ -160,7 +169,8 @@ return [
             'user/registration/regis',
             'user/registration/confirm',
             'user/recover/*',
-            'debug/*'
+            'kiosk/default/display1',
+            'kiosk/default/table-display'
         ]
     ],
     'params' => $params,

@@ -7,11 +7,13 @@ use yii\web\Controller;
 use yii\web\Response;
 use frontend\modules\kiosk\models\TbQuequ;
 use frontend\modules\kiosk\models\TbQueueorderdetail;
+use yii\helpers\Html;
 
 /**
  * Default controller for the `kiosk` module
  */
 class DefaultController extends Controller {
+    
 
     /**
      * Renders the index view for the module
@@ -28,6 +30,10 @@ class DefaultController extends Controller {
     public function actionDisplay1() {
         return $this->render('display1');
     }
+    
+    public function actionDisplay2() {
+        return $this->render('display2');
+    }
 
     public function actionGetQnum() {
         $request = Yii::$app->request;
@@ -36,9 +42,9 @@ class DefaultController extends Controller {
             $userid = Yii::$app->user->getId();
 
             if ($request->post('Events') == 'Autoload') {
-                $qservice1 = TbQuequ::find()->where(['serviceid' => 1, 'q_statusid' => 1])->max('q_qty');
-                $qservice2 = TbQuequ::find()->where(['serviceid' => 2, 'q_statusid' => 1])->max('q_qty');
-                $qservice3 = TbQuequ::find()->where(['serviceid' => 3, 'q_statusid' => 1])->max('q_qty');
+                $qservice1 = TbQuequ::find()->where(['serviceid' => 1, 'q_statusid' => 1])->count('q_qty');
+                $qservice2 = TbQuequ::find()->where(['serviceid' => 2, 'q_statusid' => 1])->count('q_qty');
+                $qservice3 = TbQuequ::find()->where(['serviceid' => 3, 'q_statusid' => 1])->count('q_qty');
                 $arr = [
                     'qserive1' => $qservice1 == null ? 0 : $qservice1,
                     'qserive2' => $qservice2 == null ? 0 : $qservice2,
@@ -110,6 +116,165 @@ class DefaultController extends Controller {
             }
         }
         return 'Success';
+    }
+
+    public function actionTableDisplay() {
+        $request = Yii::$app->request;
+        if ($request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            $rows = (new \yii\db\Query())
+                    ->select([
+                        'tb_caller.caller_ids',
+                        'tb_caller.qnum',
+                        'tb_caller.counterserviceid',
+                        'tb_counterservice.counterservice_name'
+                    ])
+                    ->from('tb_caller')
+                    ->innerJoin('tb_quequ', 'tb_caller.q_ids = tb_quequ.q_ids')
+                    ->innerJoin('tb_service', 'tb_quequ.serviceid = tb_service.serviceid')
+                    ->innerJoin('tb_counterservice', 'tb_counterservice.counterserviceid = tb_caller.counterserviceid')
+                    ->where(['tb_quequ.servicegroupid' => '1','tb_quequ.q_statusid' => 2])
+                    ->orderBy('tb_caller.caller_ids DESC')
+                    ->limit('3')
+                    ->all();
+            $count = (new \yii\db\Query())
+                    ->select([
+                        'tb_caller.caller_ids',
+                        'tb_caller.qnum',
+                        'tb_caller.counterserviceid',
+                        'tb_counterservice.counterservice_name'
+                    ])
+                    ->from('tb_caller')
+                    ->innerJoin('tb_quequ', 'tb_caller.q_ids = tb_quequ.q_ids')
+                    ->innerJoin('tb_service', 'tb_quequ.serviceid = tb_service.serviceid')
+                    ->innerJoin('tb_counterservice', 'tb_counterservice.counterserviceid = tb_caller.counterserviceid')
+                    ->where(['tb_quequ.servicegroupid' => '1','tb_quequ.q_statusid' => 2])
+                    ->orderBy('tb_caller.caller_ids DESC')
+                    ->limit('3')
+                    ->count();
+            $table = Html::beginTag('table', ['id' => 'table-display', 'width' => '100%', 'border' => 1, 'class' => 'table table-bordered',])
+                    . Html::beginTag('thead', [])
+                    . Html::tag('th', 'หมายเลข', ['style' => 'font-size: 30pt;text-align: center;background-color: #74d348;border: 1px solid #62cb31;color: white;width: 300px;height: 100px;'])
+                    . Html::tag('th', 'ช่อง', ['style' => 'font-size: 30pt;text-align: center;background-color: #74d348;border: 1px solid #62cb31;color: white;width: 300px;height: 100px;'])
+                    . Html::endTag('thead')
+                    . Html::beginTag('tbody', ['id' => 'tbody-tabledisplay']);
+            $i = 1;
+            if ($count == 0) {
+                for ($x = 1; $x <= 3; $x++) {
+                    $table .= Html::beginTag('tr', ['class' => 'default']) .
+                            Html::tag('td', '<strong style="color:rgb(98, 203, 49)">' . '-' . '</strong>', ['style' => 'font-size: 30pt;text-align: center;border: 1px solid #62cb31;', 'width' => '300px', 'height' => '100px']) .
+                            Html::tag('td', '<strong style="color:rgb(98, 203, 49)">' . '-' . '</strong>', ['style' => 'font-size: 30pt;text-align: center;border: 1px solid #62cb31;', 'width' => '300px', 'height' => '100px']) .
+                            Html::endTag('tr');
+                }
+            } else {
+                foreach ($rows as $result) {
+                    $table .= Html::beginTag('tr', ['id' => 'tr-' . $result['qnum'], 'class' => 'default']) .
+                            Html::tag('td', '<strong id="Qnum-' . $result['qnum'] . '" style="color:rgb(98, 203, 49)">' . $result['qnum'] . '</strong>', ['style' => 'font-size: 30pt;text-align: center;border: 1px solid #62cb31;', 'width' => '300px', 'height' => '100px']) .
+                            Html::tag('td', '<strong id="Counter-' . $result['qnum'] . '" style="color:rgb(98, 203, 49)">' . $result['counterservice_name'] . '</strong>', ['style' => 'font-size: 30pt;text-align: center;border: 1px solid #62cb31;', 'width' => '300px', 'height' => '100px']) .
+                            Html::endTag('tr');
+                    if ($count == 1 && $i == 1) {
+                        for ($x = 1; $x <= 2; $x++) {
+                            $table .= Html::beginTag('tr', ['class' => 'default']) .
+                                    Html::tag('td', '<strong style="color:rgb(98, 203, 49)">' . '-' . '</strong>', ['style' => 'font-size: 30pt;text-align: center;border: 1px solid #62cb31;', 'width' => '300px', 'height' => '100px']) .
+                                    Html::tag('td', '<strong style="color:rgb(98, 203, 49)">' . '-' . '</strong>', ['style' => 'font-size: 30pt;text-align: center;border: 1px solid #62cb31;', 'width' => '300px', 'height' => '100px']) .
+                                    Html::endTag('tr');
+                        }
+                    }
+                    if ($count == 2 && $i == 2) {
+                        for ($x = 1; $x <= 1; $x++) {
+                            $table .= Html::beginTag('tr', ['class' => 'default']) .
+                                    Html::tag('td', '<strong style="color:rgb(98, 203, 49)">' . '-' . '</strong>', ['style' => 'font-size: 30pt;text-align: center;border: 1px solid #62cb31;', 'width' => '300px', 'height' => '100px']) .
+                                    Html::tag('td', '<strong style="color:rgb(98, 203, 49)">' . '-' . '</strong>', ['style' => 'font-size: 30pt;text-align: center;border: 1px solid #62cb31;', 'width' => '300px', 'height' => '100px']) .
+                                    Html::endTag('tr');
+                        }
+                    }
+                    $i++;
+                }
+            }
+
+            $table .= Html::endTag('tbody');
+            $table .= Html::endTag('table');
+            return $table;
+        }
+    }
+    
+    public function actionTableDisplay2() {
+        $request = Yii::$app->request;
+        if ($request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            $rows = (new \yii\db\Query())
+                    ->select([
+                        'tb_caller.caller_ids',
+                        'tb_caller.qnum',
+                        'tb_caller.counterserviceid',
+                        'tb_counterservice.counterservice_name'
+                    ])
+                    ->from('tb_caller')
+                    ->innerJoin('tb_quequ', 'tb_caller.q_ids = tb_quequ.q_ids')
+                    ->innerJoin('tb_service', 'tb_quequ.serviceid = tb_service.serviceid')
+                    ->innerJoin('tb_counterservice', 'tb_counterservice.counterserviceid = tb_caller.counterserviceid')
+                    ->where(['tb_quequ.servicegroupid' => '2','tb_quequ.q_statusid' => 2])
+                    ->orderBy('tb_caller.caller_ids DESC')
+                    ->limit('3')
+                    ->all();
+            $count = (new \yii\db\Query())
+                    ->select([
+                        'tb_caller.caller_ids',
+                        'tb_caller.qnum',
+                        'tb_caller.counterserviceid'
+                    ])
+                    ->from('tb_caller')
+                    ->innerJoin('tb_quequ', 'tb_caller.q_ids = tb_quequ.q_ids')
+                    ->innerJoin('tb_service', 'tb_quequ.serviceid = tb_service.serviceid')
+                    ->innerJoin('tb_counterservice', 'tb_counterservice.counterserviceid = tb_caller.counterserviceid')
+                    ->where(['tb_quequ.servicegroupid' => '2','tb_quequ.q_statusid' => 2])
+                    ->orderBy('tb_caller.caller_ids DESC')
+                    ->limit('3')
+                    ->count();
+            $table = Html::beginTag('table', ['id' => 'table-display', 'width' => '100%', 'border' => 1, 'class' => 'table table-bordered',])
+                    . Html::beginTag('thead', [])
+                    . Html::tag('th', 'หมายเลข', ['style' => 'font-size: 30pt;text-align: center;background-color: #74d348;border: 1px solid #62cb31;color: white;width: 300px;height: 100px;'])
+                    . Html::tag('th', 'ห้อง', ['style' => 'font-size: 30pt;text-align: center;background-color: #74d348;border: 1px solid #62cb31;color: white;width: 300px;height: 100px;'])
+                    . Html::endTag('thead')
+                    . Html::beginTag('tbody', ['id' => 'tbody-tabledisplay']);
+            $i = 1;
+            if ($count == 0) {
+                for ($x = 1; $x <= 3; $x++) {
+                    $table .= Html::beginTag('tr', ['class' => 'default']) .
+                            Html::tag('td', '<strong style="color:rgb(98, 203, 49)">' . '-' . '</strong>', ['style' => 'font-size: 30pt;text-align: center;border: 1px solid #62cb31;', 'width' => '300px', 'height' => '100px']) .
+                            Html::tag('td', '<strong style="color:rgb(98, 203, 49)">' . '-' . '</strong>', ['style' => 'font-size: 30pt;text-align: center;border: 1px solid #62cb31;', 'width' => '300px', 'height' => '100px']) .
+                            Html::endTag('tr');
+                }
+            } else {
+                foreach ($rows as $result) {
+                    $table .= Html::beginTag('tr', ['id' => 'tr-' . $result['qnum'], 'class' => 'default']) .
+                            Html::tag('td', '<strong id="Qnum-' . $result['qnum'] . '" style="color:rgb(98, 203, 49)">' . $result['qnum'] . '</strong>', ['style' => 'font-size: 30pt;text-align: center;border: 1px solid #62cb31;', 'width' => '300px', 'height' => '100px']) .
+                            Html::tag('td', '<strong id="Counter-' . $result['qnum'] . '" style="color:rgb(98, 203, 49)">' . $result['counterservice_name'] . '</strong>', ['style' => 'font-size: 30pt;text-align: center;border: 1px solid #62cb31;', 'width' => '300px', 'height' => '100px']) .
+                            Html::endTag('tr');
+                    if ($count == 1 && $i == 1) {
+                        for ($x = 1; $x <= 2; $x++) {
+                            $table .= Html::beginTag('tr', ['class' => 'default']) .
+                                    Html::tag('td', '<strong style="color:rgb(98, 203, 49)">' . '-' . '</strong>', ['style' => 'font-size: 30pt;text-align: center;border: 1px solid #62cb31;', 'width' => '300px', 'height' => '100px']) .
+                                    Html::tag('td', '<strong style="color:rgb(98, 203, 49)">' . '-' . '</strong>', ['style' => 'font-size: 30pt;text-align: center;border: 1px solid #62cb31;', 'width' => '300px', 'height' => '100px']) .
+                                    Html::endTag('tr');
+                        }
+                    }
+                    if ($count == 2 && $i == 2) {
+                        for ($x = 1; $x <= 1; $x++) {
+                            $table .= Html::beginTag('tr', ['class' => 'default']) .
+                                    Html::tag('td', '<strong style="color:rgb(98, 203, 49)">' . '-' . '</strong>', ['style' => 'font-size: 30pt;text-align: center;border: 1px solid #62cb31;', 'width' => '300px', 'height' => '100px']) .
+                                    Html::tag('td', '<strong style="color:rgb(98, 203, 49)">' . '-' . '</strong>', ['style' => 'font-size: 30pt;text-align: center;border: 1px solid #62cb31;', 'width' => '300px', 'height' => '100px']) .
+                                    Html::endTag('tr');
+                        }
+                    }
+                    $i++;
+                }
+            }
+
+            $table .= Html::endTag('tbody');
+            $table .= Html::endTag('table');
+            return $table;
+        }
     }
 
 }

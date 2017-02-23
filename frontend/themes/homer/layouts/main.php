@@ -64,6 +64,7 @@ if (Yii::$app->controller->action->id === 'login' || Yii::$app->controller->acti
                     'content.php', ['content' => $content, 'directoryAsset' => $directoryAsset]
             )
             ?>
+            <?= \bluezed\scrollTop\ScrollTop::widget() ?>
             <?php $this->endBody() ?>
         </body>
     </html>

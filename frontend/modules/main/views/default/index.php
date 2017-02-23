@@ -4,24 +4,31 @@ use kartik\widgets\ActiveForm;
 use kartik\widgets\Select2;
 use yii\helpers\ArrayHelper;
 use frontend\modules\main\models\TbServicegroup;
+use frontend\modules\main\models\TbCounterservice;
 use yii\helpers\Html;
 use kartik\icons\Icon;
 use frontend\assets\SweetAlertAsset;
 use frontend\assets\WaitMeAsset;
 use frontend\assets\DatatablesAsset;
+use frontend\assets\TourAsset;
 
 SweetAlertAsset::register($this);
 WaitMeAsset::register($this);
 DatatablesAsset::register($this);
+TourAsset::register($this);
 
-$this->title = Yii::$app->name;
+$this->title = 'เรียกคิว';
 ?>
+<audio id="notif_audio">
+    <source src="/apqueue/sounds/alert.mp3" type="audio/mpeg">
+</audio>
 <div class="row">
     <div class="col-xs-12 col-sm-12">
         <?php
         $form = ActiveForm::begin([
                     'id' => 'form-horizontal',
                     'type' => ActiveForm::TYPE_HORIZONTAL,
+                    'options' => ['autocomplete' => 'off'],
                         //'formConfig' => ['labelSpan' => 3, 'deviceSize' => ActiveForm::SIZE_SMALL]
         ]);
         ?>
@@ -43,17 +50,59 @@ $this->title = Yii::$app->name;
                 ]);
                 ?>
             </div>
+            <?php /*
             <div class="col-sm-1">
-                <?= Html::a(Icon::show('hand-pointer-o', []) . 'Apply', false, ['class' => 'btn btn-success btn-lg','onclick' => 'Apply(this);']) ?>
-            </div>
-            <?= Html::label('Queue Number', 'Queue Number', ['class' => 'col-sm-2 control-label no-padding-right', 'style' => 'font-size: 12pt;']) ?>
+                <?php // Html::a(Icon::show('hand-pointer-o', []) . 'Apply', false, ['class' => 'btn btn-success btn-lg', 'onclick' => 'Apply(this);']) ?>
+            </div>*/
+            ?>
+            <?= Html::label('QNumber', 'Queue Number', ['class' => 'col-sm-2 control-label no-padding-right', 'style' => 'font-size: 12pt;']) ?>
             <div class="col-sm-3">
-                <?= Html::input('text', 'QNumber', '', ['class' => 'form-control input-lg', 'id' => 'QNumber', 'autofocus' => true, 'placeholder' => 'กรอกหมายเลขคิวหรือบาร์โค้ด']) ?>
+                <?= Html::input('text', 'QNumber', '', ['class' => 'form-control input-lg', 'id' => 'QNumber', 'autofocus' => true, 'placeholder' => 'กรอกหมายเลขคิวหรือบาร์โค้ด', 'required' => true]) ?>
             </div>
-            <div class="col-sm-2">
-                <?= Html::a(Icon::show('check-square-o', []) . 'Select', false, ['class' => 'btn btn-info btn-lg']) ?>
+            <div class="col-sm-3">
+                <?= Html::a('Clear',false,['class' => 'btn btn-danger btn-lg','onclick' => 'Reset(this);']) ?>
+                <?= Html::a('<i class="fa fa-check"></i> ' . 'Select', false, ['class' => 'btn btn-info btn-lg', 'onclick' => 'SelectCall(this);',]) ?>
             </div>
         </div>
+        <?php /*
+        <div class="form-group hide-input1 display-none" style="display: none;">
+            <?= Html::label('เลือกช่องบริการ', 'SelectCounter1', ['class' => 'col-sm-2 col-sm-offset-5 control-label no-padding-right', 'style' => 'font-size: 12pt;color:black;','id' => 'Select-Counter1']) ?>
+            <div class="col-sm-3">
+                <?php
+                echo Select2::widget([
+                    'name' => 'Counter1',
+                    'id' => 'Counter1',
+                    'size' => Select2::LARGE,
+                    'data' => ArrayHelper::map(TbCounterservice::find()->where(['servicegroupid' => 1])->all(), 'counterserviceid', 'counterservice_name'),
+                    'options' => [
+                        'placeholder' => 'Select...',
+                    ],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
+                ]);
+                ?>
+            </div>
+        </div>
+        <div class="form-group hide-input2 display-none" style="display: none;">
+            <?= Html::label('Select Counter', 'SelectCounter2', ['class' => 'col-sm-2 col-sm-offset-5 control-label no-padding-right', 'style' => 'font-size: 12pt;color:black;','id' => 'Select-Counter2']) ?>
+            <div class="col-sm-3">
+                <?php
+                echo Select2::widget([
+                    'name' => 'Counter2',
+                    'id' => 'Counter2',
+                    'size' => Select2::LARGE,
+                    'data' => ArrayHelper::map(TbCounterservice::find()->where(['servicegroupid' => 2])->all(), 'counterserviceid', 'counterservice_name'),
+                    'options' => [
+                        'placeholder' => 'Select...',
+                    ],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
+                ]);
+                ?>
+            </div>
+        </div>*/?>
         <?php ActiveForm::end(); ?>
     </div>
 </div>
@@ -132,7 +181,7 @@ $this->title = Yii::$app->name;
                 </div>
             </div>
             <div class="panel-body">
-                <div id="tb-hold-content">
+                <div id="tb-holdlist-content">
                     <table class="table table-striped"> 
                         <thead>
                             <tr>
@@ -154,4 +203,6 @@ $this->title = Yii::$app->name;
         </div>
     </div>
 </div>
+<?php  echo $this->render('modal'); ?>
 <?php $this->registerJsFile(Yii::getAlias('@web') . '/js/main/app.js', ['depends' => [\yii\web\JqueryAsset::className()]]); ?>
+<?php $this->registerJsFile(Yii::getAlias('@web') . '/js/socket.io.js', ['depends' => [\yii\web\JqueryAsset::className()]]); ?>

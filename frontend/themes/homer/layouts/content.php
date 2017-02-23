@@ -30,7 +30,7 @@ use yii\helpers\Html;
                     </ol>
                 </div>
                 <h2 class="font-light m-b-xs" style="font-size: 25pt;">
-                    สถาบันบำราศนราดูล
+                    สถาบันบำราศนราดูร
                 </h2>
                 <small></small>
             </div>

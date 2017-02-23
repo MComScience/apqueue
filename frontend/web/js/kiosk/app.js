@@ -6,6 +6,21 @@ $(function () {
         $('input[type=checkbox]').iCheck('uncheck');
         $('input[type=checkbox]').checkboxX('reset');
     });
+    var socket = io.connect('http://' + window.location.hostname + ':3000');
+    socket.on('request_service', function (data) {
+        QueryQNum('AutoLoad', '0');
+        QueryQNum('EXRoomAutoload', '0');
+        $('#notif_audio')[0].play();
+    });
+    socket.on('request_calling', function (data) {
+        QueryQNum('AutoLoad', '0');
+        QueryQNum('EXRoomAutoload', '0');
+        $('#notif_audio')[0].play();
+    });
+    socket.on('request_delete_hold_recall', function (data) {
+        QueryQNum('AutoLoad', '0');
+        QueryQNum('EXRoomAutoload', '0');
+    });
 });
 function QService(group, serviceid, title) {
     if (group === 1) {
@@ -36,6 +51,7 @@ function QService(group, serviceid, title) {
 }
 function QueryQNum(Events, serviceid) {
     var base_url = window.location.origin;
+    var socket = io.connect('http://' + window.location.hostname + ':3000');
     if (Events === 'AutoLoad') {
         $.ajax({
             type: 'POST',
@@ -67,7 +83,10 @@ function QueryQNum(Events, serviceid) {
                 $('#wrapper').waitMe('hide');
                 swal.close();
                 $('#notif_audio')[0].play();
-                blinker('Service' + serviceid);
+                blinker('Service' + serviceid, "#3498db");
+                socket.emit('request_service', {
+                    request_service: 1
+                });
             },
             error: function (xhr, status, error) {
                 swal({
@@ -91,7 +110,10 @@ function QueryQNum(Events, serviceid) {
                 $('#modal-orderdetail').modal('hide');
                 swal.close();
                 $('#notif_audio')[0].play();
-                blinker('Service' + serviceid);
+                blinker('Service' + serviceid, "#62cb31");
+                socket.emit('request_service', {
+                    request_service: serviceid
+                });
             },
             error: function (xhr, status, error) {
                 swal({
@@ -111,7 +133,7 @@ function QueryQNum(Events, serviceid) {
                 orderids.push($(this).val());
             }
         });
-        
+
         if (orderids.length === 0) {
             swal("เลือกช่องบริการ!", "", "warning");
         } else {
@@ -127,7 +149,10 @@ function QueryQNum(Events, serviceid) {
                     $('#modal-orderdetail').modal('hide');
                     swal.close();
                     $('#notif_audio')[0].play();
-                    blinker('Service' + serviceid);
+                    blinker('Service' + serviceid, "#62cb31");
+                    socket.emit('request_service', {
+                        request_service: serviceid
+                    });
                 },
                 error: function (xhr, status, error) {
                     swal({
@@ -180,14 +205,14 @@ function LoadingClass() {
         }
     });
 }
-function blinker(id) {
+function blinker(id, color) {
     if (document.getElementById(id))
     {
         var varCounter = 0;
         var intervalId = setInterval(function () {
             varCounter++;
             var d = document.getElementById(id);
-            d.style.color = (d.style.color == 'yellow' ? 'white' : 'yellow');
+            d.style.color = (d.style.color == 'white' ? color : 'white');
             if (varCounter === 10) {
                 clearInterval(intervalId);
             }

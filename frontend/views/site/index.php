@@ -31,7 +31,7 @@ $this->title = Yii::$app->name;
 </div>
 <script type="text/javascript">
     function PrintReport(Copies) {
-        var printWindow = window.open('report/apqueue/index', /*'_blank'*/"", "top=100,left=auto,width=" + screen.width + ",height=550");
+        var printWindow = window.open('report/apqueue/index', /*'_blank'*/"", "top=100,left=auto,width=500,height=500");
         var Count = 0;
         printWindow.print();
         /*$.post(

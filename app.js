@@ -42,9 +42,21 @@ io.on('connection', function (socket) {
         });
     });
 
-    socket.on('status_request', function (data) {
-        io.sockets.emit('status_request', {
-            status_request: data
+    socket.on('request_service', function (data) {
+        io.sockets.emit('request_service', {
+            request_service: data
+        });
+    });
+    socket.on('request_calling', function (data) {
+        io.sockets.emit('request_calling', {
+            qnum: data.request_calling,
+            service_name: data.service_name
+        });
+    });
+    socket.on('request_delete_hold_recall', function (data) {
+        io.sockets.emit('request_delete_hold_recall', {
+            qnum: data.request_delete_hold_recall,
+            service_name: data.service_name
         });
     });
 });

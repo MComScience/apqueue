@@ -13,7 +13,7 @@ $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@common/themes/homer
     <head>
         <meta charset="<?= Yii::$app->charset ?>"/>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="shortcut icon" href="<?= $directoryAsset ?>/images/favicon.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="<?= $directoryAsset ?>/images/favicon.png" type="image/x-icon">
         <?= Html::csrfMetaTags() ?>
         <title><?php echo Html::encode(!empty($this->title) ? strtoupper($this->title) . ' | APQUEUE' : null); ?></title>
         <?php $this->head() ?>
