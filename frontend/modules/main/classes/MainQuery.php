@@ -33,7 +33,7 @@ class MainQuery {
 
     public static function getTablewaiting($ServiceGroupID) {
         $rows = (new \yii\db\Query())
-                ->select(['tb_quequ.q_num', 'tb_service.service_name', 'tb_quequ.serviceid', 'tb_quequ.q_ids', 'tb_quequ.servicegroupid'])
+                ->select(['tb_quequ.q_num', 'tb_quequ.service_name','tb_service.serviceid', 'tb_quequ.serviceid', 'tb_quequ.q_ids', 'tb_quequ.servicegroupid'])
                 ->from('tb_quequ')
                 ->innerJoin('tb_service', 'tb_service.serviceid = tb_quequ.serviceid')
                 ->innerJoin('tb_qstatus', 'tb_qstatus.q_statusid = tb_quequ.q_statusid')

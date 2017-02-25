@@ -3,6 +3,7 @@
 namespace app\modules\report\controllers;
 
 use kartik\mpdf\Pdf;
+use Yii;
 
 class ApqueueController extends \yii\web\Controller {
 
@@ -88,10 +89,16 @@ class ApqueueController extends \yii\web\Controller {
             'methods' => [
                 'SetHeader' => '',
                 'SetFooter' => '',
-              
         ]]);
 
         return $pdf->render();
+    }
+
+    public function actionPrinttest() {
+        exec('lpr -MicrosoftPrinttoPDF '.Yii::getAlias('@webroot') . '/files/Report.pdf');
+//        $printcmd = "java -classpath ".Yii::getAlias('@webroot')."/files/pdfbox-app-1.7.1.jar org.apache.pdfbox.PrintPDF -silentPrint -printerName BrotherMFCJ6710DWPrinter ".Yii::getAlias('@webroot') . '/files/Report.pdf';
+//        exec($printcmd);
+//        exit();
     }
 
 }

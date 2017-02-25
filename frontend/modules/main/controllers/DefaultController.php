@@ -80,7 +80,7 @@ class DefaultController extends Controller {
                 $table .= Html::tag('td', $result['q_num'], ['style' => 'font-size:16pt; text-align: center;']);
                 $table .= Html::tag('td', $result['service_name'], ['style' => 'font-size:16pt; text-align: center;']);
                 $table .= Html::beginTag('td', ['style' => 'text-align: center;white-space: nowrap']);
-                $table .= Html::a('Call', FALSE, ['class' => 'btn btn-success  btn-sm', 'onclick' => 'CallButton(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num']]) . ' '
+                $table .= Html::a('Call', FALSE, ['class' => 'btn btn-success  btn-sm', 'onclick' => 'CallButton(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num'],'serviceid' => $result['serviceid']]) . ' '
                         . Html::a('Hold', FALSE, ['class' => 'btn btn-primary  btn-sm', 'onclick' => 'Hold(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num']]) . ' '
                         . Html::a('Delete', FALSE, ['class' => 'btn btn-danger btn-sm', 'onclick' => 'Delete(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num']]);
                 $table .= Html::endTag('td');

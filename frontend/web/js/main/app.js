@@ -133,7 +133,7 @@ $('#servicegroup').on('change', function (e) {
     QueryTableHoldlist($(this).find("option:selected").val());
 });
 /* Function Select */
-function SelectCall() {
+function SelectCall(serviceid) {
     var QNumber = $('input[id=QNumber]').val() || null; //เก็บค่า QNumber
     var ServiceGroupID = $('#servicegroup :selected').val() || null; //เก็บค่า ServiceGroupID
     if (ServiceGroupID === null) {
@@ -151,6 +151,7 @@ function SelectCall() {
             $('.hide-service').hide();
             $('.hide-counter').removeClass('display-none');
             $('.hide-counter').show();
+            $('input[id=' + serviceid + ']').prop('checked', true);
         }
         $('#modal-counter').modal('show');
         $('.modal-title').html(ServiceGroupID === '1' ? "เลือกช่องบริการ Qnum " + QNumber : "เลือกห้องตรวจ Qnum " + QNumber);
@@ -164,7 +165,7 @@ $('#form-horizontal').on('beforeSubmit', function (e) {
         dataObj[field.name] = field.value;
     });
     //console.log(dataObj['QNumber']);
-    SelectCall();
+    SelectCall(0);
     return false;
 });
 $("#QNumber").on("keyup", function () {
@@ -362,8 +363,9 @@ function Hold(e) {
 /* Call Button */
 function CallButton(e) {
     var QNumber = (e.getAttribute("qnum"));
+    var serviceid = (e.getAttribute("serviceid"));
     $('input[id=QNumber]').val(e.getAttribute("qnum"));
-    SelectCall();
+    SelectCall(serviceid);
     //$('html, body').animate({scrollTop: 0}, 300);
     //blinkercall('Select-Counter' + ServiceGroupID);
 }
