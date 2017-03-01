@@ -80,7 +80,7 @@ class DefaultController extends Controller {
                 $table .= Html::tag('td', $result['q_num'], ['style' => 'font-size:16pt; text-align: center;']);
                 $table .= Html::tag('td', $result['service_name'], ['style' => 'font-size:16pt; text-align: center;']);
                 $table .= Html::beginTag('td', ['style' => 'text-align: center;white-space: nowrap']);
-                $table .= Html::a('Call', FALSE, ['class' => 'btn btn-success  btn-sm', 'onclick' => 'CallButton(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num'],'serviceid' => $result['serviceid']]) . ' '
+                $table .= Html::a('Call', FALSE, ['class' => 'btn btn-success  btn-sm', 'onclick' => 'CallButton(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num'],'serviceid' => 0]) . ' '
                         . Html::a('Hold', FALSE, ['class' => 'btn btn-primary  btn-sm', 'onclick' => 'Hold(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num']]) . ' '
                         . Html::a('Delete', FALSE, ['class' => 'btn btn-danger btn-sm', 'onclick' => 'Delete(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num']]);
                 $table .= Html::endTag('td');
@@ -221,13 +221,16 @@ class DefaultController extends Controller {
         $request = Yii::$app->request;
         if ($request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
-            $tbq = TbQuequ::findOne(['q_num' => $request->post('QNumber')]);
-            $orderdetail = TbOrderdetail::find()->orderBy('orderdetailid ASC')->all();
-            $form = $this->renderAjax('order-list', [
-                'orderdetail' => $orderdetail,
-                'q_ids' => $tbq['q_ids'],
-            ]);
-            return $form;
+            if (($tbq = TbQuequ::findOne(['q_num' => $request->post('QNumber')])) == null) {
+                return 'ไม่มีหมายเลขคิว';
+            } else {
+                $orderdetail = TbOrderdetail::find()->orderBy('orderdetailid ASC')->all();
+                $form = $this->renderAjax('order-list', [
+                    'orderdetail' => $orderdetail,
+                    'q_ids' => $tbq['q_ids'],
+                ]);
+                return $form;
+            }
         }
     }
 
@@ -251,21 +254,28 @@ class DefaultController extends Controller {
                     $model->save();
                     $orderids[] = $data;
                 }
-                $rows = (new \yii\db\Query())
-                        ->select([
-                            'tb_queueorderdetail.ids'
-                        ])
-                        ->from('tb_queueorderdetail')
-                        ->where(['tb_queueorderdetail.q_ids' => $request->post('q_ids')])
-                        ->andWhere(['not in', 'orderdetailid', $orderids])
-                        ->all();
-                foreach ($rows as $d) {
-                    TbQueueorderdetail::findOne($d['ids'])->delete();
-                }
+                /*
+                  $rows = (new \yii\db\Query())
+                  ->select([
+                  'tb_queueorderdetail.ids'
+                  ])
+                  ->from('tb_queueorderdetail')
+                  ->where(['tb_queueorderdetail.q_ids' => $request->post('q_ids')])
+                  ->andWhere(['not in', 'orderdetailid', $orderids])
+                  ->all();
+                  foreach ($rows as $d) {
+                  TbQueueorderdetail::findOne($d['ids'])->delete();
+                  } */
             } else {
-                if ((TbQueueorderdetail::findAll(['q_ids' => $request->post('q_ids')])) != null) {
-                    TbQueueorderdetail::deleteAll(['q_ids' => $request->post('q_ids')]);
+                if (($model = TbQueueorderdetail::findOne(['q_ids' => $request->post('q_ids'), 'orderdetailid' => $request->post('orderid')])) != null) {
+                    $model->q_result = null;
+                    $model->save();
                 }
+                /*
+                  if ((TbQueueorderdetail::findAll(['q_ids' => $request->post('q_ids')])) != null) {
+                  TbQueueorderdetail::deleteAll(['q_ids' => $request->post('q_ids')]);
+                  }
+                 */
             }
             return 'Success!';
         }
@@ -302,6 +312,51 @@ class DefaultController extends Controller {
             $table .= Html::endTag('tbody');
             $table .= Html::endTag('table');
             return $table;
+        }
+    }
+
+    public function actionTablewaitingorder() {
+        $request = Yii::$app->request;
+        if ($request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            $rows = MainQuery::getTablewaitingorder();
+            $table = Html::beginTag('table', ['class' => 'table table-striped', 'id' => 'table-waitingorder'])
+                    . Html::beginTag('thead', [])
+                    . Html::tag('th', 'QNum', ['style' => 'font-size: 10pt; text-align: center;'])
+                    . Html::tag('th', 'Service Name', ['style' => 'font-size: 10pt; text-align: center;'])
+                    . Html::tag('th', 'ห้องตรวจ', ['style' => 'font-size: 10pt; text-align: center;'])
+                    . Html::tag('th', 'รายการคำสั่ง', ['style' => 'font-size: 10pt; text-align: center;'])
+                    . Html::tag('th', 'Actions', ['style' => 'font-size: 10pt; text-align: center;'])
+                    . Html::endTag('thead')
+                    . Html::beginTag('tbody', []);
+            foreach ($rows as $result) {
+                $table .= Html::beginTag('tr', ['id' => 'tr-waitingoder' . $result['q_ids'],]);
+                $table .= Html::tag('td', $result['q_num'], ['style' => 'font-size:16pt; text-align: center;']);
+                $table .= Html::tag('td', $result['service_name'], ['style' => 'font-size:16pt; text-align: center;']);
+                $table .= Html::tag('td', $result['servicegroup_name'], ['style' => 'font-size:16pt; text-align: center;']);
+                $table .= Html::tag('td', $result['orderdetail'], ['style' => 'font-size:16pt; text-align: left;']);
+                $table .= Html::beginTag('td', ['style' => 'text-align: center;white-space: nowrap']);
+                $table .= Html::a('Call', FALSE, ['class' => 'btn btn-success  btn-sm', 'onclick' => 'CallButton(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num']]) . ' '
+                        . Html::a('Hold', FALSE, ['class' => 'btn btn-primary  btn-sm', 'onclick' => 'Hold(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num']]) . ' '
+                        . Html::a('Delete', FALSE, ['class' => 'btn btn-danger btn-sm', 'onclick' => 'Delete(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num']]);
+                $table .= Html::endTag('td');
+                $table .= Html::endTag('tr');
+            }
+            $table .= Html::endTag('tbody');
+            $table .= Html::endTag('table');
+            return $table;
+        }
+    }
+
+    public function actionCheckqnum() {
+        $request = Yii::$app->request;
+        if ($request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            if ((TbQuequ::findAll(['q_num' => $request->post('QNumber')])) == null) {
+                return 'ไม่มีหมายเลขคิว';
+            } else {
+                return 'มีหมายเลขคิว';
+            }
         }
     }
 

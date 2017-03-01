@@ -67,6 +67,4 @@ class TbCaller extends \yii\db\ActiveRecord
     {
         return $this->hasOne(TbCounterservice::className(), ['counterserviceid' => 'counterserviceid']);
     }
-   
-    
 }
