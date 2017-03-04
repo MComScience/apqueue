@@ -1,0 +1,212 @@
+2017-02-02 09:21:27 [::1][-][c15r4p13fdt31ba5a6gjst54n5][error][yii\db\Exception] PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'status' in 'where clause' in C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\db\Command.php:900
+Stack trace:
+#0 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\db\Command.php(900): PDOStatement->execute()
+#1 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\db\Command.php(376): yii\db\Command->queryInternal('fetch', NULL)
+#2 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\db\Query.php(247): yii\db\Command->queryOne()
+#3 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\db\ActiveQuery.php(295): yii\db\Query->one(NULL)
+#4 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\db\BaseActiveRecord.php(107): yii\db\ActiveQuery->one()
+#5 C:\xampp\htdocs\apqueue\common\models\User.php(64): yii\db\BaseActiveRecord::findOne(Array)
+#6 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\web\User.php(665): common\models\User::findIdentity(1)
+#7 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\web\User.php(188): yii\web\User->renewAuthStatus()
+#8 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\web\User.php(340): yii\web\User->getIdentity()
+#9 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\filters\AccessRule.php(148): yii\web\User->getIsGuest()
+#10 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\filters\AccessRule.php(103): yii\filters\AccessRule->matchRole(Object(yii\web\User))
+#11 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\filters\AccessControl.php(118): yii\filters\AccessRule->allows(Object(yii\base\InlineAction), Object(yii\web\User), Object(yii\web\Request))
+#12 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\ActionFilter.php(73): yii\filters\AccessControl->beforeAction(Object(yii\base\InlineAction))
+#13 [internal function]: yii\base\ActionFilter->beforeFilter(Object(yii\base\ActionEvent))
+#14 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\Component.php(540): call_user_func(Array, Object(yii\base\ActionEvent))
+#15 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\Controller.php(269): yii\base\Component->trigger('beforeAction', Object(yii\base\ActionEvent))
+#16 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\web\Controller.php(108): yii\base\Controller->beforeAction(Object(yii\base\InlineAction))
+#17 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\Controller.php(152): yii\web\Controller->beforeAction(Object(yii\base\InlineAction))
+#18 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\Module.php(454): yii\base\Controller->runAction('', Array)
+#19 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\web\Application.php(100): yii\base\Module->runAction('', Array)
+#20 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\Application.php(375): yii\web\Application->handleRequest(Object(yii\web\Request))
+#21 C:\xampp\htdocs\apqueue\backend\web\index.php(17): yii\base\Application->run()
+#22 {main}
+
+Next yii\db\Exception: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'status' in 'where clause'
+The SQL being executed was: SELECT * FROM `user` WHERE (`id`=1) AND (`status`=10) in C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\db\Schema.php:631
+Stack trace:
+#0 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\db\Command.php(915): yii\db\Schema->convertException(Object(PDOException), 'SELECT * FROM `...')
+#1 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\db\Command.php(376): yii\db\Command->queryInternal('fetch', NULL)
+#2 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\db\Query.php(247): yii\db\Command->queryOne()
+#3 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\db\ActiveQuery.php(295): yii\db\Query->one(NULL)
+#4 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\db\BaseActiveRecord.php(107): yii\db\ActiveQuery->one()
+#5 C:\xampp\htdocs\apqueue\common\models\User.php(64): yii\db\BaseActiveRecord::findOne(Array)
+#6 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\web\User.php(665): common\models\User::findIdentity(1)
+#7 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\web\User.php(188): yii\web\User->renewAuthStatus()
+#8 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\web\User.php(340): yii\web\User->getIdentity()
+#9 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\filters\AccessRule.php(148): yii\web\User->getIsGuest()
+#10 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\filters\AccessRule.php(103): yii\filters\AccessRule->matchRole(Object(yii\web\User))
+#11 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\filters\AccessControl.php(118): yii\filters\AccessRule->allows(Object(yii\base\InlineAction), Object(yii\web\User), Object(yii\web\Request))
+#12 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\ActionFilter.php(73): yii\filters\AccessControl->beforeAction(Object(yii\base\InlineAction))
+#13 [internal function]: yii\base\ActionFilter->beforeFilter(Object(yii\base\ActionEvent))
+#14 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\Component.php(540): call_user_func(Array, Object(yii\base\ActionEvent))
+#15 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\Controller.php(269): yii\base\Component->trigger('beforeAction', Object(yii\base\ActionEvent))
+#16 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\web\Controller.php(108): yii\base\Controller->beforeAction(Object(yii\base\InlineAction))
+#17 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\Controller.php(152): yii\web\Controller->beforeAction(Object(yii\base\InlineAction))
+#18 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\Module.php(454): yii\base\Controller->runAction('', Array)
+#19 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\web\Application.php(100): yii\base\Module->runAction('', Array)
+#20 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\Application.php(375): yii\web\Application->handleRequest(Object(yii\web\Request))
+#21 C:\xampp\htdocs\apqueue\backend\web\index.php(17): yii\base\Application->run()
+#22 {main}
+Additional Information:
+Array
+(
+    [0] => 42S22
+    [1] => 1054
+    [2] => Unknown column 'status' in 'where clause'
+)
+
+2017-02-02 09:21:25 [::1][-][c15r4p13fdt31ba5a6gjst54n5][info][application] $_COOKIE = [
+    '_csrf-frontend' => '786b3571eb213a98bb2c5a714c690032810b30b8292536e9dd974bd3a1ff5467a:2:{i:0;s:14:\"_csrf-frontend\";i:1;s:32:\"P6OGqkBBq7axyvK6nZ3NJIovVyjQ0EuR\";}'
+    'FRONTENDSESSID' => 'aekq8t4gdvhd4ujn4iatl0e3f5'
+    'language' => '3a52976a382bf968450322eab73316a6502d38ab1f62369524c50f9420ef2c1ca:2:{i:0;s:8:\"language\";i:1;s:5:\"en-US\";}'
+    '_csrf-backend' => 'cde9f66585f94d4dba756507b6eb282d83321224b68ef71182a2a7d978f91257a:2:{i:0;s:13:\"_csrf-backend\";i:1;s:32:\"p9FyGD1lz36fJkl6bebrdQcGHVrmer8r\";}'
+    'advanced-backend' => 'c15r4p13fdt31ba5a6gjst54n5'
+]
+
+$_SESSION = [
+    '__flash' => []
+    '__returnUrl' => '/apqueue/backend/'
+    '__id' => 1
+]
+
+$_SERVER = [
+    'REDIRECT_MIBDIRS' => 'C:/xampp/php/extras/mibs'
+    'REDIRECT_MYSQL_HOME' => '\\xampp\\mysql\\bin'
+    'REDIRECT_OPENSSL_CONF' => 'C:/xampp/apache/bin/openssl.cnf'
+    'REDIRECT_PHP_PEAR_SYSCONF_DIR' => '\\xampp\\php'
+    'REDIRECT_PHPRC' => '\\xampp\\php'
+    'REDIRECT_TMP' => '\\xampp\\tmp'
+    'REDIRECT_STATUS' => '200'
+    'MIBDIRS' => 'C:/xampp/php/extras/mibs'
+    'MYSQL_HOME' => '\\xampp\\mysql\\bin'
+    'OPENSSL_CONF' => 'C:/xampp/apache/bin/openssl.cnf'
+    'PHP_PEAR_SYSCONF_DIR' => '\\xampp\\php'
+    'PHPRC' => '\\xampp\\php'
+    'TMP' => '\\xampp\\tmp'
+    'HTTP_HOST' => 'localhost'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
+    'HTTP_REFERER' => 'http://localhost/apqueue/backend/user/login'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, sdch, br'
+    'HTTP_ACCEPT_LANGUAGE' => 'th,en-US;q=0.8,en;q=0.6'
+    'HTTP_COOKIE' => '_csrf-frontend=786b3571eb213a98bb2c5a714c690032810b30b8292536e9dd974bd3a1ff5467a%3A2%3A%7Bi%3A0%3Bs%3A14%3A%22_csrf-frontend%22%3Bi%3A1%3Bs%3A32%3A%22P6OGqkBBq7axyvK6nZ3NJIovVyjQ0EuR%22%3B%7D; FRONTENDSESSID=aekq8t4gdvhd4ujn4iatl0e3f5; language=3a52976a382bf968450322eab73316a6502d38ab1f62369524c50f9420ef2c1ca%3A2%3A%7Bi%3A0%3Bs%3A8%3A%22language%22%3Bi%3A1%3Bs%3A5%3A%22en-US%22%3B%7D; _csrf-backend=cde9f66585f94d4dba756507b6eb282d83321224b68ef71182a2a7d978f91257a%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%22p9FyGD1lz36fJkl6bebrdQcGHVrmer8r%22%3B%7D; advanced-backend=c15r4p13fdt31ba5a6gjst54n5'
+    'PATH' => 'C:\\Program Files\\Docker\\Docker\\Resources\\bin;C:\\ProgramData\\Oracle\\Java\\javapath;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common;C:\\xampp\\php;C:\\ProgramData\\ComposerSetup\\bin;C:\\Program Files\\Git\\cmd;C:\\Users\\M_ComScience-NB\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\M_ComScience-NB\\AppData\\Roaming\\Composer\\vendor\\bin;C:\\Program Files\\Docker Toolbox'
+    'SystemRoot' => 'C:\\Windows'
+    'COMSPEC' => 'C:\\Windows\\system32\\cmd.exe'
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC'
+    'WINDIR' => 'C:\\Windows'
+    'SERVER_SIGNATURE' => '<address>Apache/2.4.23 (Win32) OpenSSL/1.0.2h PHP/7.0.9 Server at localhost Port 80</address>
+'
+    'SERVER_SOFTWARE' => 'Apache/2.4.23 (Win32) OpenSSL/1.0.2h PHP/7.0.9'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => 'C:/xampp/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => 'C:/xampp/htdocs'
+    'SERVER_ADMIN' => 'postmaster@localhost'
+    'SCRIPT_FILENAME' => 'C:/xampp/htdocs/apqueue/backend/web/index.php'
+    'REMOTE_PORT' => '14730'
+    'REDIRECT_URL' => '/apqueue/backend/'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/apqueue/backend/'
+    'SCRIPT_NAME' => '/apqueue/backend/web/index.php'
+    'PHP_SELF' => '/apqueue/backend/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1486002085.965
+    'REQUEST_TIME' => 1486002085
+]
+2017-02-02 09:24:10 [::1][-][ifeomj5a429flmobjahrm8baa7][error][yii\web\HttpException:404] yii\web\NotFoundHttpException: Not found in C:\xampp\htdocs\apqueue\vendor\dektrium\yii2-user\filters\BackendFilter.php:39
+Stack trace:
+#0 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\ActionFilter.php(73): dektrium\user\filters\BackendFilter->beforeAction(Object(yii\base\InlineAction))
+#1 [internal function]: yii\base\ActionFilter->beforeFilter(Object(yii\base\ActionEvent))
+#2 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\Component.php(540): call_user_func(Array, Object(yii\base\ActionEvent))
+#3 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\Module.php(608): yii\base\Component->trigger('beforeAction', Object(yii\base\ActionEvent))
+#4 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\Controller.php(142): yii\base\Module->beforeAction(Object(yii\base\InlineAction))
+#5 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\Module.php(454): yii\base\Controller->runAction('request', Array)
+#6 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\web\Application.php(100): yii\base\Module->runAction('user/recovery/r...', Array)
+#7 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\Application.php(375): yii\web\Application->handleRequest(Object(yii\web\Request))
+#8 C:\xampp\htdocs\apqueue\backend\web\index.php(17): yii\base\Application->run()
+#9 {main}
+2017-02-02 09:24:10 [::1][-][ifeomj5a429flmobjahrm8baa7][info][application] $_COOKIE = [
+    '_csrf-frontend' => '786b3571eb213a98bb2c5a714c690032810b30b8292536e9dd974bd3a1ff5467a:2:{i:0;s:14:\"_csrf-frontend\";i:1;s:32:\"P6OGqkBBq7axyvK6nZ3NJIovVyjQ0EuR\";}'
+    'FRONTENDSESSID' => 'aekq8t4gdvhd4ujn4iatl0e3f5'
+    'language' => '3a52976a382bf968450322eab73316a6502d38ab1f62369524c50f9420ef2c1ca:2:{i:0;s:8:\"language\";i:1;s:5:\"en-US\";}'
+    '_csrf-backend' => 'cde9f66585f94d4dba756507b6eb282d83321224b68ef71182a2a7d978f91257a:2:{i:0;s:13:\"_csrf-backend\";i:1;s:32:\"p9FyGD1lz36fJkl6bebrdQcGHVrmer8r\";}'
+    'advanced-backend' => 'c15r4p13fdt31ba5a6gjst54n5'
+]
+
+$_SESSION = [
+    '__flash' => []
+]
+
+$_SERVER = [
+    'REDIRECT_REDIRECT_MIBDIRS' => 'C:/xampp/php/extras/mibs'
+    'REDIRECT_REDIRECT_MYSQL_HOME' => '\\xampp\\mysql\\bin'
+    'REDIRECT_REDIRECT_OPENSSL_CONF' => 'C:/xampp/apache/bin/openssl.cnf'
+    'REDIRECT_REDIRECT_PHP_PEAR_SYSCONF_DIR' => '\\xampp\\php'
+    'REDIRECT_REDIRECT_PHPRC' => '\\xampp\\php'
+    'REDIRECT_REDIRECT_TMP' => '\\xampp\\tmp'
+    'REDIRECT_REDIRECT_STATUS' => '200'
+    'REDIRECT_MIBDIRS' => 'C:/xampp/php/extras/mibs'
+    'REDIRECT_MYSQL_HOME' => '\\xampp\\mysql\\bin'
+    'REDIRECT_OPENSSL_CONF' => 'C:/xampp/apache/bin/openssl.cnf'
+    'REDIRECT_PHP_PEAR_SYSCONF_DIR' => '\\xampp\\php'
+    'REDIRECT_PHPRC' => '\\xampp\\php'
+    'REDIRECT_TMP' => '\\xampp\\tmp'
+    'REDIRECT_STATUS' => '200'
+    'MIBDIRS' => 'C:/xampp/php/extras/mibs'
+    'MYSQL_HOME' => '\\xampp\\mysql\\bin'
+    'OPENSSL_CONF' => 'C:/xampp/apache/bin/openssl.cnf'
+    'PHP_PEAR_SYSCONF_DIR' => '\\xampp\\php'
+    'PHPRC' => '\\xampp\\php'
+    'TMP' => '\\xampp\\tmp'
+    'HTTP_HOST' => 'localhost'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
+    'HTTP_REFERER' => 'http://localhost/apqueue/backend/user/login'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate, sdch, br'
+    'HTTP_ACCEPT_LANGUAGE' => 'th,en-US;q=0.8,en;q=0.6'
+    'HTTP_COOKIE' => '_csrf-frontend=786b3571eb213a98bb2c5a714c690032810b30b8292536e9dd974bd3a1ff5467a%3A2%3A%7Bi%3A0%3Bs%3A14%3A%22_csrf-frontend%22%3Bi%3A1%3Bs%3A32%3A%22P6OGqkBBq7axyvK6nZ3NJIovVyjQ0EuR%22%3B%7D; FRONTENDSESSID=aekq8t4gdvhd4ujn4iatl0e3f5; language=3a52976a382bf968450322eab73316a6502d38ab1f62369524c50f9420ef2c1ca%3A2%3A%7Bi%3A0%3Bs%3A8%3A%22language%22%3Bi%3A1%3Bs%3A5%3A%22en-US%22%3B%7D; _csrf-backend=cde9f66585f94d4dba756507b6eb282d83321224b68ef71182a2a7d978f91257a%3A2%3A%7Bi%3A0%3Bs%3A13%3A%22_csrf-backend%22%3Bi%3A1%3Bs%3A32%3A%22p9FyGD1lz36fJkl6bebrdQcGHVrmer8r%22%3B%7D; advanced-backend=c15r4p13fdt31ba5a6gjst54n5'
+    'PATH' => 'C:\\Program Files\\Docker\\Docker\\Resources\\bin;C:\\ProgramData\\Oracle\\Java\\javapath;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common;C:\\xampp\\php;C:\\ProgramData\\ComposerSetup\\bin;C:\\Program Files\\Git\\cmd;C:\\Users\\M_ComScience-NB\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\M_ComScience-NB\\AppData\\Roaming\\Composer\\vendor\\bin;C:\\Program Files\\Docker Toolbox'
+    'SystemRoot' => 'C:\\Windows'
+    'COMSPEC' => 'C:\\Windows\\system32\\cmd.exe'
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC'
+    'WINDIR' => 'C:\\Windows'
+    'SERVER_SIGNATURE' => '<address>Apache/2.4.23 (Win32) OpenSSL/1.0.2h PHP/7.0.9 Server at localhost Port 80</address>
+'
+    'SERVER_SOFTWARE' => 'Apache/2.4.23 (Win32) OpenSSL/1.0.2h PHP/7.0.9'
+    'SERVER_NAME' => 'localhost'
+    'SERVER_ADDR' => '::1'
+    'SERVER_PORT' => '80'
+    'REMOTE_ADDR' => '::1'
+    'DOCUMENT_ROOT' => 'C:/xampp/htdocs'
+    'REQUEST_SCHEME' => 'http'
+    'CONTEXT_PREFIX' => ''
+    'CONTEXT_DOCUMENT_ROOT' => 'C:/xampp/htdocs'
+    'SERVER_ADMIN' => 'postmaster@localhost'
+    'SCRIPT_FILENAME' => 'C:/xampp/htdocs/apqueue/backend/web/index.php'
+    'REMOTE_PORT' => '14810'
+    'REDIRECT_URL' => '/apqueue/backend/web/user/forgot'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'REQUEST_URI' => '/apqueue/backend/user/forgot'
+    'SCRIPT_NAME' => '/apqueue/backend/web/index.php'
+    'PHP_SELF' => '/apqueue/backend/web/index.php'
+    'REQUEST_TIME_FLOAT' => 1486002250.731
+    'REQUEST_TIME' => 1486002250
+]

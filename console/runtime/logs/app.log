@@ -1,0 +1,371 @@
+2017-02-01 11:07:12 [-][-][-][error][yii\base\InvalidConfigException] yii\base\InvalidConfigException: You should configure "authManager" component to use database before executing this migration. in C:\xampp\htdocs\apqueue\vendor\firdows\yii2-menu\migrations\m141022_115912_create_rbac_tables.php:25
+Stack trace:
+#0 C:\xampp\htdocs\apqueue\vendor\firdows\yii2-menu\migrations\m141022_115912_create_rbac_tables.php(31): m141022_115912_create_rbac_tables->getAuthManager()
+#1 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(651): m141022_115912_create_rbac_tables->up()
+#2 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(163): yii\console\controllers\BaseMigrateController->migrateUp('m141022_115912_...')
+#3 [internal function]: yii\console\controllers\BaseMigrateController->actionUp(0)
+#4 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\InlineAction.php(55): call_user_func_array(Array, Array)
+#5 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\Controller.php(154): yii\base\InlineAction->runWithParams(Array)
+#6 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\console\Controller.php(128): yii\base\Controller->runAction('', Array)
+#7 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\Module.php(454): yii\console\Controller->runAction('', Array)
+#8 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\console\Application.php(180): yii\base\Module->runAction('migrate', Array)
+#9 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\console\Application.php(147): yii\console\Application->runAction('migrate', Array)
+#10 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\Application.php(375): yii\console\Application->handleRequest(Object(yii\console\Request))
+#11 C:\xampp\htdocs\apqueue\yii(27): yii\base\Application->run()
+#12 {main}
+2017-02-01 11:06:58 [-][-][-][info][application] $_SERVER = [
+    'ALLUSERSPROFILE' => 'C:\\ProgramData'
+    'APPDATA' => 'C:\\Users\\M_ComScience-NB\\AppData\\Roaming'
+    'CommonProgramFiles' => 'C:\\Program Files (x86)\\Common Files'
+    'CommonProgramFiles(x86)' => 'C:\\Program Files (x86)\\Common Files'
+    'CommonProgramW6432' => 'C:\\Program Files\\Common Files'
+    'COMPUTERNAME' => 'M_COMSCIENCE-NB'
+    'ComSpec' => 'C:\\Windows\\system32\\cmd.exe'
+    'DOCKER_TOOLBOX_INSTALL_PATH' => 'C:\\Program Files\\Docker Toolbox'
+    'FPS_BROWSER_APP_PROFILE_STRING' => 'Internet Explorer'
+    'FPS_BROWSER_USER_PROFILE_STRING' => 'Default'
+    'HOMEDRIVE' => 'C:'
+    'HOMEPATH' => '\\Users\\M_ComScience-NB'
+    'LOCALAPPDATA' => 'C:\\Users\\M_ComScience-NB\\AppData\\Local'
+    'LOGONSERVER' => '\\\\M_COMSCIENCE-NB'
+    'NUMBER_OF_PROCESSORS' => '8'
+    'OS' => 'Windows_NT'
+    'Path' => 'C:\\Program Files\\Docker\\Docker\\Resources\\bin;C:\\ProgramData\\Oracle\\Java\\javapath;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common;C:\\xampp\\php;C:\\ProgramData\\ComposerSetup\\bin;C:\\Program Files\\Git\\cmd;C:\\Users\\M_ComScience-NB\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\M_ComScience-NB\\AppData\\Roaming\\Composer\\vendor\\bin;C:\\Program Files\\Docker Toolbox'
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC'
+    'PHP_COMMAND' => 'php.exe'
+    'PROCESSOR_ARCHITECTURE' => 'x86'
+    'PROCESSOR_ARCHITEW6432' => 'AMD64'
+    'PROCESSOR_IDENTIFIER' => 'Intel64 Family 6 Model 58 Stepping 9, GenuineIntel'
+    'PROCESSOR_LEVEL' => '6'
+    'PROCESSOR_REVISION' => '3a09'
+    'ProgramData' => 'C:\\ProgramData'
+    'ProgramFiles' => 'C:\\Program Files (x86)'
+    'ProgramFiles(x86)' => 'C:\\Program Files (x86)'
+    'ProgramW6432' => 'C:\\Program Files'
+    'PROMPT' => '$P$G'
+    'PSModulePath' => 'C:\\Program Files\\WindowsPowerShell\\Modules;C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules'
+    'PUBLIC' => 'C:\\Users\\Public'
+    'SESSIONNAME' => 'Console'
+    'SystemDrive' => 'C:'
+    'SystemRoot' => 'C:\\Windows'
+    'TEMP' => 'C:\\Users\\M_COMS~1\\AppData\\Local\\Temp'
+    'TMP' => 'C:\\Users\\M_COMS~1\\AppData\\Local\\Temp'
+    'USERDOMAIN' => 'M_COMSCIENCE-NB'
+    'USERDOMAIN_ROAMINGPROFILE' => 'M_COMSCIENCE-NB'
+    'USERNAME' => 'M_ComScience'
+    'USERPROFILE' => 'C:\\Users\\M_ComScience-NB'
+    'VBOX_MSI_INSTALL_PATH' => 'C:\\Program Files\\Oracle\\VirtualBox\\'
+    'windir' => 'C:\\Windows'
+    'YII_PATH' => 'C:\\xampp\\htdocs\\apqueue\\'
+    'PHP_SELF' => 'C:\\xampp\\htdocs\\apqueue\\yii'
+    'SCRIPT_NAME' => 'C:\\xampp\\htdocs\\apqueue\\yii'
+    'SCRIPT_FILENAME' => 'C:\\xampp\\htdocs\\apqueue\\yii'
+    'PATH_TRANSLATED' => 'C:\\xampp\\htdocs\\apqueue\\yii'
+    'DOCUMENT_ROOT' => ''
+    'REQUEST_TIME_FLOAT' => 1485943618.2478
+    'REQUEST_TIME' => 1485943618
+    'argv' => [
+        0 => 'C:\\xampp\\htdocs\\apqueue\\yii'
+        1 => 'migrate'
+        2 => '--migrationPath=@firdows/menu/migrations'
+    ]
+    'argc' => 3
+]
+2017-02-01 17:20:00 [-][-][-][error][yii\db\Exception] PDOException: SQLSTATE[42S01]: Base table or view already exists: 1050 Table 'user' already exists in C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\db\Command.php:844
+Stack trace:
+#0 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\db\Command.php(844): PDOStatement->execute()
+#1 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\db\Migration.php(261): yii\db\Command->execute()
+#2 C:\xampp\htdocs\apqueue\vendor\dektrium\yii2-user\migrations\m140209_132017_init.php(39): yii\db\Migration->createTable('{{%user}}', Array, 'CHARACTER SET u...')
+#3 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(651): m140209_132017_init->up()
+#4 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(163): yii\console\controllers\BaseMigrateController->migrateUp('m140209_132017_...')
+#5 [internal function]: yii\console\controllers\BaseMigrateController->actionUp(0)
+#6 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\InlineAction.php(55): call_user_func_array(Array, Array)
+#7 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\Controller.php(154): yii\base\InlineAction->runWithParams(Array)
+#8 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\console\Controller.php(128): yii\base\Controller->runAction('up', Array)
+#9 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\Module.php(454): yii\console\Controller->runAction('up', Array)
+#10 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\console\Application.php(180): yii\base\Module->runAction('migrate/up', Array)
+#11 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\console\Application.php(147): yii\console\Application->runAction('migrate/up', Array)
+#12 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\Application.php(375): yii\console\Application->handleRequest(Object(yii\console\Request))
+#13 C:\xampp\htdocs\apqueue\yii(27): yii\base\Application->run()
+#14 {main}
+
+Next yii\db\Exception: SQLSTATE[42S01]: Base table or view already exists: 1050 Table 'user' already exists
+The SQL being executed was: CREATE TABLE `user` (
+	`id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	`username` varchar(25) NOT NULL,
+	`email` varchar(255) NOT NULL,
+	`password_hash` varchar(60) NOT NULL,
+	`auth_key` varchar(32) NOT NULL,
+	`confirmation_token` varchar(32) NULL DEFAULT NULL,
+	`confirmation_sent_at` int(11) NULL DEFAULT NULL,
+	`confirmed_at` int(11) NULL DEFAULT NULL,
+	`unconfirmed_email` varchar(255) NULL DEFAULT NULL,
+	`recovery_token` varchar(32) NULL DEFAULT NULL,
+	`recovery_sent_at` int(11) NULL DEFAULT NULL,
+	`blocked_at` int(11) NULL DEFAULT NULL,
+	`registered_from` int(11) NULL DEFAULT NULL,
+	`logged_in_from` int(11) NULL DEFAULT NULL,
+	`logged_in_at` int(11) NULL DEFAULT NULL,
+	`created_at` int(11) NOT NULL,
+	`updated_at` int(11) NOT NULL
+) CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB in C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\db\Schema.php:631
+Stack trace:
+#0 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\db\Command.php(854): yii\db\Schema->convertException(Object(PDOException), 'CREATE TABLE `u...')
+#1 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\db\Migration.php(261): yii\db\Command->execute()
+#2 C:\xampp\htdocs\apqueue\vendor\dektrium\yii2-user\migrations\m140209_132017_init.php(39): yii\db\Migration->createTable('{{%user}}', Array, 'CHARACTER SET u...')
+#3 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(651): m140209_132017_init->up()
+#4 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(163): yii\console\controllers\BaseMigrateController->migrateUp('m140209_132017_...')
+#5 [internal function]: yii\console\controllers\BaseMigrateController->actionUp(0)
+#6 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\InlineAction.php(55): call_user_func_array(Array, Array)
+#7 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\Controller.php(154): yii\base\InlineAction->runWithParams(Array)
+#8 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\console\Controller.php(128): yii\base\Controller->runAction('up', Array)
+#9 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\Module.php(454): yii\console\Controller->runAction('up', Array)
+#10 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\console\Application.php(180): yii\base\Module->runAction('migrate/up', Array)
+#11 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\console\Application.php(147): yii\console\Application->runAction('migrate/up', Array)
+#12 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\Application.php(375): yii\console\Application->handleRequest(Object(yii\console\Request))
+#13 C:\xampp\htdocs\apqueue\yii(27): yii\base\Application->run()
+#14 {main}
+Additional Information:
+Array
+(
+    [0] => 42S01
+    [1] => 1050
+    [2] => Table 'user' already exists
+)
+
+2017-02-01 17:19:56 [-][-][-][info][application] $_SERVER = [
+    'ALLUSERSPROFILE' => 'C:\\ProgramData'
+    'APPDATA' => 'C:\\Users\\M_ComScience-NB\\AppData\\Roaming'
+    'CommonProgramFiles' => 'C:\\Program Files (x86)\\Common Files'
+    'CommonProgramFiles(x86)' => 'C:\\Program Files (x86)\\Common Files'
+    'CommonProgramW6432' => 'C:\\Program Files\\Common Files'
+    'COMPUTERNAME' => 'M_COMSCIENCE-NB'
+    'ComSpec' => 'C:\\Windows\\system32\\cmd.exe'
+    'DOCKER_TOOLBOX_INSTALL_PATH' => 'C:\\Program Files\\Docker Toolbox'
+    'FPS_BROWSER_APP_PROFILE_STRING' => 'Internet Explorer'
+    'FPS_BROWSER_USER_PROFILE_STRING' => 'Default'
+    'HOMEDRIVE' => 'C:'
+    'HOMEPATH' => '\\Users\\M_ComScience-NB'
+    'LOCALAPPDATA' => 'C:\\Users\\M_ComScience-NB\\AppData\\Local'
+    'LOGONSERVER' => '\\\\M_COMSCIENCE-NB'
+    'NUMBER_OF_PROCESSORS' => '8'
+    'OS' => 'Windows_NT'
+    'Path' => 'C:\\Program Files\\Docker\\Docker\\Resources\\bin;C:\\ProgramData\\Oracle\\Java\\javapath;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common;C:\\xampp\\php;C:\\ProgramData\\ComposerSetup\\bin;C:\\Program Files\\Git\\cmd;C:\\Users\\M_ComScience-NB\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\M_ComScience-NB\\AppData\\Roaming\\Composer\\vendor\\bin;C:\\Program Files\\Docker Toolbox'
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC'
+    'PROCESSOR_ARCHITECTURE' => 'x86'
+    'PROCESSOR_ARCHITEW6432' => 'AMD64'
+    'PROCESSOR_IDENTIFIER' => 'Intel64 Family 6 Model 58 Stepping 9, GenuineIntel'
+    'PROCESSOR_LEVEL' => '6'
+    'PROCESSOR_REVISION' => '3a09'
+    'ProgramData' => 'C:\\ProgramData'
+    'ProgramFiles' => 'C:\\Program Files (x86)'
+    'ProgramFiles(x86)' => 'C:\\Program Files (x86)'
+    'ProgramW6432' => 'C:\\Program Files'
+    'PROMPT' => '$P$G'
+    'PSModulePath' => 'C:\\Program Files\\WindowsPowerShell\\Modules;C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules'
+    'PUBLIC' => 'C:\\Users\\Public'
+    'SESSIONNAME' => 'Console'
+    'SystemDrive' => 'C:'
+    'SystemRoot' => 'C:\\Windows'
+    'TEMP' => 'C:\\Users\\M_COMS~1\\AppData\\Local\\Temp'
+    'TMP' => 'C:\\Users\\M_COMS~1\\AppData\\Local\\Temp'
+    'USERDOMAIN' => 'M_COMSCIENCE-NB'
+    'USERDOMAIN_ROAMINGPROFILE' => 'M_COMSCIENCE-NB'
+    'USERNAME' => 'M_ComScience'
+    'USERPROFILE' => 'C:\\Users\\M_ComScience-NB'
+    'VBOX_MSI_INSTALL_PATH' => 'C:\\Program Files\\Oracle\\VirtualBox\\'
+    'windir' => 'C:\\Windows'
+    'PHP_SELF' => 'yii'
+    'SCRIPT_NAME' => 'yii'
+    'SCRIPT_FILENAME' => 'yii'
+    'PATH_TRANSLATED' => 'yii'
+    'DOCUMENT_ROOT' => ''
+    'REQUEST_TIME_FLOAT' => 1485944396.6088
+    'REQUEST_TIME' => 1485944396
+    'argv' => [
+        0 => 'yii'
+        1 => 'migrate/up'
+        2 => '--migrationPath=@vendor/dektrium/yii2-user/migrations'
+    ]
+    'argc' => 3
+]
+2017-02-17 09:55:12 [-][-][-][error][yii\base\InvalidConfigException] yii\base\InvalidConfigException: You should configure "log" component to use one or more database targets before executing this migration. in C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\log\migrations\m141106_185632_log_init.php:45
+Stack trace:
+#0 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\log\migrations\m141106_185632_log_init.php(53): m141106_185632_log_init->getDbTargets()
+#1 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(651): m141106_185632_log_init->up()
+#2 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(163): yii\console\controllers\BaseMigrateController->migrateUp('m141106_185632_...')
+#3 [internal function]: yii\console\controllers\BaseMigrateController->actionUp(0)
+#4 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\InlineAction.php(55): call_user_func_array(Array, Array)
+#5 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\Controller.php(154): yii\base\InlineAction->runWithParams(Array)
+#6 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\console\Controller.php(128): yii\base\Controller->runAction('', Array)
+#7 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\Module.php(454): yii\console\Controller->runAction('', Array)
+#8 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\console\Application.php(180): yii\base\Module->runAction('migrate', Array)
+#9 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\console\Application.php(147): yii\console\Application->runAction('migrate', Array)
+#10 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\Application.php(375): yii\console\Application->handleRequest(Object(yii\console\Request))
+#11 C:\xampp\htdocs\apqueue\yii(27): yii\base\Application->run()
+#12 {main}
+2017-02-17 09:55:06 [-][-][-][info][application] $_SERVER = [
+    'ALLUSERSPROFILE' => 'C:\\ProgramData'
+    'APPDATA' => 'C:\\Users\\M_ComScience-NB\\AppData\\Roaming'
+    'CommonProgramFiles' => 'C:\\Program Files (x86)\\Common Files'
+    'CommonProgramFiles(x86)' => 'C:\\Program Files (x86)\\Common Files'
+    'CommonProgramW6432' => 'C:\\Program Files\\Common Files'
+    'COMPUTERNAME' => 'M_COMSCIENCE-NB'
+    'ComSpec' => 'C:\\Windows\\system32\\cmd.exe'
+    'HOMEDRIVE' => 'C:'
+    'HOMEPATH' => '\\Users\\M_ComScience-NB'
+    'LOCALAPPDATA' => 'C:\\Users\\M_ComScience-NB\\AppData\\Local'
+    'LOGONSERVER' => '\\\\M_COMSCIENCE-NB'
+    'NUMBER_OF_PROCESSORS' => '8'
+    'OneDrive' => 'C:\\Users\\M_ComScience-NB\\OneDrive'
+    'OS' => 'Windows_NT'
+    'Path' => 'C:\\ProgramData\\Oracle\\Java\\javapath;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common;C:\\xampp\\php;C:\\ProgramData\\ComposerSetup\\bin;C:\\Program Files\\nodejs\\;C:\\Program Files\\Git\\cmd;C:\\Users\\M_ComScience-NB\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Program Files (x86)\\Microsoft VS Code\\bin;C:\\Users\\M_ComScience-NB\\AppData\\Roaming\\Composer\\vendor\\bin;C:\\Users\\M_ComScience-NB\\AppData\\Roaming\\npm'
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC'
+    'PHP_COMMAND' => 'php.exe'
+    'PROCESSOR_ARCHITECTURE' => 'x86'
+    'PROCESSOR_ARCHITEW6432' => 'AMD64'
+    'PROCESSOR_IDENTIFIER' => 'Intel64 Family 6 Model 58 Stepping 9, GenuineIntel'
+    'PROCESSOR_LEVEL' => '6'
+    'PROCESSOR_REVISION' => '3a09'
+    'ProgramData' => 'C:\\ProgramData'
+    'ProgramFiles' => 'C:\\Program Files (x86)'
+    'ProgramFiles(x86)' => 'C:\\Program Files (x86)'
+    'ProgramW6432' => 'C:\\Program Files'
+    'PROMPT' => '$P$G'
+    'PSModulePath' => '%ProgramFiles%\\WindowsPowerShell\\Modules;C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules'
+    'PUBLIC' => 'C:\\Users\\Public'
+    'SISENSE_ERL_HOME' => 'C:\\Program Files\\Sisense\\Infra\\erl\\'
+    'SISENSE_JAVA_HOME' => 'C:\\Program Files\\Sisense\\Infra\\jre\\'
+    'SystemDrive' => 'C:'
+    'SystemRoot' => 'C:\\Windows'
+    'TEMP' => 'C:\\Users\\M_COMS~1\\AppData\\Local\\Temp'
+    'TMP' => 'C:\\Users\\M_COMS~1\\AppData\\Local\\Temp'
+    'USERDOMAIN' => 'M_COMSCIENCE-NB'
+    'USERDOMAIN_ROAMINGPROFILE' => 'M_COMSCIENCE-NB'
+    'USERNAME' => 'M_ComScience-NB'
+    'USERPROFILE' => 'C:\\Users\\M_ComScience-NB'
+    'VBOX_MSI_INSTALL_PATH' => 'C:\\Program Files\\Oracle\\VirtualBox\\'
+    'windir' => 'C:\\Windows'
+    'YII_PATH' => 'C:\\xampp\\htdocs\\apqueue\\'
+    'PHP_SELF' => 'C:\\xampp\\htdocs\\apqueue\\yii'
+    'SCRIPT_NAME' => 'C:\\xampp\\htdocs\\apqueue\\yii'
+    'SCRIPT_FILENAME' => 'C:\\xampp\\htdocs\\apqueue\\yii'
+    'PATH_TRANSLATED' => 'C:\\xampp\\htdocs\\apqueue\\yii'
+    'DOCUMENT_ROOT' => ''
+    'REQUEST_TIME_FLOAT' => 1487300106.8177
+    'REQUEST_TIME' => 1487300106
+    'argv' => [
+        0 => 'C:\\xampp\\htdocs\\apqueue\\yii'
+        1 => 'migrate'
+        2 => '--migrationPath=@yii/log/migrations/'
+    ]
+    'argc' => 3
+]
+2017-02-22 16:59:53 [-][-][-][error][yii\db\Exception] PDOException: SQLSTATE[42S01]: Base table or view already exists: 1050 Table 'auth_rule' already exists in C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\db\Command.php:846
+Stack trace:
+#0 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\db\Command.php(846): PDOStatement->execute()
+#1 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\db\Migration.php(274): yii\db\Command->execute()
+#2 C:\xampp\htdocs\apqueue\vendor\firdows\yii2-menu\migrations\m141022_115912_create_rbac_tables.php(43): yii\db\Migration->createTable('{{%auth_rule}}', Array, 'CHARACTER SET u...')
+#3 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(654): m141022_115912_create_rbac_tables->up()
+#4 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(166): yii\console\controllers\BaseMigrateController->migrateUp('m141022_115912_...')
+#5 [internal function]: yii\console\controllers\BaseMigrateController->actionUp(0)
+#6 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\InlineAction.php(57): call_user_func_array(Array, Array)
+#7 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#8 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\console\Controller.php(128): yii\base\Controller->runAction('', Array)
+#9 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\Module.php(523): yii\console\Controller->runAction('', Array)
+#10 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\console\Application.php(180): yii\base\Module->runAction('migrate', Array)
+#11 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\console\Application.php(147): yii\console\Application->runAction('migrate', Array)
+#12 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\Application.php(380): yii\console\Application->handleRequest(Object(yii\console\Request))
+#13 C:\xampp\htdocs\apqueue\yii(27): yii\base\Application->run()
+#14 {main}
+
+Next yii\db\Exception: SQLSTATE[42S01]: Base table or view already exists: 1050 Table 'auth_rule' already exists
+The SQL being executed was: CREATE TABLE `auth_rule` (
+	`name` varchar(64) NOT NULL,
+	`data` text,
+	`created_at` int(11),
+	`updated_at` int(11),
+	PRIMARY KEY (name)
+) CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB in C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\db\Schema.php:636
+Stack trace:
+#0 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\db\Command.php(856): yii\db\Schema->convertException(Object(PDOException), 'CREATE TABLE `a...')
+#1 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\db\Migration.php(274): yii\db\Command->execute()
+#2 C:\xampp\htdocs\apqueue\vendor\firdows\yii2-menu\migrations\m141022_115912_create_rbac_tables.php(43): yii\db\Migration->createTable('{{%auth_rule}}', Array, 'CHARACTER SET u...')
+#3 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(654): m141022_115912_create_rbac_tables->up()
+#4 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\console\controllers\BaseMigrateController.php(166): yii\console\controllers\BaseMigrateController->migrateUp('m141022_115912_...')
+#5 [internal function]: yii\console\controllers\BaseMigrateController->actionUp(0)
+#6 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\InlineAction.php(57): call_user_func_array(Array, Array)
+#7 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#8 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\console\Controller.php(128): yii\base\Controller->runAction('', Array)
+#9 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\Module.php(523): yii\console\Controller->runAction('', Array)
+#10 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\console\Application.php(180): yii\base\Module->runAction('migrate', Array)
+#11 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\console\Application.php(147): yii\console\Application->runAction('migrate', Array)
+#12 C:\xampp\htdocs\apqueue\vendor\yiisoft\yii2\base\Application.php(380): yii\console\Application->handleRequest(Object(yii\console\Request))
+#13 C:\xampp\htdocs\apqueue\yii(27): yii\base\Application->run()
+#14 {main}
+Additional Information:
+Array
+(
+    [0] => 42S01
+    [1] => 1050
+    [2] => Table 'auth_rule' already exists
+)
+
+2017-02-22 16:59:51 [-][-][-][info][application] $_SERVER = [
+    'ALLUSERSPROFILE' => 'C:\\ProgramData'
+    'APPDATA' => 'C:\\Users\\M_ComScience-NB\\AppData\\Roaming'
+    'CommonProgramFiles' => 'C:\\Program Files (x86)\\Common Files'
+    'CommonProgramFiles(x86)' => 'C:\\Program Files (x86)\\Common Files'
+    'CommonProgramW6432' => 'C:\\Program Files\\Common Files'
+    'COMPUTERNAME' => 'M_COMSCIENCE-NB'
+    'ComSpec' => 'C:\\Windows\\system32\\cmd.exe'
+    'HOMEDRIVE' => 'C:'
+    'HOMEPATH' => '\\Users\\M_ComScience-NB'
+    'LOCALAPPDATA' => 'C:\\Users\\M_ComScience-NB\\AppData\\Local'
+    'LOGONSERVER' => '\\\\M_COMSCIENCE-NB'
+    'NUMBER_OF_PROCESSORS' => '8'
+    'OneDrive' => 'C:\\Users\\M_ComScience-NB\\OneDrive'
+    'OS' => 'Windows_NT'
+    'Path' => 'C:\\ProgramData\\Oracle\\Java\\javapath;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common;C:\\xampp\\php;C:\\Program Files\\nodejs\\;C:\\Program Files\\Git\\cmd;C:\\ProgramData\\ComposerSetup\\bin;C:\\Users\\M_ComScience-NB\\AppData\\Local\\Microsoft\\WindowsApps;;C:\\Program Files (x86)\\Microsoft VS Code\\bin;C:\\Users\\M_ComScience-NB\\AppData\\Roaming\\npm;C:\\Users\\M_ComScience-NB\\AppData\\Roaming\\Composer\\vendor\\bin'
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC'
+    'PHP_COMMAND' => 'php.exe'
+    'PROCESSOR_ARCHITECTURE' => 'x86'
+    'PROCESSOR_ARCHITEW6432' => 'AMD64'
+    'PROCESSOR_IDENTIFIER' => 'Intel64 Family 6 Model 58 Stepping 9, GenuineIntel'
+    'PROCESSOR_LEVEL' => '6'
+    'PROCESSOR_REVISION' => '3a09'
+    'ProgramData' => 'C:\\ProgramData'
+    'ProgramFiles' => 'C:\\Program Files (x86)'
+    'ProgramFiles(x86)' => 'C:\\Program Files (x86)'
+    'ProgramW6432' => 'C:\\Program Files'
+    'PROMPT' => '$P$G'
+    'PSModulePath' => 'C:\\Program Files\\WindowsPowerShell\\Modules;C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules'
+    'PUBLIC' => 'C:\\Users\\Public'
+    'SESSIONNAME' => 'Console'
+    'SISENSE_ERL_HOME' => 'C:\\Program Files\\Sisense\\Infra\\erl\\'
+    'SISENSE_JAVA_HOME' => 'C:\\Program Files\\Sisense\\Infra\\jre\\'
+    'SystemDrive' => 'C:'
+    'SystemRoot' => 'C:\\Windows'
+    'TEMP' => 'C:\\Users\\M_COMS~1\\AppData\\Local\\Temp'
+    'TMP' => 'C:\\Users\\M_COMS~1\\AppData\\Local\\Temp'
+    'USERDOMAIN' => 'M_COMSCIENCE-NB'
+    'USERDOMAIN_ROAMINGPROFILE' => 'M_COMSCIENCE-NB'
+    'USERNAME' => 'M_ComScience-NB'
+    'USERPROFILE' => 'C:\\Users\\M_ComScience-NB'
+    'VBOX_MSI_INSTALL_PATH' => 'C:\\Program Files\\Oracle\\VirtualBox\\'
+    'windir' => 'C:\\Windows'
+    'YII_PATH' => 'C:\\xampp\\htdocs\\apqueue\\'
+    'PHP_SELF' => 'C:\\xampp\\htdocs\\apqueue\\yii'
+    'SCRIPT_NAME' => 'C:\\xampp\\htdocs\\apqueue\\yii'
+    'SCRIPT_FILENAME' => 'C:\\xampp\\htdocs\\apqueue\\yii'
+    'PATH_TRANSLATED' => 'C:\\xampp\\htdocs\\apqueue\\yii'
+    'DOCUMENT_ROOT' => ''
+    'REQUEST_TIME_FLOAT' => 1487757591.3612
+    'REQUEST_TIME' => 1487757591
+    'argv' => [
+        0 => 'C:\\xampp\\htdocs\\apqueue\\yii'
+        1 => 'migrate'
+        2 => '--migrationPath=@firdows/menu/migrations'
+    ]
+    'argc' => 3
+]
