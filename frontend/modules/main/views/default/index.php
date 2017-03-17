@@ -61,7 +61,7 @@ $this->title = 'เรียกคิว';
             </div>
             <div class="col-sm-3">
                 <?= Html::a('Clear', false, ['class' => 'btn btn-danger btn-lg', 'onclick' => 'Reset(this);']) ?>
-                <?= Html::a('<i class="fa fa-check"></i> ' . 'Select', false, ['class' => 'btn btn-info btn-lg', 'onclick' => 'SelectCall(this);',]) ?>
+                <?= Html::a('<i class="fa fa-check"></i> ' . 'Call', false, ['class' => 'btn btn-success btn-lg', 'onclick' => 'SelectCall(this);',]) ?>
             </div>
         </div>
         <?php /*

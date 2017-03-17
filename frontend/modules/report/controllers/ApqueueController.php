@@ -64,9 +64,9 @@ class ApqueueController extends \yii\web\Controller {
         $pdf = new Pdf([
             'mode' => Pdf::MODE_UTF8,
             'orientation' => Pdf::ORIENT_PORTRAIT,
-            'destination' => Pdf ::DEST_BROWSER,
+            'destination' => Pdf ::DEST_FILE,
             'format' => [90, 80],
-            'content' => $this->renderPartial('index', [
+            'content' => $this->renderPartial('report', [
                 'setheader' => false,
                 'setcontent' => true,
                 'setfooter' => false,
@@ -78,27 +78,26 @@ class ApqueueController extends \yii\web\Controller {
             'marginFooter' => '2',
             'marginBottom' => '2',
             'options' => [
-                //'tempPath' => 'files/',
+                'tempPath' => 'files/',
                 'defaultheaderline' => 0,
                 'defaultfooterline' => 0,
                 'title' => 'report',
             ],
             //  'cssFile' => '@frontend/web/css/kv-mpdf-bootstrap.css',
             //  'cssInline' => 'body{font-size:16px}',
-            //'filename' => 'files/Report.pdf',
+            'filename' => 'files/Report.pdf',
             'methods' => [
                 'SetHeader' => '',
                 'SetFooter' => '',
+              
         ]]);
 
-        return $pdf->render();
+        echo $pdf->render();
     }
 
-    public function actionPrinttest() {
-        exec('lpr -MicrosoftPrinttoPDF '.Yii::getAlias('@webroot') . '/files/Report.pdf');
-//        $printcmd = "java -classpath ".Yii::getAlias('@webroot')."/files/pdfbox-app-1.7.1.jar org.apache.pdfbox.PrintPDF -silentPrint -printerName BrotherMFCJ6710DWPrinter ".Yii::getAlias('@webroot') . '/files/Report.pdf';
-//        exec($printcmd);
-//        exit();
+     public function actionPrinttest() {
+        $printcmd = "java -classpath c:/java/libs/pdfbox-app-1.7.1.jar org.apache.pdfbox.PrintPDF -silentPrint -printerName TX80Thermal ".Yii::getAlias('@webroot') . '/files/Report.pdf';
+        exec($printcmd);
+        exit();
     }
-
 }

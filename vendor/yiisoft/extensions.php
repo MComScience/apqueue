@@ -21,15 +21,6 @@ return array (
       '@yii/bootstrap' => $vendorDir . '/yiisoft/yii2-bootstrap',
     ),
   ),
-  'yiisoft/yii2-debug' => 
-  array (
-    'name' => 'yiisoft/yii2-debug',
-    'version' => '2.0.7.0',
-    'alias' => 
-    array (
-      '@yii/debug' => $vendorDir . '/yiisoft/yii2-debug',
-    ),
-  ),
   'yiisoft/yii2-gii' => 
   array (
     'name' => 'yiisoft/yii2-gii',
@@ -55,15 +46,6 @@ return array (
     'alias' => 
     array (
       '@lajax/languagepicker' => $vendorDir . '/lajax/yii2-language-picker',
-    ),
-  ),
-  'kartik-v/yii2-krajee-base' => 
-  array (
-    'name' => 'kartik-v/yii2-krajee-base',
-    'version' => '1.8.7.0',
-    'alias' => 
-    array (
-      '@kartik/base' => $vendorDir . '/kartik-v/yii2-krajee-base',
     ),
   ),
   'kartik-v/yii2-widget-typeahead' => 
@@ -310,15 +292,6 @@ return array (
       '@yii/jui' => $vendorDir . '/yiisoft/yii2-jui',
     ),
   ),
-  'kartik-v/yii2-icons' => 
-  array (
-    'name' => 'kartik-v/yii2-icons',
-    'version' => '1.4.1.0',
-    'alias' => 
-    array (
-      '@kartik/icons' => $vendorDir . '/kartik-v/yii2-icons',
-    ),
-  ),
   'kartik-v/yii2-mpdf' => 
   array (
     'name' => 'kartik-v/yii2-mpdf',
@@ -335,24 +308,6 @@ return array (
     'alias' => 
     array (
       '@kartik/sortable' => $vendorDir . '/kartik-v/yii2-sortable',
-    ),
-  ),
-  'kartik-v/yii2-dynagrid' => 
-  array (
-    'name' => 'kartik-v/yii2-dynagrid',
-    'version' => '9999999-dev',
-    'alias' => 
-    array (
-      '@kartik/dynagrid' => $vendorDir . '/kartik-v/yii2-dynagrid',
-    ),
-  ),
-  'kartik-v/yii2-export' => 
-  array (
-    'name' => 'kartik-v/yii2-export',
-    'version' => '1.2.6.0',
-    'alias' => 
-    array (
-      '@kartik/export' => $vendorDir . '/kartik-v/yii2-export',
     ),
   ),
   'wbraganca/yii2-videojs-widget' => 
@@ -407,6 +362,169 @@ return array (
     'alias' => 
     array (
       '@yii/authclient' => $vendorDir . '/yiisoft/yii2-authclient',
+    ),
+  ),
+  'miloschuman/yii2-highcharts-widget' => 
+  array (
+    'name' => 'miloschuman/yii2-highcharts-widget',
+    'version' => '5.0.0.0',
+    'alias' => 
+    array (
+      '@miloschuman/highcharts' => $vendorDir . '/miloschuman/yii2-highcharts-widget/src',
+    ),
+  ),
+  'kartik-v/yii2-krajee-base' => 
+  array (
+    'name' => 'kartik-v/yii2-krajee-base',
+    'version' => '1.8.8.0',
+    'alias' => 
+    array (
+      '@kartik/base' => $vendorDir . '/kartik-v/yii2-krajee-base',
+    ),
+  ),
+  'kartik-v/yii2-icons' => 
+  array (
+    'name' => 'kartik-v/yii2-icons',
+    'version' => '1.4.2.0',
+    'alias' => 
+    array (
+      '@kartik/icons' => $vendorDir . '/kartik-v/yii2-icons',
+    ),
+  ),
+  'kartik-v/yii2-export' => 
+  array (
+    'name' => 'kartik-v/yii2-export',
+    'version' => '1.2.7.0',
+    'alias' => 
+    array (
+      '@kartik/export' => $vendorDir . '/kartik-v/yii2-export',
+    ),
+  ),
+  'yiisoft/yii2-debug' => 
+  array (
+    'name' => 'yiisoft/yii2-debug',
+    'version' => '2.0.9.0',
+    'alias' => 
+    array (
+      '@yii/debug' => $vendorDir . '/yiisoft/yii2-debug',
+    ),
+  ),
+  'yiisoft/yii2-redis' => 
+  array (
+    'name' => 'yiisoft/yii2-redis',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@yii/redis' => $vendorDir . '/yiisoft/yii2-redis',
+    ),
+  ),
+  'asofter/yii2-imperavi-redactor' => 
+  array (
+    'name' => 'asofter/yii2-imperavi-redactor',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@yii/imperavi' => $vendorDir . '/asofter/yii2-imperavi-redactor/yii/imperavi',
+    ),
+  ),
+  'e96/yii2-sentry' => 
+  array (
+    'name' => 'e96/yii2-sentry',
+    'version' => '0.2.0.0',
+    'alias' => 
+    array (
+      '@e96/sentry' => $vendorDir . '/e96/yii2-sentry/src',
+    ),
+  ),
+  'yiisoft/yii2-twig' => 
+  array (
+    'name' => 'yiisoft/yii2-twig',
+    'version' => '2.0.6.0',
+    'alias' => 
+    array (
+      '@yii/twig' => $vendorDir . '/yiisoft/yii2-twig',
+    ),
+  ),
+  'yiisoft/yii2-elasticsearch' => 
+  array (
+    'name' => 'yiisoft/yii2-elasticsearch',
+    'version' => '2.0.4.0',
+    'alias' => 
+    array (
+      '@yii/elasticsearch' => $vendorDir . '/yiisoft/yii2-elasticsearch',
+    ),
+  ),
+  'trntv/yii2-aceeditor' => 
+  array (
+    'name' => 'trntv/yii2-aceeditor',
+    'version' => '2.0.2.0',
+    'alias' => 
+    array (
+      '@trntv/aceeditor' => $vendorDir . '/trntv/yii2-aceeditor/src',
+    ),
+  ),
+  'trntv/yii2-command-bus' => 
+  array (
+    'name' => 'trntv/yii2-command-bus',
+    'version' => '1.2.3.0',
+    'alias' => 
+    array (
+      '@trntv/bus' => $vendorDir . '/trntv/yii2-command-bus/src',
+    ),
+  ),
+  'trntv/yii2-file-kit' => 
+  array (
+    'name' => 'trntv/yii2-file-kit',
+    'version' => '1.2.1.0',
+    'alias' => 
+    array (
+      '@trntv/filekit' => $vendorDir . '/trntv/yii2-file-kit/src',
+    ),
+  ),
+  'trntv/yii2-glide' => 
+  array (
+    'name' => 'trntv/yii2-glide',
+    'version' => '1.2.0.0',
+    'alias' => 
+    array (
+      '@trntv/glide' => $vendorDir . '/trntv/yii2-glide/src',
+    ),
+  ),
+  'omnilight/yii2-scheduling' => 
+  array (
+    'name' => 'omnilight/yii2-scheduling',
+    'version' => '1.0.7.0',
+    'alias' => 
+    array (
+      '@omnilight/scheduling' => $vendorDir . '/omnilight/yii2-scheduling',
+    ),
+    'bootstrap' => 'omnilight\\scheduling\\Bootstrap',
+  ),
+  'zhuravljov/yii2-queue' => 
+  array (
+    'name' => 'zhuravljov/yii2-queue',
+    'version' => '0.9.1.0',
+    'alias' => 
+    array (
+      '@zhuravljov/yii/queue' => $vendorDir . '/zhuravljov/yii2-queue/src',
+    ),
+  ),
+  'yii2assets/yii2-fullscreen-modal' => 
+  array (
+    'name' => 'yii2assets/yii2-fullscreen-modal',
+    'version' => '1.0.2.0',
+    'alias' => 
+    array (
+      '@yii2assets/fullscreenmodal' => $vendorDir . '/yii2assets/yii2-fullscreen-modal',
+    ),
+  ),
+  'kartik-v/yii2-dynagrid' => 
+  array (
+    'name' => 'kartik-v/yii2-dynagrid',
+    'version' => '9999999-dev',
+    'alias' => 
+    array (
+      '@kartik/dynagrid' => $vendorDir . '/kartik-v/yii2-dynagrid',
     ),
   ),
 );

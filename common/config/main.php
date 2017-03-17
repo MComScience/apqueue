@@ -12,6 +12,19 @@ return [
     ],
     'bootstrap' => ['languagepicker','log'],
     'components' => [
+    	'authClientCollection' => [
+            'class' => \yii\authclient\Collection::className(),
+            'httpClient' => [
+                'transport' => 'yii\httpclient\CurlTransport',
+            ],
+            'clients' => [
+                'doh' => [
+                    'class' => 'common\components\DohClient',
+                    'clientId' => 'e9a91e04cfbb9639f393404551e568aa673da257',
+                    'clientSecret' => '3e43bc4267525ebd08189f3bc9476437ed0e78ef',
+                ],
+            ],
+        ],
         'languagepicker' => [
             'class' => 'lajax\languagepicker\Component',
             'languages' => ['en-US' => 'English', 'th-TH' => 'Thai']

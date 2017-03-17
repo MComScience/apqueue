@@ -3,8 +3,8 @@
 /**
  * @package   yii2-export
  * @author    Kartik Visweswaran <kartikv2@gmail.com>
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2015 - 2016
- * @version   1.2.6
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2015 - 2017
+ * @version   1.2.7
  */
 
 namespace kartik\export;
@@ -764,7 +764,7 @@ class ExportMenu extends GridView
             return;
         }
         $this->selectedColumns = array_keys($this->columnSelector);
-        if (empty($_POST[self::PARAM_EXPORT_COLS])) {
+        if (!isset($_POST[self::PARAM_EXPORT_COLS]) or !strlen($_POST[self::PARAM_EXPORT_COLS])) {
             return;
         }
         $this->selectedColumns = Json::decode($_POST[self::PARAM_EXPORT_COLS]);
@@ -854,7 +854,7 @@ class ExportMenu extends GridView
      */
     protected function getColumnLabel($key, $column)
     {
-        $label = Yii::t('kvexport', 'Column') . ' ' . ($key + 1);
+        $label = Yii::t('kvexport', 'Column') . ' ' . $key++;
         if (!empty($column->label)) {
             $label = $column->label;
         } elseif (!empty($column->header)) {

@@ -135,7 +135,7 @@ class DefaultController extends Controller {
                     ->innerJoin('tb_counterservice', 'tb_counterservice.counterserviceid = tb_caller.counterserviceid')
                     ->where(['tb_quequ.servicegroupid' => '1','tb_quequ.q_statusid' => 2])
                     ->orderBy('tb_caller.caller_ids DESC')
-                    ->limit('3')
+                    ->limit('5')
                     ->all();
             $count = (new \yii\db\Query())
                     ->select([
@@ -150,7 +150,7 @@ class DefaultController extends Controller {
                     ->innerJoin('tb_counterservice', 'tb_counterservice.counterserviceid = tb_caller.counterserviceid')
                     ->where(['tb_quequ.servicegroupid' => '1','tb_quequ.q_statusid' => 2])
                     ->orderBy('tb_caller.caller_ids DESC')
-                    ->limit('3')
+                    ->limit('5')
                     ->count();
             $table = Html::beginTag('table', ['id' => 'table-display', 'width' => '100%', 'border' => 1, 'class' => 'table table-bordered',])
                     . Html::beginTag('thead', [])
@@ -160,7 +160,7 @@ class DefaultController extends Controller {
                     . Html::beginTag('tbody', ['id' => 'tbody-tabledisplay']);
             $i = 1;
             if ($count == 0) {
-                for ($x = 1; $x <= 3; $x++) {
+                for ($x = 1; $x <= 5; $x++) {
                     $table .= Html::beginTag('tr', ['class' => 'default']) .
                             Html::tag('td', '<strong style="color:rgb(98, 203, 49)">' . '-' . '</strong>', ['style' => 'font-size: 30pt;text-align: center;border: 1px solid #62cb31;', 'width' => '300px', 'height' => '100px']) .
                             Html::tag('td', '<strong style="color:rgb(98, 203, 49)">' . '-' . '</strong>', ['style' => 'font-size: 30pt;text-align: center;border: 1px solid #62cb31;', 'width' => '300px', 'height' => '100px']) .
@@ -173,7 +173,7 @@ class DefaultController extends Controller {
                             Html::tag('td', '<strong id="Counter-' . $result['qnum'] . '" style="color:rgb(98, 203, 49)">' . $result['counterservice_name'] . '</strong>', ['style' => 'font-size: 30pt;text-align: center;border: 1px solid #62cb31;', 'width' => '300px', 'height' => '100px']) .
                             Html::endTag('tr');
                     if ($count == 1 && $i == 1) {
-                        for ($x = 1; $x <= 2; $x++) {
+                        for ($x = 1; $x <= 4; $x++) {
                             $table .= Html::beginTag('tr', ['class' => 'default']) .
                                     Html::tag('td', '<strong style="color:rgb(98, 203, 49)">' . '-' . '</strong>', ['style' => 'font-size: 30pt;text-align: center;border: 1px solid #62cb31;', 'width' => '300px', 'height' => '100px']) .
                                     Html::tag('td', '<strong style="color:rgb(98, 203, 49)">' . '-' . '</strong>', ['style' => 'font-size: 30pt;text-align: center;border: 1px solid #62cb31;', 'width' => '300px', 'height' => '100px']) .
@@ -181,6 +181,22 @@ class DefaultController extends Controller {
                         }
                     }
                     if ($count == 2 && $i == 2) {
+                        for ($x = 1; $x <= 3; $x++) {
+                            $table .= Html::beginTag('tr', ['class' => 'default']) .
+                                    Html::tag('td', '<strong style="color:rgb(98, 203, 49)">' . '-' . '</strong>', ['style' => 'font-size: 30pt;text-align: center;border: 1px solid #62cb31;', 'width' => '300px', 'height' => '100px']) .
+                                    Html::tag('td', '<strong style="color:rgb(98, 203, 49)">' . '-' . '</strong>', ['style' => 'font-size: 30pt;text-align: center;border: 1px solid #62cb31;', 'width' => '300px', 'height' => '100px']) .
+                                    Html::endTag('tr');
+                        }
+                    }
+                    if ($count == 3 && $i == 3) {
+                        for ($x = 1; $x <= 2; $x++) {
+                            $table .= Html::beginTag('tr', ['class' => 'default']) .
+                                    Html::tag('td', '<strong style="color:rgb(98, 203, 49)">' . '-' . '</strong>', ['style' => 'font-size: 30pt;text-align: center;border: 1px solid #62cb31;', 'width' => '300px', 'height' => '100px']) .
+                                    Html::tag('td', '<strong style="color:rgb(98, 203, 49)">' . '-' . '</strong>', ['style' => 'font-size: 30pt;text-align: center;border: 1px solid #62cb31;', 'width' => '300px', 'height' => '100px']) .
+                                    Html::endTag('tr');
+                        }
+                    }
+                    if ($count == 4 && $i == 4) {
                         for ($x = 1; $x <= 1; $x++) {
                             $table .= Html::beginTag('tr', ['class' => 'default']) .
                                     Html::tag('td', '<strong style="color:rgb(98, 203, 49)">' . '-' . '</strong>', ['style' => 'font-size: 30pt;text-align: center;border: 1px solid #62cb31;', 'width' => '300px', 'height' => '100px']) .
@@ -215,7 +231,7 @@ class DefaultController extends Controller {
                     ->innerJoin('tb_counterservice', 'tb_counterservice.counterserviceid = tb_caller.counterserviceid')
                     ->where(['tb_quequ.servicegroupid' => '2','tb_quequ.q_statusid' => 2])
                     ->orderBy('tb_caller.caller_ids DESC')
-                    ->limit('3')
+                    ->limit('5')
                     ->all();
             $count = (new \yii\db\Query())
                     ->select([
@@ -229,7 +245,7 @@ class DefaultController extends Controller {
                     ->innerJoin('tb_counterservice', 'tb_counterservice.counterserviceid = tb_caller.counterserviceid')
                     ->where(['tb_quequ.servicegroupid' => '2','tb_quequ.q_statusid' => 2])
                     ->orderBy('tb_caller.caller_ids DESC')
-                    ->limit('3')
+                    ->limit('5')
                     ->count();
             $table = Html::beginTag('table', ['id' => 'table-display', 'width' => '100%', 'border' => 1, 'class' => 'table table-bordered',])
                     . Html::beginTag('thead', [])
@@ -239,7 +255,7 @@ class DefaultController extends Controller {
                     . Html::beginTag('tbody', ['id' => 'tbody-tabledisplay']);
             $i = 1;
             if ($count == 0) {
-                for ($x = 1; $x <= 3; $x++) {
+                for ($x = 1; $x <= 5; $x++) {
                     $table .= Html::beginTag('tr', ['class' => 'default']) .
                             Html::tag('td', '<strong style="color:rgb(98, 203, 49)">' . '-' . '</strong>', ['style' => 'font-size: 30pt;text-align: center;border: 1px solid #62cb31;', 'width' => '300px', 'height' => '100px']) .
                             Html::tag('td', '<strong style="color:rgb(98, 203, 49)">' . '-' . '</strong>', ['style' => 'font-size: 30pt;text-align: center;border: 1px solid #62cb31;', 'width' => '300px', 'height' => '100px']) .
@@ -252,7 +268,7 @@ class DefaultController extends Controller {
                             Html::tag('td', '<strong id="Counter-' . $result['qnum'] . '" style="color:rgb(98, 203, 49)">' . $result['counterservice_name'] . '</strong>', ['style' => 'font-size: 30pt;text-align: center;border: 1px solid #62cb31;', 'width' => '300px', 'height' => '100px']) .
                             Html::endTag('tr');
                     if ($count == 1 && $i == 1) {
-                        for ($x = 1; $x <= 2; $x++) {
+                        for ($x = 1; $x <= 4; $x++) {
                             $table .= Html::beginTag('tr', ['class' => 'default']) .
                                     Html::tag('td', '<strong style="color:rgb(98, 203, 49)">' . '-' . '</strong>', ['style' => 'font-size: 30pt;text-align: center;border: 1px solid #62cb31;', 'width' => '300px', 'height' => '100px']) .
                                     Html::tag('td', '<strong style="color:rgb(98, 203, 49)">' . '-' . '</strong>', ['style' => 'font-size: 30pt;text-align: center;border: 1px solid #62cb31;', 'width' => '300px', 'height' => '100px']) .
@@ -260,6 +276,22 @@ class DefaultController extends Controller {
                         }
                     }
                     if ($count == 2 && $i == 2) {
+                        for ($x = 1; $x <= 3; $x++) {
+                            $table .= Html::beginTag('tr', ['class' => 'default']) .
+                                    Html::tag('td', '<strong style="color:rgb(98, 203, 49)">' . '-' . '</strong>', ['style' => 'font-size: 30pt;text-align: center;border: 1px solid #62cb31;', 'width' => '300px', 'height' => '100px']) .
+                                    Html::tag('td', '<strong style="color:rgb(98, 203, 49)">' . '-' . '</strong>', ['style' => 'font-size: 30pt;text-align: center;border: 1px solid #62cb31;', 'width' => '300px', 'height' => '100px']) .
+                                    Html::endTag('tr');
+                        }
+                    }
+                    if ($count == 3 && $i == 3) {
+                        for ($x = 1; $x <= 2; $x++) {
+                            $table .= Html::beginTag('tr', ['class' => 'default']) .
+                                    Html::tag('td', '<strong style="color:rgb(98, 203, 49)">' . '-' . '</strong>', ['style' => 'font-size: 30pt;text-align: center;border: 1px solid #62cb31;', 'width' => '300px', 'height' => '100px']) .
+                                    Html::tag('td', '<strong style="color:rgb(98, 203, 49)">' . '-' . '</strong>', ['style' => 'font-size: 30pt;text-align: center;border: 1px solid #62cb31;', 'width' => '300px', 'height' => '100px']) .
+                                    Html::endTag('tr');
+                        }
+                    }
+                    if ($count == 4 && $i == 4) {
                         for ($x = 1; $x <= 1; $x++) {
                             $table .= Html::beginTag('tr', ['class' => 'default']) .
                                     Html::tag('td', '<strong style="color:rgb(98, 203, 49)">' . '-' . '</strong>', ['style' => 'font-size: 30pt;text-align: center;border: 1px solid #62cb31;', 'width' => '300px', 'height' => '100px']) .

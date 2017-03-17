@@ -16,7 +16,7 @@ Modal::begin([
     . Html::a('Print', false, ['class' => 'btn btn-success','onclick' => 'Print(this);']),
 ]);
 ?>
-<h2><?= Html::encode('เลือกช่องบริการ') ?></h2>
+<h2><?= Html::encode('เลือกรายการ') ?></h2>
 <audio id="notif_audio">
     <source src="/apqueue/sounds/alert.mp3" type="audio/mpeg">
 </audio>

@@ -1,6 +1,19 @@
 Change Log: `yii2-export`
 =========================
 
+## version 1.2.7
+
+**Date:** 13-Mar-2017
+
+- (enh #163): Add dependency for kartik-v/yii2-dialog.
+- (bug #164): Process export correctly when confirmation alert is not set.
+- (bug #165): Empty export result when only first column is selected.
+- (enh #175): Add French Translations.
+- (enh #177): Update French Translations.
+- (enh #182, #183): Correct column label key increment.
+- (enh #177): Add Vietnamese Translations.
+- Update message config to include all default standard translation files.
+
 ## version 1.2.6
 
 **Date:** 05-Aug-2016

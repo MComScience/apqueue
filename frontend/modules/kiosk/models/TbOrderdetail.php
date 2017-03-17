@@ -49,4 +49,8 @@ class TbOrderdetail extends \yii\db\ActiveRecord
     {
         return new TbOrderdetailQuery(get_called_class());
     }
+    
+     public function getOrder() {
+        return $this->hasOne(TbQueueorderdetail::className(), ['orderdetailid' => 'orderdetailid']);
+    }
 }

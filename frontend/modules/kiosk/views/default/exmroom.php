@@ -110,7 +110,7 @@ $this->title = Yii::$app->name;
                         <strong>3 คิว</strong>
                     </div>
                 </div>
-                <marquee direction="left"><p style="font-size: 18pt;">ข้อความวิ่งจากขวาไปซ้าย</p></marquee>
+                <marquee direction="left"><p style="font-size: 18pt;">ข่าวประชาสัมพันธ์</p></marquee>
             </div>
         </div>
     </div>

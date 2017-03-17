@@ -64,20 +64,6 @@ $this->title = 'คัดกรองผู้ป่วยนอก';
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-sm-4">
-
-                    </div>
-                    <div class="col-sm-2">
-                        <p style="font-size: 18pt;">รอ/จ่าย</p>
-                    </div>
-                    <div class="col-sm-4">
-
-                    </div>
-                    <div class="col-sm-2">
-                        <p style="font-size: 18pt;">รอ/จ่าย</p>
-                    </div>
-                </div>
-                <div class="row">
                     <div class="col-sm-4" style="border: 1px solid white;">
                         <?= Html::a(Icon::show('user-md', []).'<strong>ห้องตรวจ 1</strong><p style="line-height: 0.9;font-size: 14pt;">แพทย์</p>', false, ['class' => 'btn btn-success btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'QService(2,21,"ห้องตรวจ 1");']) ?>
                     </div>
@@ -187,7 +173,7 @@ $this->title = 'คัดกรองผู้ป่วยนอก';
 </div>
 <div class="row">
     <div class="col-md-12">
-        <marquee direction="left"><p style="font-size: 18pt;">สถาบันบำราศนราดูล</p></marquee>
+        <marquee direction="left"><p style="font-size: 18pt;">สถาบันบำราศนราดูร</p></marquee>
     </div>
 </div>
 <br/>

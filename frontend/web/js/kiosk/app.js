@@ -135,7 +135,7 @@ function QueryQNum(Events, serviceid) {
         });
 
         if (orderids.length === 0) {
-            swal("เลือกช่องบริการ!", "", "warning");
+            swal("เลือกรายการ!", "", "warning");
         } else {
             $.ajax({
                 type: 'POST',

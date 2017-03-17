@@ -1,5 +1,5 @@
 $(function () {
-    QueryTableDisplay("NoData","ห้องตรวจโรค");
+    QueryTableDisplay("NoData","ห้องตรวจโรคอายุรกรรม");
     var socket = io.connect('http://' + window.location.hostname + ':3000');
     /* Socket เวลาเรียกคิว ให้แสดงข้อมุลอัตโนมัติ */
     socket.on('request_calling', function (data) {
@@ -15,7 +15,7 @@ $(function () {
     });
 });
 function QueryTableDisplay(Qnum, ServiceName) {
-    if (ServiceName === "ห้องตรวจโรค") {
+    if (ServiceName === "ห้องตรวจโรคอายุรกรรม") {
         $.ajax({
             url: '/apqueue/kiosk/default/table-display2',
             type: 'POST',

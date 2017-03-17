@@ -20,9 +20,15 @@ $('#form-horizontal').on('beforeSubmit', function (e) {
         data: {QNumber: dataObj['QNumber']},
         dataType: "json",
         success: function (result) {
-            $("#order-list").html(result);
-            $('#wrapper').waitMe('hide');
-            $("#modal-orderdetail").modal('show');
+            if (result === 'ไม่มีหมายเลขคิว') {
+                swal(result, "", "error");
+                $('#wrapper').waitMe('hide');
+            } else {
+                $("#order-list").html(result);
+                $('#wrapper').waitMe('hide');
+                $("#modal-orderdetail").modal('show');
+            }
+
         },
         error: function (xhr, status, error) {
             swal({
@@ -31,6 +37,7 @@ $('#form-horizontal').on('beforeSubmit', function (e) {
                 type: "error",
                 confirmButtonText: "OK"
             });
+            $('#wrapper').waitMe('hide');
         },
     });
     return false;
@@ -50,6 +57,7 @@ function LoadingClass() {
 }
 
 function Save() {
+    var socket = io.connect('http://' + window.location.hostname + ':3000');
     var orderids = new Array(); //ID ที่เลือก
     $('input[type=checkbox]').each(function () {
         if ($(this).is(':checked'))
@@ -73,6 +81,9 @@ function Save() {
             $('#orderdetail').trigger("reset");
             $('#form-horizontal').trigger("reset");
             $("#modal-orderdetail").modal('hide');
+            socket.emit('request_service', {
+                    request_service: 1
+            });
         },
         error: function (xhr, status, error) {
             swal({
@@ -130,3 +141,39 @@ function QueryTableOrdercheck() {
     });
 }
 
+function Delete(e) {
+    var q_ids = (e.getAttribute("data-id"));
+    var q_num = (e.getAttribute("qnum"));
+    var socket = io.connect('http://' + window.location.hostname + ':3000');
+    swal({
+        title: "Delete " + q_num + " ?",
+        text: "",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#74D348",
+        confirmButtonText: "Confirm!",
+        closeOnConfirm: false,
+        showLoaderOnConfirm: true,
+    },
+            function (isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        url: '/apqueue/main/default/delete',
+                        type: 'POST',
+                        data: {q_ids: q_ids},
+                        dataType: 'json',
+                        success: function (result) {
+                            QueryTableOrdercheck();
+                            socket.emit('request_delete_hold_recall', {
+                                request_delete_hold_recall: "Delete",
+                                service_name: "ห้องตรวจโรคอายุรกรรม",
+                            });
+                            swal.close();
+                        },
+                        error: function (xhr, status, error) {
+                            swal(error, "", "error");
+                        }
+                    });
+                }
+            });
+}

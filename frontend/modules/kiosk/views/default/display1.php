@@ -7,8 +7,8 @@ $this->title = Yii::$app->name;
 
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12">
-<!--        <a class="btn btn-default" onclick="Play();">Play</a>
-        <a class="btn btn-default" onclick="QueryTableDisplay();">Play</a>-->
+        <a class="btn btn-default" onclick="Play();">Play</a>
+        <a class="btn btn-default" onclick="Play();">Stop</a>
         <div class="hpanel hgreen">
             <div class="panel-heading">
 
@@ -25,7 +25,7 @@ $this->title = Yii::$app->name;
                                 'controls' => true,
                                 'preload' => 'auto',
                                 'width' => '550',
-                                'height' => '400',
+                                'height' => '600',
                                 'muted' => true,
                                 'data' => [
                                     'setup' => [
@@ -84,11 +84,27 @@ $this->title = Yii::$app->name;
                                             <strong style="color:#62cb31">-</strong>
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td width="300px" height="100px" style="font-size: 30pt;text-align: center;background-color: white;border: 1px solid #62cb31;color: #62cb31;">
+                                            <strong style="color:#62cb31">-</strong>
+                                        </td>
+                                        <td width="300px" height="100px" style="font-size: 30pt;text-align: center;background-color: white;border: 1px solid #62cb31;color: #62cb31;">
+                                            <strong style="color:#62cb31">-</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td width="300px" height="100px" style="font-size: 30pt;text-align: center;background-color: white;border: 1px solid #62cb31;color: #62cb31;">
+                                            <strong style="color:#62cb31">-</strong>
+                                        </td>
+                                        <td width="300px" height="100px" style="font-size: 30pt;text-align: center;background-color: white;border: 1px solid #62cb31;color: #62cb31;">
+                                            <strong style="color:#62cb31">-</strong>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    <marquee direction="left"><p style="font-size: 18pt;">สถาบันบำราศนราดูล</p></marquee>
+                    <marquee direction="left"><p style="font-size: 18pt;">สถาบันบำราศนราดูร</p></marquee>
                 </div>
             </div>
         </div>

@@ -1,5 +1,5 @@
 $(function () {
-    if (localStorage.getItem("servicegroup") === 'ห้องตรวจโรค') {
+    if (localStorage.getItem("servicegroup") === 'ห้องตรวจโรคอายุรกรรม') {
         $("#servicegroup").val(2).trigger("change");
     } else if (localStorage.getItem("servicegroup") === 'คัดกรองผู้ป่วยนอก') {
         //localStorage.setItem("servicegroup", "คัดกรองผู้ป่วยนอก");
@@ -14,6 +14,7 @@ $(function () {
     var socket = io.connect('http://' + window.location.hostname + ':3000');
     socket.on('request_service', function (data) {
         QueryTableWaiting($('#servicegroup :selected').val());
+        QueryTableWaitingOrder($('#servicegroup :selected').val());
         $('#notif_audio')[0].play();
     });
     /* Socket เวลาเรียกคิว ให้แสดงข้อมุลอัตโนมัติ */
@@ -29,6 +30,7 @@ $(function () {
         QueryTableCalling($('#servicegroup :selected').val());
         QueryTableWaiting($('#servicegroup :selected').val());
         QueryTableHoldlist($('#servicegroup :selected').val());
+        QueryTableWaitingOrder($('#servicegroup :selected').val());
     });
 });
 /* Apply */
@@ -115,6 +117,30 @@ function QueryTableHoldlist(ServiceGroupID) {
         }
     });
 }
+/* Query Table WaitingOrder to display */
+function QueryTableWaitingOrder(ServiceGroupID) {
+    $.ajax({
+        url: '/apqueue/main/default/tablewaitingorder',
+        type: 'POST',
+        data: {ServiceGroupID: ServiceGroupID},
+        dataType: 'json',
+        success: function (result) {
+            $('#tb-waitingorder-content').html(result);
+            $('#table-waitingorder').DataTable({
+                "dom": '<"pull-left"f><"pull-right"l>t<"pull-left"i>p',
+                "pageLength": 10,
+                "responsive": true,
+                "info": false,
+                "language": {
+                    "lengthMenu": "_MENU_",
+                },
+            });
+        },
+        error: function (xhr, status, error) {
+            swal(error, "", "error");
+        }
+    });
+}
 /* SetLocalStorage On Change ServiceGroup */
 $('#servicegroup').on('change', function (e) {
     var ServiceGroupName = $(this).find("option:selected").text() || null;
@@ -131,6 +157,15 @@ $('#servicegroup').on('change', function (e) {
     QueryTableCalling($(this).find("option:selected").val());
     QueryTableWaiting($(this).find("option:selected").val());
     QueryTableHoldlist($(this).find("option:selected").val());
+    if (ServiceGroupName === "ห้องตรวจโรคอายุรกรรม") {
+        QueryTableWaitingOrder($(this).find("option:selected").val());
+        $('.waitingorder').removeClass('display-none');
+        $('.waitingorder').show();
+    } else {
+        $('.waitingorder').addClass('display-none');
+        $('.waitingorder').hide();
+    }
+
 });
 /* Function Select */
 function SelectCall(serviceid) {
@@ -141,20 +176,34 @@ function SelectCall(serviceid) {
     } else if (QNumber === null) {
         swal("กรุณากรอกเลขคิวหรือบาร์โค้ด!", "", "warning");
     } else {
-        if ($('.hide-service').hasClass('display-none') && ServiceGroupID === '1') {
-            $('.hide-counter').addClass('display-none');
-            $('.hide-counter').hide();
-            $('.hide-service').removeClass('display-none');
-            $('.hide-service').show();
-        } else if ($('.hide-counter').hasClass('display-none') && ServiceGroupID === '2') {
-            $('.hide-service').addClass('display-none');
-            $('.hide-service').hide();
-            $('.hide-counter').removeClass('display-none');
-            $('.hide-counter').show();
-            $('input[id=' + serviceid + ']').prop('checked', true);
-        }
-        $('#modal-counter').modal('show');
-        $('.modal-title').html(ServiceGroupID === '1' ? "เลือกช่องบริการ Qnum " + QNumber : "เลือกห้องตรวจ Qnum " + QNumber);
+        $.ajax({
+            url: '/apqueue/main/default/checkqnum',
+            type: 'POST',
+            data: {QNumber: QNumber},
+            dataType: 'json',
+            success: function (result) {
+                if (result === 'ไม่มีหมายเลขคิว') {
+                    swal(result, "", "error");
+                } else {
+                    if ($('.hide-service').hasClass('display-none') && ServiceGroupID === '1') {
+                        $('.hide-counter').addClass('display-none');
+                        $('.hide-counter').hide();
+                        $('.hide-service').removeClass('display-none');
+                        $('.hide-service').show();
+                    } else if ($('.hide-counter').hasClass('display-none') && ServiceGroupID === '2') {
+                        $('.hide-service').addClass('display-none');
+                        $('.hide-service').hide();
+                        $('.hide-counter').removeClass('display-none');
+                        $('.hide-counter').show();
+                    }
+                    $('#modal-counter').modal('show');
+                    $('.modal-title').html(ServiceGroupID === '1' ? "เลือกช่องบริการ Q " + QNumber : "เลือกห้องตรวจ Q " + QNumber);
+                }
+            },
+            error: function (xhr, status, error) {
+                swal(error, "", "error");
+            }
+        });
     }
 }
 $('#form-horizontal').on('beforeSubmit', function (e) {
@@ -457,7 +506,7 @@ $('input[type=checkbox]').on('change', function () {
     }
 });
 $('#modal-counter').on('shown.bs.modal', function () {
-    $('input[type=checkbox]').checkboxX('reset');
+    //$('input[type=checkbox]').checkboxX('reset');
 })
 $('#modal-counter').on('hidden.bs.modal', function (e) {
     $('input[type=checkbox]').checkboxX('reset');

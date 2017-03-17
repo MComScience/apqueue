@@ -11,33 +11,55 @@ class ComposerStaticInit8b10d74dd285f7b7f11d3fedd3a70f6d
         '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
         '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
+        '50b81ffc01da30f98e463592787d7917' => __DIR__ . '/..' . '/jeremykendall/php-domain-parser/src/pdp-parse-url.php',
         '180092cfc969a12e06f2132a203a3184' => __DIR__ . '/..' . '/codeception/verify/src/Codeception/function.php',
+        'ee05f3eb6cd106ac99bfaf4d0d9829d8' => __DIR__ . '/..' . '/league/uri/src/functions_include.php',
     );
 
     public static $prefixLengthsPsr4 = array (
+        'z' => 
+        array (
+            'zhuravljov\\yii\\queue\\' => 21,
+        ),
         'y' => 
         array (
+            'yii\\twig\\' => 9,
             'yii\\swiftmailer\\' => 16,
+            'yii\\redis\\' => 10,
             'yii\\jui\\' => 8,
             'yii\\httpclient\\' => 15,
             'yii\\gii\\' => 8,
             'yii\\faker\\' => 10,
+            'yii\\elasticsearch\\' => 18,
             'yii\\debug\\' => 10,
             'yii\\composer\\' => 13,
             'yii\\bootstrap\\' => 14,
             'yii\\authclient\\' => 15,
             'yii\\' => 4,
+            'yii2assets\\fullscreenmodal\\' => 27,
         ),
         'w' => 
         array (
             'wbraganca\\videojs\\' => 18,
         ),
+        't' => 
+        array (
+            'trntv\\glide\\' => 12,
+            'trntv\\filekit\\' => 14,
+            'trntv\\bus\\' => 10,
+            'trntv\\aceeditor\\' => 16,
+        ),
         'p' => 
         array (
             'phpDocumentor\\Reflection\\' => 25,
         ),
+        'o' => 
+        array (
+            'omnilight\\scheduling\\' => 21,
+        ),
         'm' => 
         array (
+            'miloschuman\\highcharts\\' => 23,
             'mdm\\admin\\' => 10,
         ),
         'l' => 
@@ -85,6 +107,10 @@ class ComposerStaticInit8b10d74dd285f7b7f11d3fedd3a70f6d
         array (
             'firdows\\menu\\' => 13,
         ),
+        'e' => 
+        array (
+            'e96\\sentry\\' => 11,
+        ),
         'd' => 
         array (
             'dektrium\\user\\' => 14,
@@ -105,6 +131,7 @@ class ComposerStaticInit8b10d74dd285f7b7f11d3fedd3a70f6d
         array (
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Component\\Yaml\\' => 23,
+            'Symfony\\Component\\HttpFoundation\\' => 33,
             'Symfony\\Component\\Finder\\' => 25,
             'Symfony\\Component\\EventDispatcher\\' => 34,
             'Symfony\\Component\\DomCrawler\\' => 29,
@@ -118,6 +145,20 @@ class ComposerStaticInit8b10d74dd285f7b7f11d3fedd3a70f6d
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
         ),
+        'M' => 
+        array (
+            'Monolog\\' => 8,
+        ),
+        'L' => 
+        array (
+            'League\\Uri\\' => 11,
+            'League\\Glide\\' => 13,
+            'League\\Flysystem\\' => 17,
+        ),
+        'I' => 
+        array (
+            'Intervention\\Image\\' => 19,
+        ),
         'G' => 
         array (
             'GuzzleHttp\\Psr7\\' => 16,
@@ -128,20 +169,34 @@ class ComposerStaticInit8b10d74dd285f7b7f11d3fedd3a70f6d
         ),
         'D' => 
         array (
+            'Dotenv\\' => 7,
             'Doctrine\\Instantiator\\' => 22,
             'DeepCopy\\' => 9,
         ),
         'C' => 
         array (
+            'Cron\\' => 5,
             'Codeception\\Extension\\' => 22,
             'Codeception\\' => 12,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
+        'zhuravljov\\yii\\queue\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/zhuravljov/yii2-queue/src',
+        ),
+        'yii\\twig\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-twig',
+        ),
         'yii\\swiftmailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2-swiftmailer',
+        ),
+        'yii\\redis\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-redis',
         ),
         'yii\\jui\\' => 
         array (
@@ -158,6 +213,10 @@ class ComposerStaticInit8b10d74dd285f7b7f11d3fedd3a70f6d
         'yii\\faker\\' => 
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2-faker',
+        ),
+        'yii\\elasticsearch\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yiisoft/yii2-elasticsearch',
         ),
         'yii\\debug\\' => 
         array (
@@ -179,15 +238,43 @@ class ComposerStaticInit8b10d74dd285f7b7f11d3fedd3a70f6d
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2',
         ),
+        'yii2assets\\fullscreenmodal\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yii2assets/yii2-fullscreen-modal',
+        ),
         'wbraganca\\videojs\\' => 
         array (
             0 => __DIR__ . '/..' . '/wbraganca/yii2-videojs-widget/src',
+        ),
+        'trntv\\glide\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/trntv/yii2-glide/src',
+        ),
+        'trntv\\filekit\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/trntv/yii2-file-kit/src',
+        ),
+        'trntv\\bus\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/trntv/yii2-command-bus/src',
+        ),
+        'trntv\\aceeditor\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/trntv/yii2-aceeditor/src',
         ),
         'phpDocumentor\\Reflection\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
+        ),
+        'omnilight\\scheduling\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/omnilight/yii2-scheduling',
+        ),
+        'miloschuman\\highcharts\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/miloschuman/yii2-highcharts-widget/src',
         ),
         'mdm\\admin\\' => 
         array (
@@ -337,6 +424,10 @@ class ComposerStaticInit8b10d74dd285f7b7f11d3fedd3a70f6d
         array (
             0 => __DIR__ . '/..' . '/firdows/yii2-menu',
         ),
+        'e96\\sentry\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/e96/yii2-sentry/src',
+        ),
         'dektrium\\user\\' => 
         array (
             0 => __DIR__ . '/..' . '/dektrium/yii2-user',
@@ -360,6 +451,10 @@ class ComposerStaticInit8b10d74dd285f7b7f11d3fedd3a70f6d
         'Symfony\\Component\\Yaml\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/yaml',
+        ),
+        'Symfony\\Component\\HttpFoundation\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/http-foundation',
         ),
         'Symfony\\Component\\Finder\\' => 
         array (
@@ -397,6 +492,26 @@ class ComposerStaticInit8b10d74dd285f7b7f11d3fedd3a70f6d
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
+        'Monolog\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
+        ),
+        'League\\Uri\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/league/uri/src',
+        ),
+        'League\\Glide\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/league/glide/src',
+        ),
+        'League\\Flysystem\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/league/flysystem/src',
+        ),
+        'Intervention\\Image\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/intervention/image/src/Intervention/Image',
+        ),
         'GuzzleHttp\\Psr7\\' => 
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
@@ -405,6 +520,10 @@ class ComposerStaticInit8b10d74dd285f7b7f11d3fedd3a70f6d
         array (
             0 => __DIR__ . '/..' . '/fzaninotto/faker/src/Faker',
         ),
+        'Dotenv\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/vlucas/phpdotenv/src',
+        ),
         'Doctrine\\Instantiator\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator',
@@ -412,6 +531,10 @@ class ComposerStaticInit8b10d74dd285f7b7f11d3fedd3a70f6d
         'DeepCopy\\' => 
         array (
             0 => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy',
+        ),
+        'Cron\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mtdowling/cron-expression/src/Cron',
         ),
         'Codeception\\Extension\\' => 
         array (
@@ -424,11 +547,43 @@ class ComposerStaticInit8b10d74dd285f7b7f11d3fedd3a70f6d
     );
 
     public static $prefixesPsr0 = array (
+        'y' => 
+        array (
+            'yii\\imperavi\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/asofter/yii2-imperavi-redactor',
+            ),
+        ),
+        'T' => 
+        array (
+            'Twig_' => 
+            array (
+                0 => __DIR__ . '/..' . '/twig/twig/lib',
+            ),
+        ),
+        'S' => 
+        array (
+            'Symfony\\Component\\Process\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/symfony/process',
+            ),
+        ),
+        'R' => 
+        array (
+            'Raven_' => 
+            array (
+                0 => __DIR__ . '/..' . '/sentry/sentry/lib',
+            ),
+        ),
         'P' => 
         array (
             'Prophecy\\' => 
             array (
                 0 => __DIR__ . '/..' . '/phpspec/prophecy/src',
+            ),
+            'Pdp\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/jeremykendall/php-domain-parser/src',
             ),
             'PHPExcel' => 
             array (
@@ -785,6 +940,7 @@ class ComposerStaticInit8b10d74dd285f7b7f11d3fedd3a70f6d
         'PHP_Token_NEW' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_NS_C' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_NS_SEPARATOR' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
+        'PHP_Token_NULLSAFE_OBJECT_OPERATOR' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_NUM_STRING' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_OBJECT_CAST' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
         'PHP_Token_OBJECT_OPERATOR' => __DIR__ . '/..' . '/phpunit/php-token-stream/src/Token.php',
