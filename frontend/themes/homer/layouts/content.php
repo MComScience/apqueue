@@ -194,13 +194,11 @@ use yii\helpers\Html;
                 Many desktop publishing packages and web page editors.
             </small>
         </div>
-
     </div>
-
     <footer class="footer">
         <span class="pull-right">
-            Designed by M_ComScience
+            E-mail : <a href="mailto:andamanpattana@gmail.com">andamanpattana@gmail.com</a>
         </span>
-        Copyright © <?php echo date('Y', time()); ?> ComScienceRMU. All rights reserved.
+        Copyright © <?php echo date('Y', time()); ?> <b>Andaman Pattana Lp </b> All rights reserved.
     </footer>
 </div>
