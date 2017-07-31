@@ -14,6 +14,7 @@ return [
     'name' => 'APQUEUE APP',
     'language' => 'th-TH', // ตั้งค่าภาษาไทย
     'controllerNamespace' => 'frontend\controllers',
+    'homeUrl' => '/',
     'modules' => [
         # Yii2-User Extension
         'user' => [
@@ -100,7 +101,8 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
-            'baseUrl' => $baseUrl,
+            //'baseUrl' => $baseUrl,
+            'baseUrl' => '',
         ],
         # Yii2-User Extension
         'user' => [

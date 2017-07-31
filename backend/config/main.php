@@ -12,6 +12,7 @@ return [
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
+    'homeUrl' => '/apqueue-backend',
     'modules' => [
         'user' => [
             //'as backend' => 'dektrium\user\filters\BackendFilter',
@@ -21,7 +22,8 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
-            'baseUrl' => $baseUrl,
+            //'baseUrl' => $baseUrl,
+            'baseUrl' => '/apqueue-backend',
         ],
         'user' => [
             'identityCookie' => [
