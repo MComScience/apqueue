@@ -3,6 +3,7 @@
 namespace frontend\modules\main\classes;
 
 use frontend\modules\main\models\TbCounterservice;
+use frontend\modules\main\models\TbCaller;
 
 class MainQuery {
 
@@ -34,14 +35,15 @@ class MainQuery {
     public static function getTablewaiting($ServiceGroupID) {
         if ($ServiceGroupID == 1) {
             $rows = (new \yii\db\Query())
-                    ->select(['tb_quequ.q_num', 'tb_quequ.serviceid', 'tb_service.service_name', 'tb_quequ.serviceid', 'tb_quequ.q_ids', 'tb_quequ.servicegroupid', 'tb_counterservice.counterserviceid'])
+                    ->select(['tb_quequ.q_num', 'tb_quequ.serviceid', 'tb_service.service_name', 'tb_quequ.serviceid', 'tb_quequ.q_ids', 'tb_quequ.servicegroupid'])
                     ->from('tb_quequ')
-                    ->innerJoin('tb_service', 'tb_service.serviceid = tb_quequ.serviceid')
-                    ->innerJoin('tb_qstatus', 'tb_qstatus.q_statusid = tb_quequ.q_statusid')
-                    ->leftJoin('tb_caller', 'tb_caller.q_ids = tb_quequ.q_ids')
-                    ->innerJoin('tb_counterservice', 'tb_counterservice.serviceid = tb_service.serviceid')
+                    ->leftJoin('tb_caller', 'tb_quequ.q_ids = tb_caller.q_ids')
+                    ->innerJoin('tb_service', 'tb_quequ.serviceid = tb_service.serviceid')
+                    ->innerJoin('tb_qstatus', 'tb_quequ.q_statusid = tb_qstatus.q_statusid')
+                    ->innerJoin('tb_servicegroup', 'tb_quequ.servicegroupid = tb_servicegroup.servicegroupid')
+                    //->innerJoin('tb_counterservice', 'tb_counterservice.serviceid = tb_service.serviceid')
                     ->where(['tb_quequ.servicegroupid' => $ServiceGroupID, 'tb_quequ.q_statusid' => 12])
-                    ->andWhere('isnull (tb_caller.qnum)')
+                    ->andWhere('tb_caller.q_ids IS NULL')
                     ->groupBy('tb_quequ.q_ids')
                     ->all();
         } else {
@@ -181,6 +183,64 @@ class MainQuery {
                 ->groupBy('tb_quequ.q_ids')
                 ->all();
         return $rows;
+    }
+
+    public static function getSound(){
+        $rows =  (new \yii\db\Query())
+            ->select('tb_caller.*,`tb_counterservice`.`counterservice_callnumber` AS `counternumber`')
+            ->from('tb_caller')
+            ->where(['tb_caller.call_status' => 'calling','tb_quequ.servicegroupid' => 1])
+            ->innerJoin('tb_counterservice', '`tb_caller`.`counterserviceid` = `tb_counterservice`.`counterserviceid`')
+            ->innerJoin('tb_quequ', '`tb_caller`.`q_ids` = `tb_quequ`.`q_ids`')
+            ->orderBy('tb_caller.call_timestp ASC')
+            ->one();
+        if($rows === false){
+            $model = (new \yii\db\Query())
+                    ->select('tb_caller.*,`tb_counterservice`.`counterservice_callnumber` AS `counternumber`')
+                    ->from('tb_caller')
+                    ->where(['tb_caller.call_status' => 'calling','tb_quequ.servicegroupid' => 2])
+                    ->innerJoin('tb_counterservice', '`tb_caller`.`counterserviceid` = `tb_counterservice`.`counterserviceid`')
+                    ->innerJoin('tb_quequ', '`tb_caller`.`q_ids` = `tb_quequ`.`q_ids`')
+                    ->orderBy('tb_caller.call_timestp ASC')
+                    ->groupBy('tb_caller.caller_ids')
+                    ->one();
+            if($model !== false){
+                $rows = (new \yii\db\Query())
+                            ->select('tb_caller.*,`tb_counterservice`.`counterservice_callnumber` AS `counternumber`')
+                            ->from('tb_caller')
+                            ->where(['tb_caller.call_status' => 'calling','tb_counterservice.counterserviceid' => $model['counterserviceid'],'tb_quequ.servicegroupid' => 2])
+                            ->innerJoin('tb_counterservice', '`tb_caller`.`counterserviceid` = `tb_counterservice`.`counterserviceid`')
+                            ->innerJoin('tb_quequ', '`tb_caller`.`q_ids` = `tb_quequ`.`q_ids`')
+                            ->orderBy('tb_caller.call_timestp ASC')
+                            ->all();
+                if(count($rows) > 1){
+                    return [
+                        'rows' => $rows,
+                        'counternumber' => $model['counternumber'],
+                        'group' => 2,
+                        'status' => 'true',
+                    ];
+                }else{
+                    return [
+                        'rows' => $model,
+                        'counternumber' => $model['counternumber'],
+                        'group' => 2,
+                        'status' => 'true',
+                    ];
+                }
+            }else{
+                return [
+                    'status' => 'No data',
+                    'group' => 2
+                ];
+            }
+        }else{
+            return [
+                'rows' => $rows,
+                'counternumber' => $rows['counternumber'],
+                'group' => 1
+            ];
+        }
     }
 
 }

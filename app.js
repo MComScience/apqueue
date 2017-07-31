@@ -56,7 +56,8 @@ io.on('connection', function (socket) {
     socket.on('request_delete_hold_recall', function (data) {
         io.sockets.emit('request_delete_hold_recall', {
             qnum: data.request_delete_hold_recall,
-            service_name: data.service_name
+            service_name: data.service_name,
+            state:data.state
         });
     });
 });

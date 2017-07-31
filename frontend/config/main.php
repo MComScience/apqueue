@@ -93,6 +93,9 @@ return [
          'menuconfig' => [
             'class' => 'app\modules\menu\Module',
         ],
+        'settings' => [
+            'class' => 'frontend\modules\settings\Module',
+        ],
     ],
     'components' => [
         'request' => [
@@ -138,17 +141,8 @@ return [
             'showScriptName' => false,
             'enablePrettyUrl' => true,
             'rules' => [
-                'display' => 'kiosk/default/display1',
+                'display1' => 'kiosk/default/display1',
                 'display2' => 'kiosk/default/display2',
-                'ordercheck' => 'main/default/order-check',
-                '<controller:\w+>/<id:\d+>' => '<controller>/view',
-                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
-                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
-                //'<controller:\w+>/<action:\w+>/<id:\w+>' => '<controller>/<action>',
-                # Modules
-                '<module:\w+>' => '<module>/default/index',
-                '<module:\w+>/<controller:\w+>' => '<module>/<controller>/index',
-            //'<module:\w+>/<controller:\w+>/<action>' => '<module>/<controller>/<action>',
             ]
         ],
         'view' => [
@@ -170,7 +164,9 @@ return [
             'user/registration/confirm',
             'user/recover/*',
             'kiosk/default/display1',
-            'kiosk/default/table-display'
+            'kiosk/default/display2',
+            'kiosk/default/table-display',
+            'site/*'
         ]
     ],
     'params' => $params,

@@ -5,7 +5,7 @@ use yii\helpers\Html;
 use frontend\modules\kiosk\models\TbQueueorderdetail;
 ?>
 <audio id="notif_audio">
-    <source src="/apqueue/sounds/alert.mp3" type="audio/mpeg">
+    <source src="<?= Yii::getAlias('@web').'/sounds/alert.mp3' ?>" type="audio/mpeg">
 </audio>
 <?= Html::beginForm(['orderdetail'], 'post', ['id' => 'orderdetail']) ?>
 <?php foreach ($orderdetail as $v) : ?>

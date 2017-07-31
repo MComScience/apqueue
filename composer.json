@@ -37,7 +37,7 @@
         "kartik-v/yii2-checkbox-x": "*",
         "perminder-klair/yii2-videojs": "dev-master",
         "miloschuman/yii2-highcharts-widget": "5.0",
-        "vlucas/phpdotenv": ">=2.2",
+        "vlucas/phpdotenv": "^2.4",
         "trntv/yii2-aceeditor": "^2.0.0",
         "trntv/yii2-command-bus": "^1.0",
         "trntv/yii2-file-kit": "@stable",
@@ -46,7 +46,10 @@
         "zhuravljov/yii2-queue": "*",
         "asofter/yii2-imperavi-redactor": "dev-master@dev",
         "e96/yii2-sentry": "^0.2.0",
-        "yii2assets/yii2-fullscreen-modal": "*"
+        "yii2assets/yii2-fullscreen-modal": "*",
+        "johnitvn/yii2-ajaxcrud": "*",
+        "kartik-v/yii2-builder": "@dev",
+        "softark/yii2-dual-listbox": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

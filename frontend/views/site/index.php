@@ -7,7 +7,7 @@ $this->title = Yii::$app->name;
     <div class="jumbotron">
         <h1><?= Yii::$app->name ?>!</h1>
     </div>
-    <div class="row">
+<!--    <div class="row">
         <div class="col-lg-4">
             <div class="hpanel">
                 <div class="panel-heading hbuilt">Print</div>
@@ -27,11 +27,11 @@ $this->title = Yii::$app->name;
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
 </div>
 <script type="text/javascript">
     function PrintReport(Copies) {
-        var printWindow = window.open('report/apqueue/index', /*'_blank'*/"", "top=100,left=auto,width=500,height=500");
+        var printWindow = window.open('report/apqueue/index', /*'_blank'*/"", "top=100,left=auto,width=" + screen.width + ",height=550");
         var Count = 0;
         printWindow.print();
         /*$.post(

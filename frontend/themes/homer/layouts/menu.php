@@ -17,7 +17,7 @@ $url = '/' . $ctrl->module->id . '/' . $ctrl->id . '/' . $ctrl->action->id;
     <div id="navigation">
         <div class="profile-picture">
             <a href="<?= Url::to(['/user/settings/profile']); ?>">
-                <img src="/apqueue/images/logo.png" class="img-circle m-b" alt="logo">
+                <img src="<?= Yii::getAlias('@web') ?>/images/logo.png" class="img-circle m-b" alt="logo">
             </a>
 
             <div class="stats-label text-color">
