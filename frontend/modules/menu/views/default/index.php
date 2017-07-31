@@ -16,6 +16,7 @@
 <?php
 
 use app\modules\menu\assets\MenuAsset;
+use yii\helpers\Url;
 
 MenuAsset::register($this);
 $this->title = 'Menu Dragtable';
@@ -109,6 +110,7 @@ function backendlist($backendlist) {
 ?>
 
 <?php 
+$baseUrl = Url::base(true);
 $script = <<< JS
 $(document).ready(function () {
     toastr.options = {
@@ -124,7 +126,7 @@ $(document).ready(function () {
 
         $.ajax({
             method: "POST",
-            url: "/apqueue/menuconfig/default/saveondrag",
+            url: "$baseUrl/menuconfig/default/saveondrag",
             data: {
                 list: list.nestable('serialize')
             },

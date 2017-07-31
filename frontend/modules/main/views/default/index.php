@@ -306,6 +306,7 @@ $(function () {
         App.QueryTableCalling($('#servicegroup :selected').val());
         App.QueryTableWaiting($('#servicegroup :selected').val());
         App.QueryTableHoldlist($('#servicegroup :selected').val());
+        App.QueryTableWaitingOrder($('#servicegroup :selected').val());
         //console.log(data.qnum);
         $('#notif_audio')[0].play();
     });

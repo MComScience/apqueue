@@ -82,7 +82,7 @@ use yii\bootstrap\Nav;
                                 </span>
                             </h5>
                         </section>',
-                        'url' => ['#'],
+                        'url' => '#',
                         'visible' => !Yii::$app->user->isGuest
                     ],
                     /*
