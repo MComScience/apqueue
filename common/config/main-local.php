@@ -13,7 +13,7 @@ return [
             'class' => 'yii\db\Connection',
             'dsn' => 'mysql:host=db;port=3306;dbname=apqueue_ddc',
             'username' => 'Andaman',
-            'password' => 'Andaman_4221466',
+            'password' => 'b8888888',
             'charset' => 'utf8',
             'enableQueryCache' => true
         ],
