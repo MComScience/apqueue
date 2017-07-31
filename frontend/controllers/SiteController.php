@@ -302,4 +302,32 @@ class SiteController extends Controller {
         return $pdf->render();
     }
 
+    public function actionClearCache() {
+        $frontendAssetPath = Yii::getAlias('@frontend') . '/web/assets/';
+        $backendAssetPath = Yii::getAlias('@backend') . '/web/assets/';
+
+        $this->recursiveDelete($frontendAssetPath);
+        $this->recursiveDelete($backendAssetPath);
+
+        if (Yii::$app->cache->flush()) {
+            Yii::$app->session->setFlash('crudMessage', 'Cache has been flushed.');
+        } else {
+            Yii::$app->session->setFlash('crudMessage', 'Failed to flush cache.');
+        }
+
+        return Yii::$app->getResponse()->redirect(Yii::$app->getRequest()->referrer);
+    }
+
+    public static function recursiveDelete($path) {
+        if (is_file($path)) {
+            return @unlink($path);
+        } elseif (is_dir($path)) {
+            $scan = glob(rtrim($path, '/') . '/*');
+            foreach ($scan as $index => $newPath) {
+                self::recursiveDelete($newPath);
+            }
+            return @rmdir($path);
+        }
+    }
+
 }
