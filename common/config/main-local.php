@@ -1,11 +1,19 @@
 <?php
 return [
     'components' => [
-        'db' => [
+        /*'db' => [
             'class' => 'yii\db\Connection',
             'dsn' => 'mysql:host='.getenv('HOST').';port='.getenv('MYSQL_PORT').';dbname='.getenv('MYSQL_DATABASE'),
             'username' => getenv('MYSQL_USER'),
             'password' => getenv('MYSQL_PASSWORD'),
+            'charset' => 'utf8',
+            'enableQueryCache' => true
+        ],*/
+        'db' => [
+            'class' => 'yii\db\Connection',
+            'dsn' => 'mysql:host=db;port=3306;dbname=apqueue_ddc',
+            'username' => 'Andaman',
+            'password' => 'Andaman_4221466',
             'charset' => 'utf8',
             'enableQueryCache' => true
         ],
