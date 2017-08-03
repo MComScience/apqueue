@@ -1,15 +1,15 @@
 <?php
 return [
     'components' => [
-        'db' => [
+        /*'db' => [
             'class' => 'yii\db\Connection',
             'dsn' => 'mysql:host='.getenv('HOST').';port='.getenv('MYSQL_PORT').';dbname='.getenv('MYSQL_DATABASE'),
             'username' => getenv('MYSQL_USER'),
             'password' => getenv('MYSQL_PASSWORD'),
             'charset' => 'utf8',
             'enableQueryCache' => true
-        ],
-        /*
+        ],*/
+        
         'db' => [
             'class' => 'yii\db\Connection',
             'dsn' => 'mysql:host=db;port=3306;dbname=apqueue_ddc',
@@ -17,7 +17,7 @@ return [
             'password' => 'b8888888',
             'charset' => 'utf8',
             'enableQueryCache' => true
-        ],*/
+        ],
         'redis' => [
             'class' => 'yii\redis\Connection',
             'hostname' => 'redis',
