@@ -72,14 +72,15 @@ $this->title = 'Display';
 <?php 
 $js = <<< JS
 $(function () {
-        setInterval(function(){ 
-            QueryTableDisplay("NoData", 'ห้องตรวจโรคอายุรกรรม', 'not-sounds');
-        }, 3000);
+        // setInterval(function(){ 
+        //     QueryTableDisplay("NoData", 'ห้องตรวจโรคอายุรกรรม', 'not-sounds');
+        // }, 3000);
 //    if((localStorage.getItem("display") === null) || (localStorage.getItem("display") === 'การเงินผู้ป่วยนอก')){
 //        localStorage.setItem("display", 'ห้องจ่ายยาผู้ป่วยนอก');
 //    }
     //getHoldQ();
-    QueryTableDisplay("NoData", 'ห้องตรวจโรคอายุรกรรม', 'not-sounds');
+    QueryTableDisplay('ห้องตรวจโรคอายุรกรรม');
+    getHoldQ();
 
     var socket = io('http://' + window.location.hostname + ':3000');
 
@@ -91,6 +92,7 @@ $(function () {
     socket.on('request_delete_hold_recall', function (data) {
 
         if (data.state === "Hold" || data.state === "Delete" || data.state === "End") {
+            QueryTableDisplay('ห้องตรวจโรคอายุรกรรม');
             //QueryEmptyTr(data.q_num);
             //QueryTableDisplay(data.state, 'ห้องจ่ายยาผู้ป่วยนอก', 'not-sounds');
             getHoldQ();
@@ -108,6 +110,12 @@ $(function () {
      $('div.set-display').css('display', 'none');
      }
      });*/
+    socket.on('sounds_request', function (data) {
+        var result = data.source;
+        if(result.servicegroup === "ห้องตรวจโรคอายุรกรรม"){
+           QueryTableDisplay('ห้องตรวจโรคอายุรกรรม',result); 
+        }
+    });
 
     socket.on('apply_display', function (data) {
         if(data.display_name === 'ห้องตรวจโรคอายุรกรรม'){
@@ -126,36 +134,22 @@ $(function () {
 
 });
 
-function QueryTableDisplay(Qnum, ServiceName, sounds) {
-    //if (ServiceName === localStorage.getItem("display")) {
-    if (sounds !== "not-sounds") { //เรียกเสียงคิว
-        //PlaySound(sounds,0);
-    }
+function QueryTableDisplay(ServiceName, data = null) {
     $.ajax({
         url: '$baseUrl/kiosk/default/table-display',
         type: 'POST',
-        data: {ServiceName: "ห้องตรวจโรคอายุรกรรม"},
+        data: {ServiceName: ServiceName,data:data},
         dataType: 'json',
         success: function (result) {
             $('#content-display').html(result.table);
-            if ((Qnum !== "Hold") || (Qnum !== "Delete") || (Qnum !== "End")) {
-                ModernBlink(Qnum);
+            if (data !== null) {
+                ModernBlink((data.qnum).split(',').join('-'));
             }
-            if(result.qdata !== null){
-                //ModernBlink(result.qdata.calling_flag);
-            }
-            /*
-             var arrayLength = result.length;
-             for (var i = 0; i < arrayLength; i++) {
-             $("#tbody-tabledisplay").prepend(result[i]);
-             console.log(i);
-             }*/
         },
         error: function (xhr, status, error) {
             swal(error, "", "error");
         }
     });
-    //}
 
 }
 function QueryTrDisplay(Qnum) {

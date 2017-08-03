@@ -60,4 +60,10 @@ io.on('connection', function (socket) {
             state:data.state
         });
     });
+
+    socket.on('sounds_request', function (data) {
+        io.sockets.emit('sounds_request', {
+            source: data.source,
+        });
+    });
 });

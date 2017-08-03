@@ -417,9 +417,9 @@ class DefaultController extends Controller {
 
     public function actionGetSound(){
         $request = Yii::$app->request;
-        //if($request->isPost){
-            $query = MainQuery::getSound();
-            if($query['group'] == 1){
+        if($request->isPost){
+            $query = MainQuery::getSound($request->post('servicegroup'));
+            if($query['group'] == 1){//เรียกคิวเดียว
                 $qnum_str = str_split($query['rows']['qnum']);
                 $basePath = Yii::getAlias('@web').'/sounds/Prompt1/';
 
@@ -439,22 +439,26 @@ class DefaultController extends Controller {
                     $data = [
                         'caller_ids' => $query['rows']['caller_ids'],
                         'source' => $source,
-                        'qnum' => $query['rows']['qnum']
+                        'qnum' => $query['rows']['qnum'],
+                        'servicegroup' => $query['servicegroup'],
+                        'counternumber' => $query['counternumber'],
                     ];
                     return Json::encode($data);
                 }else{
                     return Json::encode("No sound!");
                 }
-            }else{
+            }else{//เรียกหลายคิว
                 $basePath = Yii::getAlias('@web').'/sounds/Prompt1/';
                 $source = [];
                 $caller_ids = [];
                 if($query['status'] != 'No data'){
+                    $qnums = [];
                     $callerids = ArrayHelper::getValue($query['rows'],'caller_ids');
                     if($callerids === null){
                         foreach($query['rows'] as $val){
                             $qnum_str = str_split($val['qnum']);
                             $caller_ids[] = $val['caller_ids'];
+                            $qnums = ArrayHelper::merge($qnums,[$val['qnum']]);
                             foreach($qnum_str as $str){
                                 $source = ArrayHelper::merge($source, [$basePath.'Prompt1_'.$str.'.wav']);
                             }
@@ -468,6 +472,7 @@ class DefaultController extends Controller {
                     }else{
                         $qnum_str = str_split($query['rows']['qnum']);
                         $caller_ids[] = $query['rows']['caller_ids'];
+                        $qnums = ArrayHelper::merge($qnums,[$query['rows']['qnum']]);
                         foreach($qnum_str as $str){
                             $source = ArrayHelper::merge($source, [$basePath.'Prompt1_'.$str.'.wav']);
                         }
@@ -482,18 +487,18 @@ class DefaultController extends Controller {
                     $data = [
                         'caller_ids' => $caller_ids,
                         'source' => $source,
-                        'qnum' => ''
+                        'qnum' => implode(',',$qnums),
+                        'servicegroup' => $query['servicegroup'],
+                        'counternumber' => $query['counternumber'],
                     ];
                     return Json::encode($data);
                 }else{
                     return Json::encode("No sound!");
                 }
-            }
-            
-            
-        // }else {
-        //     throw new NotFoundHttpException('The requested page does not exist.');
-        // }
+            } 
+        }else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
     }
 
     public function actionUpdateStatusCall(){
@@ -505,7 +510,7 @@ class DefaultController extends Controller {
                     foreach($request->post('caller_ids') as $ids){
                         $model = TbCaller::findOne($ids);
                         $model->call_status  = 'called';
-                        $model->call_timestp = date('Y-m-d H:i:s');
+                        //$model->call_timestp = date('Y-m-d H:i:s');
                         $model->save();
                     }
                     $transaction->commit();
@@ -517,7 +522,7 @@ class DefaultController extends Controller {
             }else{
                 $model = TbCaller::findOne($request->post('caller_ids'));
                 $model->call_status  = 'called';
-                $model->call_timestp = date('Y-m-d H:i:s');
+                //$model->call_timestp = date('Y-m-d H:i:s');
                 if($model->save()){
                     return Json::encode('Update Success!');
                 }else{
@@ -555,6 +560,38 @@ class DefaultController extends Controller {
                 return 'Success!';
             }
         }
+    }
+
+    public function actionTestQuery(){
+        $rows = (new \yii\db\Query())
+            ->select(['tb_caller.caller_ids', 'tb_caller.qnum', 'tb_caller.call_timestp','tb_counterservice.counterservice_callnumber'])
+            ->from('tb_caller')
+            ->innerJoin('tb_quequ', 'tb_caller.q_ids = tb_quequ.q_ids')
+            ->innerJoin('tb_counterservice', 'tb_counterservice.counterserviceid = tb_caller.counterserviceid')
+            ->where(['<>' ,'tb_caller.call_status','Finished'])
+            ->andWhere(['tb_quequ.servicegroupid' => 2,'tb_counterservice.counterservice_callnumber' => 10])
+            ->orderBy('tb_caller.call_timestp ASC')
+            ->all();
+        $callerids = ArrayHelper::getColumn($rows, 'caller_ids');
+        $array2 = (new \yii\db\Query())
+                ->select([
+                    'GROUP_CONCAT(tb_caller.qnum) AS qnum',
+                    'tb_counterservice.counterservice_callnumber'
+                ])
+                ->from('tb_caller')
+                ->innerJoin('tb_quequ', 'tb_caller.q_ids = tb_quequ.q_ids')
+                ->innerJoin('tb_counterservice', 'tb_counterservice.counterserviceid = tb_caller.counterserviceid')
+                ->where(['tb_quequ.servicegroupid' =>2,'tb_quequ.q_statusid' => 2])
+                ->andWhere("tb_caller.call_status <> 'Finished'")
+                ->andWhere(['NOT IN', 'tb_caller.caller_ids',  $callerids])
+                ->orderBy('tb_caller.call_timestp DESC')
+                ->groupBy('tb_counterservice.counterservice_callnumber')
+                ->limit(4)
+                ->all();
+        $qnums = ArrayHelper::getColumn($rows, 'qnum');
+        $array1 = ArrayHelper::merge(['qnum' => implode(',',$qnums)], ['counterservice_callnumber' => 10]);
+        $rowdata = ArrayHelper::merge([$array1], $array2);
+        echo Json::encode($rowdata);
     }
 
 }

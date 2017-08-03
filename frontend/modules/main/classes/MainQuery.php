@@ -185,20 +185,28 @@ class MainQuery {
         return $rows;
     }
 
-    public static function getSound(){
-        $rows =  (new \yii\db\Query())
-            ->select('tb_caller.*,`tb_counterservice`.`counterservice_callnumber` AS `counternumber`')
-            ->from('tb_caller')
-            ->where(['tb_caller.call_status' => 'calling','tb_quequ.servicegroupid' => 1])
-            ->innerJoin('tb_counterservice', '`tb_caller`.`counterserviceid` = `tb_counterservice`.`counterserviceid`')
-            ->innerJoin('tb_quequ', '`tb_caller`.`q_ids` = `tb_quequ`.`q_ids`')
-            ->orderBy('tb_caller.call_timestp ASC')
-            ->one();
-        if($rows === false){
+    public static function getSound($servicegroup){
+        $servicename = $servicegroup == 1 ? 'คัดกรองผู้ป่วยนอก' : 'ห้องตรวจโรคอายุรกรรม';
+        if($servicegroup == 1){
+            $rows =  (new \yii\db\Query())
+                ->select('tb_caller.*,`tb_counterservice`.`counterservice_callnumber` AS `counternumber`')
+                ->from('tb_caller')
+                ->where(['tb_caller.call_status' => 'calling','tb_quequ.servicegroupid' => $servicegroup])
+                ->innerJoin('tb_counterservice', '`tb_caller`.`counterserviceid` = `tb_counterservice`.`counterserviceid`')
+                ->innerJoin('tb_quequ', '`tb_caller`.`q_ids` = `tb_quequ`.`q_ids`')
+                ->orderBy('tb_caller.call_timestp ASC')
+                ->one();
+            return [
+                'rows' => $rows,
+                'counternumber' => $rows['counternumber'],
+                'group' => 1,
+                'servicegroup' => $servicename
+            ];     
+        }else{
             $model = (new \yii\db\Query())
                     ->select('tb_caller.*,`tb_counterservice`.`counterservice_callnumber` AS `counternumber`')
                     ->from('tb_caller')
-                    ->where(['tb_caller.call_status' => 'calling','tb_quequ.servicegroupid' => 2])
+                    ->where(['tb_caller.call_status' => 'calling','tb_quequ.servicegroupid' => $servicegroup])
                     ->innerJoin('tb_counterservice', '`tb_caller`.`counterserviceid` = `tb_counterservice`.`counterserviceid`')
                     ->innerJoin('tb_quequ', '`tb_caller`.`q_ids` = `tb_quequ`.`q_ids`')
                     ->orderBy('tb_caller.call_timestp ASC')
@@ -208,7 +216,7 @@ class MainQuery {
                 $rows = (new \yii\db\Query())
                             ->select('tb_caller.*,`tb_counterservice`.`counterservice_callnumber` AS `counternumber`')
                             ->from('tb_caller')
-                            ->where(['tb_caller.call_status' => 'calling','tb_counterservice.counterserviceid' => $model['counterserviceid'],'tb_quequ.servicegroupid' => 2])
+                            ->where(['tb_caller.call_status' => 'calling','tb_counterservice.counterserviceid' => $model['counterserviceid'],'tb_quequ.servicegroupid' => $servicegroup])
                             ->innerJoin('tb_counterservice', '`tb_caller`.`counterserviceid` = `tb_counterservice`.`counterserviceid`')
                             ->innerJoin('tb_quequ', '`tb_caller`.`q_ids` = `tb_quequ`.`q_ids`')
                             ->orderBy('tb_caller.call_timestp ASC')
@@ -219,6 +227,7 @@ class MainQuery {
                         'counternumber' => $model['counternumber'],
                         'group' => 2,
                         'status' => 'true',
+                        'servicegroup' => $servicename
                     ];
                 }else{
                     return [
@@ -226,20 +235,17 @@ class MainQuery {
                         'counternumber' => $model['counternumber'],
                         'group' => 2,
                         'status' => 'true',
+                        'servicegroup' => $servicename
                     ];
                 }
             }else{
                 return [
                     'status' => 'No data',
-                    'group' => 2
+                    'group' => 2,
+                    'servicegroup' => '',
+                    'counternumber' => '',
                 ];
             }
-        }else{
-            return [
-                'rows' => $rows,
-                'counternumber' => $rows['counternumber'],
-                'group' => 1
-            ];
         }
     }
 

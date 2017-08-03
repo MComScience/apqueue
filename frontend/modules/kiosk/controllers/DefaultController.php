@@ -9,6 +9,9 @@ use frontend\modules\kiosk\models\TbQuequ;
 use frontend\modules\kiosk\models\TbQueueorderdetail;
 use yii\helpers\Html;
 use frontend\modules\settings\models\TbDisplayConfig;
+use frontend\modules\main\models\TbCaller;
+use yii\helpers\ArrayHelper;
+use frontend\modules\kiosk\models\VwDisplayService2;
 
 /**
  * Default controller for the `kiosk` module
@@ -138,12 +141,16 @@ class DefaultController extends Controller {
         $request = Yii::$app->request;
         if ($request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
-            $servicegroupid = $request->post('ServiceName')  == 'คัดกรองผู้ป่วยนอก' ? '1' : '2';
-            $rows = (new \yii\db\Query())
+            $servicegroupid = $request->post('ServiceName')  == 'คัดกรองผู้ป่วยนอก' ? 1 : 2;
+            $postdata = $request->post('data',[]);
+            if($servicegroupid == 1){
+                $rows = (new \yii\db\Query())
                     ->select([
                         'tb_caller.caller_ids',
                         'tb_caller.qnum',
+                        //'GROUP_CONCAT(tb_caller.qnum) AS qnum',
                         'tb_caller.counterserviceid',
+                        'tb_caller.call_timestp',
                         'tb_counterservice.counterservice_name',
                         'tb_counterservice.counterservice_callnumber'
                     ])
@@ -152,13 +159,85 @@ class DefaultController extends Controller {
                     ->innerJoin('tb_service', 'tb_quequ.serviceid = tb_service.serviceid')
                     ->innerJoin('tb_counterservice', 'tb_counterservice.counterserviceid = tb_caller.counterserviceid')
                     ->where(['tb_quequ.servicegroupid' => $servicegroupid,'tb_quequ.q_statusid' => 2])
-                    ->orderBy('tb_caller.caller_ids DESC')
+                    ->andWhere("tb_caller.call_status <> 'Finished'")
+                    ->orderBy('tb_caller.call_timestp DESC')
+                    //->groupBy('tb_counterservice.counterservice_callnumber')
+                    ->limit('5')
+                    ->all();
+            }else{
+                if(isset($postdata['counternumber'])){
+                    $array1 = (new \yii\db\Query())
+                        ->select(['tb_caller.caller_ids', 'tb_caller.qnum', 'tb_caller.call_timestp','tb_counterservice.counterservice_callnumber'])
+                        ->from('tb_caller')
+                        ->innerJoin('tb_quequ', 'tb_caller.q_ids = tb_quequ.q_ids')
+                        ->innerJoin('tb_counterservice', 'tb_counterservice.counterserviceid = tb_caller.counterserviceid')
+                        ->where(['<>' ,'tb_caller.call_status','Finished'])
+                        ->andWhere(['tb_quequ.servicegroupid' => 2,'tb_counterservice.counterservice_callnumber' => isset($postdata['counternumber']) ? $postdata['counternumber'] :[]])
+                        ->orderBy('tb_caller.call_timestp ASC')
+                        ->all();
+                    $callerids = ArrayHelper::getColumn($array1, 'caller_ids');
+                    $array2 = (new \yii\db\Query())
+                            ->select([
+                                'GROUP_CONCAT(tb_caller.qnum) AS qnum',
+                                'tb_counterservice.counterservice_callnumber'
+                            ])
+                            ->from('tb_caller')
+                            ->innerJoin('tb_quequ', 'tb_caller.q_ids = tb_quequ.q_ids')
+                            ->innerJoin('tb_counterservice', 'tb_counterservice.counterserviceid = tb_caller.counterserviceid')
+                            ->where(['tb_quequ.servicegroupid' =>2,'tb_quequ.q_statusid' => 2])
+                            ->andWhere("tb_caller.call_status <> 'Finished'")
+                            ->andWhere(['NOT IN', 'tb_caller.caller_ids',  $callerids])
+                            ->orderBy('tb_caller.call_timestp DESC')
+                            ->groupBy('tb_counterservice.counterservice_callnumber')
+                            ->limit(4)
+                            ->all();
+                    $qnums = ArrayHelper::getColumn($array1, 'qnum');
+                    $datas = ArrayHelper::merge(['qnum' => implode(',',$qnums)], ['counterservice_callnumber' => isset($postdata['counternumber']) ? $postdata['counternumber'] :[]]);
+                    $rows = ArrayHelper::merge([$datas], $array2);
+                }else{
+                    $rows = (new \yii\db\Query())
+                        ->select([
+                            'GROUP_CONCAT(tb_caller.qnum) AS qnum',
+                            'tb_counterservice.counterservice_callnumber'
+                        ])
+                        ->from('tb_caller')
+                        ->innerJoin('tb_quequ', 'tb_caller.q_ids = tb_quequ.q_ids')
+                        //->innerJoin('tb_service', 'tb_quequ.serviceid = tb_service.serviceid')
+                        ->innerJoin('tb_counterservice', 'tb_counterservice.counterserviceid = tb_caller.counterserviceid')
+                        ->where(['tb_quequ.servicegroupid' => $servicegroupid,'tb_quequ.q_statusid' => 2])
+                        ->andWhere("tb_caller.call_status <> 'Finished'")
+                        //->andWhere(['NOT IN', 'tb_caller.caller_ids', isset($postdata['caller_ids']) ? $postdata['caller_ids'] : []])
+                        ->orderBy('tb_caller.call_timestp DESC')
+                        ->groupBy('tb_counterservice.counterservice_callnumber')
+                        ->limit('5')
+                        ->all();
+                }
+                
+            }
+            
+            /*$rows = (new \yii\db\Query())
+                    ->select([
+                        'tb_caller.caller_ids',
+                        'tb_caller.qnum',
+                        'tb_caller.counterserviceid',
+                        'tb_caller.call_timestp',
+                        'tb_counterservice.counterservice_name',
+                        'tb_counterservice.counterservice_callnumber'
+                    ])
+                    ->from('tb_caller')
+                    ->innerJoin('tb_quequ', 'tb_caller.q_ids = tb_quequ.q_ids')
+                    ->innerJoin('tb_service', 'tb_quequ.serviceid = tb_service.serviceid')
+                    ->innerJoin('tb_counterservice', 'tb_counterservice.counterserviceid = tb_caller.counterserviceid')
+                    ->where(['tb_quequ.servicegroupid' => $servicegroupid,'tb_quequ.q_statusid' => 2])
+                    ->andWhere("tb_caller.call_status <> 'Finished'")
+                    ->orderBy('tb_caller.call_timestp DESC')
                     ->limit('5')
                     ->all();
             $count = (new \yii\db\Query())
                     ->select([
                         'tb_caller.caller_ids',
                         'tb_caller.qnum',
+                        'tb_caller.call_timestp',
                         'tb_caller.counterserviceid',
                         'tb_counterservice.counterservice_name'
                     ])
@@ -167,9 +246,10 @@ class DefaultController extends Controller {
                     ->innerJoin('tb_service', 'tb_quequ.serviceid = tb_service.serviceid')
                     ->innerJoin('tb_counterservice', 'tb_counterservice.counterserviceid = tb_caller.counterserviceid')
                     ->where(['tb_quequ.servicegroupid' => $servicegroupid,'tb_quequ.q_statusid' => 2])
-                    ->orderBy('tb_caller.caller_ids DESC')
+                    ->orderBy('tb_caller.call_timestp DESC')
                     ->limit('5')
-                    ->count();
+                    ->count();*/
+            $count = count($rows);
             $table = Html::beginTag('table', ['id' => 'table-display', 'width' => '100%', 'border' => 1, 'class' => 'table table-bordered',])
                     . Html::beginTag('thead', [])
                     . Html::tag('th', 'หมายเลข', ['style' => 'font-size: 30pt;text-align: center;background-color: #74d348;border: 1px solid #62cb31;color: white;width: 300px;height: 100px;'])
@@ -198,8 +278,8 @@ class DefaultController extends Controller {
                         . Html::endTag('thead')
                         . Html::beginTag('tbody', ['id' => 'tbody-tabledisplay']);
                 foreach ($rows as $result) {
-                    $table .= Html::beginTag('tr', ['id' => 'tr-' . $result['qnum'], 'class' => 'default']) .
-                            Html::tag('td', '<p style="' . $styletbody . '"><strong class="col-sm-6" id="Qnum-' . $result['qnum'] . '">' . $result['qnum'] . '</strong><strong id="Counter-' . $result['qnum'] . '">' . $result['counterservice_callnumber'] . '</strong></p>', ['style' => 'padding:0px;border-top: 0px;']) .
+                    $table .= Html::beginTag('tr', ['id' => 'tr-' . str_replace(',','-',$result['qnum']), 'class' => 'default']) .
+                            Html::tag('td', '<p style="' . $styletbody . '"><strong class="col-sm-6" id="Qnum-' . str_replace(',','-',$result['qnum']) . '">' . $result['qnum'] . '</strong><strong id="Counter-' . str_replace(',','-',$result['qnum']) . '">' . $result['counterservice_callnumber'] . '</strong></p>', ['style' => 'padding:0px;border-top: 0px;']) .
                             Html::endTag('tr');
                     if ($i == $count) {
                         for ($x = 1; $x <= ($config['limit'] - $count); $x++) {

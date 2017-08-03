@@ -73,14 +73,15 @@ $this->title = 'Display';
 <?php 
 $js = <<< JS
 $(function () {
-        setInterval(function(){ 
-            QueryTableDisplay("NoData", 'คัดกรองผู้ป่วยนอก', 'not-sounds');
-        }, 3000);
+        // setInterval(function(){ 
+        //     QueryTableDisplay("NoData", 'คัดกรองผู้ป่วยนอก', 'not-sounds');
+        // }, 3000);
 //    if((localStorage.getItem("display") === null) || (localStorage.getItem("display") === 'การเงินผู้ป่วยนอก')){
 //        localStorage.setItem("display", 'ห้องจ่ายยาผู้ป่วยนอก');
 //    }
     //getHoldQ();
-    QueryTableDisplay("NoData", 'คัดกรองผู้ป่วยนอก', 'not-sounds');
+    QueryTableDisplay('คัดกรองผู้ป่วยนอก');
+    getHoldQ();
 
     var socket = io('http://' + window.location.hostname + ':3000');
 
@@ -88,6 +89,12 @@ $(function () {
     /*socket.on('request_calling', function (data) {
      QueryTableDisplay(data.qnum, data.service_name,data.sounds);
      });*/
+    socket.on('sounds_request', function (data) {
+        var result = data.source;
+        if(result.servicegroup === "คัดกรองผู้ป่วยนอก"){
+           QueryTableDisplay('คัดกรองผู้ป่วยนอก',result); 
+        }
+    });
 
     socket.on('request_delete_hold_recall', function (data) {
 
@@ -95,6 +102,7 @@ $(function () {
             //QueryEmptyTr(data.q_num);
             //QueryTableDisplay(data.state, 'ห้องจ่ายยาผู้ป่วยนอก', 'not-sounds');
             getHoldQ();
+            QueryTableDisplay('คัดกรองผู้ป่วยนอก'); 
         } else {
             //QueryTableDisplay(data.qnum, data.service_name,data.sounds);
         }
@@ -127,37 +135,25 @@ $(function () {
 
 });
 
-function QueryTableDisplay(Qnum, ServiceName, sounds) {
-    //if (ServiceName === localStorage.getItem("display")) {
-    if (sounds !== "not-sounds") { //เรียกเสียงคิว
-        //PlaySound(sounds,0);
-    }
+function QueryTableDisplay(ServiceName,data = null) {
     $.ajax({
         url: '$baseUrl/kiosk/default/table-display',
         type: 'POST',
-        data: {ServiceName: "คัดกรองผู้ป่วยนอก"},
+        data: {ServiceName: ServiceName, data: data},
         dataType: 'json',
         success: function (result) {
             $('#content-display').html(result.table);
-            if ((Qnum !== "Hold") || (Qnum !== "Delete") || (Qnum !== "End")) {
-                ModernBlink(Qnum);
+            if(data !== null){
+                ModernBlink(data.qnum);
             }
-            if(result.qdata !== null){
-                //ModernBlink(result.qdata.calling_flag);
-            }
-            /*
-             var arrayLength = result.length;
-             for (var i = 0; i < arrayLength; i++) {
-             $("#tbody-tabledisplay").prepend(result[i]);
-             console.log(i);
-             }*/
+            // if ((Qnum !== "Hold") || (Qnum !== "Delete") || (Qnum !== "End")) {
+            //     
+            // }
         },
         error: function (xhr, status, error) {
             swal(error, "", "error");
         }
     });
-    //}
-
 }
 function QueryTrDisplay(Qnum) {
     var rowCount = $('#table-display tr').length;
