@@ -30,6 +30,18 @@ use yii\helpers\FileHelper;
  */
 class DefaultController extends Controller {
 
+    public function beforeAction($action) {
+        if (!parent::beforeAction($action)) {
+            return false;
+        }
+
+        if ($action->id == 'view') {
+            $this->layout = '@frontend/themes/homer/layouts/display.php';
+        }
+
+        return true;
+    }
+
     public function behaviors() {
         return [
             'verbs' => [
@@ -320,7 +332,7 @@ class DefaultController extends Controller {
 
     public function actionView($id) {
         if (($model = TbDisplayConfig::findOne($id)) !== null) {
-            return $this->renderAjax('view', ['model' => $model]);
+            return $this->render('view', ['model' => $model]);
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }

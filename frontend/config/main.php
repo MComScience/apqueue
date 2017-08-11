@@ -168,7 +168,9 @@ return [
             'kiosk/default/display1',
             'kiosk/default/display2',
             'kiosk/default/table-display',
-            'site/*'
+            'site/*',
+            'main/default/sound',
+            'main/default/get-sound',
         ]
     ],
     'params' => $params,

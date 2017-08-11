@@ -34,7 +34,7 @@ class TbDisplayConfig extends \yii\db\ActiveRecord {
         return [
             [['display_name', 'state', 'header_color', 'column_color', 'font_color', 'font_size'], 'required'],
             [['state'], 'integer'],
-            [['hold_query','limit','qhold_label'],'safe'],
+            [['hold_query','limit','qhold_label','title_left','title_right'],'safe'],
             [['display_name', 'header_color', 'column_color', 'font_color', 'bg_color'], 'string', 'max' => 255],
             [['font_size'], 'string', 'max' => 50],
         ];

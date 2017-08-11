@@ -20,5 +20,17 @@ use yii\helpers\Html;
         <?= $formnew->field($model, 'qhold_label', ['showLabels' => false])->textInput([]); ?>
     </div>
 </div>
+<div class="form-group">
+    <?= Html::activeLabel($model, 'title_left', ['label' => 'Title Left', 'class' => 'col-sm-3 control-label']) ?>
+    <div class="col-sm-8">
+        <?= $formnew->field($model, 'title_left', ['showLabels' => false])->textInput([]); ?>
+    </div>
+</div>
+<div class="form-group">
+    <?= Html::activeLabel($model, 'title_right', ['label' => 'Title Right', 'class' => 'col-sm-3 control-label']) ?>
+    <div class="col-sm-8">
+        <?= $formnew->field($model, 'title_right', ['showLabels' => false])->textInput([]); ?>
+    </div>
+</div>
 <?php ActiveForm::end(); ?>
 

@@ -36,7 +36,7 @@ $this->title = 'Sounds';
                 Sounds Settings
             </div>
             <div class="panel-body">
-                
+                <p>
                 <?php
                 echo Select2::widget([
                     'name' => 'ServiceGroup',
@@ -51,6 +51,7 @@ $this->title = 'Sounds';
                     ],
                 ]);
                 ?>
+                </p>
             </div>
         </div>
     </div>

@@ -421,19 +421,20 @@ class DefaultController extends Controller {
             $query = MainQuery::getSound($request->post('servicegroup'));
             if($query['group'] == 1){//เรียกคิวเดียว
                 $qnum_str = str_split($query['rows']['qnum']);
-                $basePath = Yii::getAlias('@web').'/sounds/Prompt1/';
+                $prompt = isset($query['rows']['sound_typeid']) ? 'Prompt'.$query['rows']['sound_typeid'] : 'Prompt1';
+                $basePath = Yii::getAlias('@web').'/sounds/'.$prompt.'/';
 
                 $source = [];
 
                 if(!empty($query['rows']['qnum']) && is_array($qnum_str)){
                     foreach($qnum_str as $str){
-                        $source = ArrayHelper::merge($source, [$basePath.'Prompt1_'.$str.'.wav']);
+                        $source = ArrayHelper::merge($source, [$basePath.$prompt.'_'.$str.'.wav']);
                     }
-                    $source = ArrayHelper::merge(["/sounds/Prompt1/Prompt1_Number.wav"], $source);
+                    $source = ArrayHelper::merge(["/sounds/".$prompt."/".$prompt."_Number.wav"], $source);
                     $source = ArrayHelper::merge($source,[
-                        "/sounds/Prompt1/Prompt1_Service.wav",
-                        "/sounds/Prompt1/Prompt1_".$query['counternumber'].".wav",
-                        "/sounds/Prompt1/Prompt1_Sir.wav"
+                        "/sounds/".$prompt."/".$prompt."_Service.wav",
+                        "/sounds/".$prompt."/".$prompt."_".$query['counternumber'].".wav",
+                        "/sounds/".$prompt."/".$prompt."_Sir.wav"
                     ]);
 
                     $data = [
@@ -448,39 +449,45 @@ class DefaultController extends Controller {
                     return Json::encode("No sound!");
                 }
             }else{//เรียกหลายคิว
-                $basePath = Yii::getAlias('@web').'/sounds/Prompt1/';
+                
                 $source = [];
                 $caller_ids = [];
                 if($query['status'] != 'No data'){
                     $qnums = [];
                     $callerids = ArrayHelper::getValue($query['rows'],'caller_ids');
+                    if(isset($query['rows'][0])){
+                        $prompt = $query['rows'][0]['sound_typeid'] != null ? 'Prompt'.$query['rows'][0]['sound_typeid'] : 'Prompt1';
+                    }else{
+                        $prompt = isset($query['rows']['sound_typeid']) ? 'Prompt'.$query['rows']['sound_typeid'] : 'Prompt1';
+                    }
+                    $basePath = Yii::getAlias('@web').'/sounds/'.$prompt.'/';
                     if($callerids === null){
                         foreach($query['rows'] as $val){
                             $qnum_str = str_split($val['qnum']);
                             $caller_ids[] = $val['caller_ids'];
                             $qnums = ArrayHelper::merge($qnums,[$val['qnum']]);
                             foreach($qnum_str as $str){
-                                $source = ArrayHelper::merge($source, [$basePath.'Prompt1_'.$str.'.wav']);
+                                $source = ArrayHelper::merge($source, [$basePath.$prompt.'_'.$str.'.wav']);
                             }
                         }
-                        $source = ArrayHelper::merge(["/sounds/Prompt1/Prompt1_Number.wav"], $source);
+                        $source = ArrayHelper::merge(["/sounds/".$prompt."/".$prompt."_Number.wav"], $source);
                         $source = ArrayHelper::merge($source,[
-                            "/sounds/Prompt1/Prompt1_Service.wav",
-                            "/sounds/Prompt1/Prompt1_".$query['counternumber'].".wav",
-                            "/sounds/Prompt1/Prompt1_Sir.wav"
+                            "/sounds/".$prompt."/".$prompt."_Service.wav",
+                            "/sounds/".$prompt."/".$prompt."_".$query['counternumber'].".wav",
+                            "/sounds/".$prompt."/".$prompt."_Sir.wav"
                         ]);
                     }else{
                         $qnum_str = str_split($query['rows']['qnum']);
                         $caller_ids[] = $query['rows']['caller_ids'];
                         $qnums = ArrayHelper::merge($qnums,[$query['rows']['qnum']]);
                         foreach($qnum_str as $str){
-                            $source = ArrayHelper::merge($source, [$basePath.'Prompt1_'.$str.'.wav']);
+                            $source = ArrayHelper::merge($source, [$basePath.$prompt.'_'.$str.'.wav']);
                         }
-                        $source = ArrayHelper::merge(["/sounds/Prompt1/Prompt1_Number.wav"], $source);
+                        $source = ArrayHelper::merge(["/sounds/".$prompt."/".$prompt."_Number.wav"], $source);
                         $source = ArrayHelper::merge($source,[
-                            "/sounds/Prompt1/Prompt1_Service.wav",
-                            "/sounds/Prompt1/Prompt1_".$query['counternumber'].".wav",
-                            "/sounds/Prompt1/Prompt1_Sir.wav"
+                            "/sounds/".$prompt."/".$prompt."_Service.wav",
+                            "/sounds/".$prompt."/".$prompt."_".$query['counternumber'].".wav",
+                            "/sounds/".$prompt."/".$prompt."_Sir.wav"
                         ]);
                     }
                     
@@ -563,35 +570,36 @@ class DefaultController extends Controller {
     }
 
     public function actionTestQuery(){
-        $rows = (new \yii\db\Query())
-            ->select(['tb_caller.caller_ids', 'tb_caller.qnum', 'tb_caller.call_timestp','tb_counterservice.counterservice_callnumber'])
-            ->from('tb_caller')
-            ->innerJoin('tb_quequ', 'tb_caller.q_ids = tb_quequ.q_ids')
-            ->innerJoin('tb_counterservice', 'tb_counterservice.counterserviceid = tb_caller.counterserviceid')
-            ->where(['<>' ,'tb_caller.call_status','Finished'])
-            ->andWhere(['tb_quequ.servicegroupid' => 2,'tb_counterservice.counterservice_callnumber' => 10])
-            ->orderBy('tb_caller.call_timestp ASC')
-            ->all();
-        $callerids = ArrayHelper::getColumn($rows, 'caller_ids');
-        $array2 = (new \yii\db\Query())
-                ->select([
-                    'GROUP_CONCAT(tb_caller.qnum) AS qnum',
-                    'tb_counterservice.counterservice_callnumber'
-                ])
-                ->from('tb_caller')
-                ->innerJoin('tb_quequ', 'tb_caller.q_ids = tb_quequ.q_ids')
-                ->innerJoin('tb_counterservice', 'tb_counterservice.counterserviceid = tb_caller.counterserviceid')
-                ->where(['tb_quequ.servicegroupid' =>2,'tb_quequ.q_statusid' => 2])
-                ->andWhere("tb_caller.call_status <> 'Finished'")
-                ->andWhere(['NOT IN', 'tb_caller.caller_ids',  $callerids])
-                ->orderBy('tb_caller.call_timestp DESC')
-                ->groupBy('tb_counterservice.counterservice_callnumber')
-                ->limit(4)
-                ->all();
-        $qnums = ArrayHelper::getColumn($rows, 'qnum');
-        $array1 = ArrayHelper::merge(['qnum' => implode(',',$qnums)], ['counterservice_callnumber' => 10]);
-        $rowdata = ArrayHelper::merge([$array1], $array2);
-        echo Json::encode($rowdata);
+        $query = MainQuery::getSound(2);
+        // $rows = (new \yii\db\Query())
+        //     ->select(['tb_caller.caller_ids', 'tb_caller.qnum', 'tb_caller.call_timestp','tb_counterservice.counterservice_callnumber'])
+        //     ->from('tb_caller')
+        //     ->innerJoin('tb_quequ', 'tb_caller.q_ids = tb_quequ.q_ids')
+        //     ->innerJoin('tb_counterservice', 'tb_counterservice.counterserviceid = tb_caller.counterserviceid')
+        //     ->where(['<>' ,'tb_caller.call_status','Finished'])
+        //     ->andWhere(['tb_quequ.servicegroupid' => 2,'tb_counterservice.counterservice_callnumber' => 10])
+        //     ->orderBy('tb_caller.call_timestp ASC')
+        //     ->all();
+        // $callerids = ArrayHelper::getColumn($rows, 'caller_ids');
+        // $array2 = (new \yii\db\Query())
+        //         ->select([
+        //             'GROUP_CONCAT(tb_caller.qnum) AS qnum',
+        //             'tb_counterservice.counterservice_callnumber'
+        //         ])
+        //         ->from('tb_caller')
+        //         ->innerJoin('tb_quequ', 'tb_caller.q_ids = tb_quequ.q_ids')
+        //         ->innerJoin('tb_counterservice', 'tb_counterservice.counterserviceid = tb_caller.counterserviceid')
+        //         ->where(['tb_quequ.servicegroupid' =>2,'tb_quequ.q_statusid' => 2])
+        //         ->andWhere("tb_caller.call_status <> 'Finished'")
+        //         ->andWhere(['NOT IN', 'tb_caller.caller_ids',  $callerids])
+        //         ->orderBy('tb_caller.call_timestp DESC')
+        //         ->groupBy('tb_counterservice.counterservice_callnumber')
+        //         ->limit(4)
+        //         ->all();
+        // $qnums = ArrayHelper::getColumn($rows, 'qnum');
+        // $array1 = ArrayHelper::merge(['qnum' => implode(',',$qnums)], ['counterservice_callnumber' => 10]);
+        // $rowdata = ArrayHelper::merge([$array1], $array2);
+        echo Json::encode($query);
     }
 
 }

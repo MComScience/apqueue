@@ -143,7 +143,8 @@ function QueryTableDisplay(ServiceName, data = null) {
         success: function (result) {
             $('#content-display').html(result.table);
             if (data !== null) {
-                ModernBlink((data.qnum).split(',').join('-'));
+                //ModernBlink((data.qnum).split(',').join('-'));
+                ModernBlink(data.counternumber);
             }
         },
         error: function (xhr, status, error) {
@@ -250,8 +251,8 @@ function PlaySound(sounds, i) {
         }
     });
 }
-function ModernBlink(QNum) {
-    $('#Qnum-' + QNum + ',#Counter-' + QNum).modernBlink({
+function ModernBlink(id) {
+    $('.service' + id).modernBlink({
         duration: 1000, // Duration specified in milliseconds (integer)
         iterationCount: 7, // Number of times the element should blink ("infinite" or integer)
         auto: true // Whether to start automatically or not (boolean)

@@ -263,7 +263,7 @@ class DefaultController extends Controller {
             if ($count == 0) {
                 $table = Html::beginTag('table', ['id' => 'table-display', 'width' => '100%', 'class' => 'table table-responsive',])
                         . Html::beginTag('thead', ['style' => 'border-bottom: 5px solid ' . $config['bg_color'] . ';'])
-                        . Html::tag('th', '<p style="' . $styleth . '"><strong class="col-md-6">หมายเลข</strong><strong>ช่องบริการ</strong></p>', ['style' => 'padding:0px;'])
+                        . Html::tag('th', '<p style="' . $styleth . '"><strong class="col-md-6">' . $config['title_left'] . '</strong><strong>' . $config['title_right'] . '</strong></p>', ['style' => 'padding:0px;'])
                         . Html::endTag('thead')
                         . Html::beginTag('tbody', ['id' => 'tbody-tabledisplay']);
                 for ($x = 1; $x <= $config['limit']; $x++) {
@@ -272,14 +272,21 @@ class DefaultController extends Controller {
                             Html::endTag('tr');
                 }
             } else {
+                if(isset($postdata['counternumber'])){
+                    $counternumber = $postdata['counternumber'];
+                }else{
+                    $counternumber = 0;
+                }
+                
                 $table = Html::beginTag('table', ['id' => 'table-display', 'width' => '100%', 'class' => 'table table-responsive'])
                         . Html::beginTag('thead', ['style' => 'border-bottom: 5px solid ' . $config['bg_color'] . ';'])
-                        . Html::tag('th', '<p style="' . $styleth . '"><strong class="col-sm-6">หมายเลข</strong><strong>ช่องบริการ</strong></p>', ['style' => 'padding:0px;'])
+                        . Html::tag('th', '<p style="' . $styleth . '"><strong class="col-sm-6">' . $config['title_left'] . '</strong><strong>' . $config['title_right'] . '</strong></p>', ['style' => 'padding:0px;'])
                         . Html::endTag('thead')
                         . Html::beginTag('tbody', ['id' => 'tbody-tabledisplay']);
                 foreach ($rows as $result) {
+                    $counternumber = ($counternumber == $result['counterservice_callnumber']) ? $counternumber : '0';
                     $table .= Html::beginTag('tr', ['id' => 'tr-' . str_replace(',','-',$result['qnum']), 'class' => 'default']) .
-                            Html::tag('td', '<p style="' . $styletbody . '"><strong class="col-sm-6" id="Qnum-' . str_replace(',','-',$result['qnum']) . '">' . $result['qnum'] . '</strong><strong id="Counter-' . str_replace(',','-',$result['qnum']) . '">' . $result['counterservice_callnumber'] . '</strong></p>', ['style' => 'padding:0px;border-top: 0px;']) .
+                            Html::tag('td', '<p style="' . $styletbody . '"><strong class="col-sm-6 service'.$counternumber.'" id="Qnum-' . str_replace(',','-',$result['qnum']) . '">' . $result['qnum'] . '</strong><strong class="service'.$counternumber.'" id="Counter-' . str_replace(',','-',$result['qnum']) . '">' . $result['counterservice_callnumber'] . '</strong></p>', ['style' => 'padding:0px;border-top: 0px;']) .
                             Html::endTag('tr');
                     if ($i == $count) {
                         for ($x = 1; $x <= ($config['limit'] - $count); $x++) {

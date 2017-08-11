@@ -189,7 +189,7 @@ class MainQuery {
         $servicename = $servicegroup == 1 ? 'คัดกรองผู้ป่วยนอก' : 'ห้องตรวจโรคอายุรกรรม';
         if($servicegroup == 1){
             $rows =  (new \yii\db\Query())
-                ->select('tb_caller.*,`tb_counterservice`.`counterservice_callnumber` AS `counternumber`')
+                ->select('tb_caller.*,`tb_counterservice`.`counterservice_callnumber` AS `counternumber`,`tb_counterservice`.`sound_typeid` AS `sound_typeid`')
                 ->from('tb_caller')
                 ->where(['tb_caller.call_status' => 'calling','tb_quequ.servicegroupid' => $servicegroup])
                 ->innerJoin('tb_counterservice', '`tb_caller`.`counterserviceid` = `tb_counterservice`.`counterserviceid`')
@@ -200,11 +200,11 @@ class MainQuery {
                 'rows' => $rows,
                 'counternumber' => $rows['counternumber'],
                 'group' => 1,
-                'servicegroup' => $servicename
+                'servicegroup' => $servicename,
             ];     
         }else{
             $model = (new \yii\db\Query())
-                    ->select('tb_caller.*,`tb_counterservice`.`counterservice_callnumber` AS `counternumber`')
+                    ->select('tb_caller.*,`tb_counterservice`.`counterservice_callnumber` AS `counternumber`,`tb_counterservice`.`sound_typeid` AS `sound_typeid`')
                     ->from('tb_caller')
                     ->where(['tb_caller.call_status' => 'calling','tb_quequ.servicegroupid' => $servicegroup])
                     ->innerJoin('tb_counterservice', '`tb_caller`.`counterserviceid` = `tb_counterservice`.`counterserviceid`')
@@ -214,7 +214,7 @@ class MainQuery {
                     ->one();
             if($model !== false){
                 $rows = (new \yii\db\Query())
-                            ->select('tb_caller.*,`tb_counterservice`.`counterservice_callnumber` AS `counternumber`')
+                            ->select('tb_caller.*,`tb_counterservice`.`counterservice_callnumber` AS `counternumber`,`tb_counterservice`.`sound_typeid`')
                             ->from('tb_caller')
                             ->where(['tb_caller.call_status' => 'calling','tb_counterservice.counterserviceid' => $model['counterserviceid'],'tb_quequ.servicegroupid' => $servicegroup])
                             ->innerJoin('tb_counterservice', '`tb_caller`.`counterserviceid` = `tb_counterservice`.`counterserviceid`')
@@ -244,6 +244,7 @@ class MainQuery {
                     'group' => 2,
                     'servicegroup' => '',
                     'counternumber' => '',
+                    'rows' => $model,
                 ];
             }
         }
