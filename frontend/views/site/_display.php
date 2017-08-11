@@ -31,7 +31,7 @@ $this->title = Yii::$app->name;
         </div>
     </div>
 </div>
-<?php /*
+
 <div class="row">
     <div class="col-md-6 col-md-offset-3">
         <div class="hpanel">
@@ -47,5 +47,3 @@ $this->title = Yii::$app->name;
         </div>
     </div>
 </div>
- * 
- */?>
