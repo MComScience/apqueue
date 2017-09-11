@@ -20,6 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?php
                         echo GridView::widget([
                             'dataProvider' => $provider,
+                            'filterModel' => $searchModel,
                             //'columns' => $gridColumns,
                             'responsive' => true,
                             'hover' => true,

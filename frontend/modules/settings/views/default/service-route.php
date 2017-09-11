@@ -60,9 +60,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 'type' => TabularForm::INPUT_HIDDEN,
                                                 'columnOptions' => ['hidden' => true]
                                             ],
-                                            'service_route' => ['type' => TabularForm::INPUT_TEXT],
-                                            'service_group_seq' => ['type' => TabularForm::INPUT_TEXT],
-                                            'service_status' => ['type' => TabularForm::INPUT_TEXT],
+                                            'service_route' => ['type' => TabularForm::INPUT_TEXT,'label' => 'เส้นทางการบริการที่'],
+                                            'service_group_seq' => ['type' => TabularForm::INPUT_TEXT,'label' => 'ลำดับกลุ่มบริการ'],
+                                            'service_status' => ['type' => TabularForm::INPUT_TEXT,'label' => 'สถานะ'],
                                         ],
                                     ]);
                                     ?>

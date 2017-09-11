@@ -3,7 +3,7 @@
 namespace frontend\modules\main\models;
 
 use Yii;
-
+use frontend\modules\settings\models\TbServiceMdName;
 /**
  * This is the model class for table "tb_counterservice".
  *
@@ -54,6 +54,11 @@ class TbCounterservice extends \yii\db\ActiveRecord
             'sound_typeid' => 'Sound Typeid',
             'counterservice_status' => 'Counterservice Status',
         ];
+    }
+
+    public function getTbServiceMdName()
+    {
+        return $this->hasOne(TbServiceMdName::className(), ['service_md_name_id' => 'userid']);
     }
 
     /**

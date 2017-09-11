@@ -61,9 +61,9 @@ class DefaultController extends Controller {
             $userid = Yii::$app->user->getId();
 
             if ($request->post('Events') == 'Autoload') {
-                $qservice1 = TbQuequ::find()->where(['serviceid' => 1, 'q_statusid' => 1])->count('q_qty');
-                $qservice2 = TbQuequ::find()->where(['serviceid' => 2, 'q_statusid' => 1])->count('q_qty');
-                $qservice3 = TbQuequ::find()->where(['serviceid' => 3, 'q_statusid' => 1])->count('q_qty');
+                $qservice1 = TbQuequ::find()->where(['serviceid' => 1, 'q_statusid' => 12])->count('q_qty');
+                $qservice2 = TbQuequ::find()->where(['serviceid' => 2, 'q_statusid' => 12])->count('q_qty');
+                $qservice3 = TbQuequ::find()->where(['serviceid' => 3, 'q_statusid' => 12])->count('q_qty');
                 $arr = [
                     'qserive1' => $qservice1 == null ? 0 : $qservice1,
                     'qserive2' => $qservice2 == null ? 0 : $qservice2,
@@ -91,7 +91,7 @@ class DefaultController extends Controller {
                         ->bindParam(':q_printstationid', $q_printstationid)
                         ->bindParam(':servicegroupid', $servicegroupid)
                         ->queryScalar();
-                $count = TbQuequ::find()->where(['serviceid' => $serviceid, 'q_statusid' => 1])->count('q_ids');
+                $count = TbQuequ::find()->where(['serviceid' => $serviceid, 'q_statusid' => 12])->count('q_ids');
                 return '<strong>' . $Qnum . '/' . $count . '</strong><p style="line-height: 0.9;"><strong>คิว</strong></p>';
             } elseif ($request->post('Events') == 'Print') {
                 $serviceid = $request->post('serviceid');
@@ -103,15 +103,15 @@ class DefaultController extends Controller {
                         ->bindParam(':q_printstationid', $q_printstationid)
                         ->bindParam(':servicegroupid', $servicegroupid)
                         ->queryScalar();
-                $count = TbQuequ::find()->where(['serviceid' => $serviceid, 'q_statusid' => 1])->count('q_ids');
+                $count = TbQuequ::find()->where(['serviceid' => $serviceid, 'q_statusid' => 12])->count('q_ids');
                 $arr = [
                     'result' => '<strong>' . $Qnum . '/' . $count . '</strong><p style="line-height: 0.9;"><strong>คิว</strong></p>',
                     'qnum' => $Qnum
                 ];
                 return $arr;
             } elseif ($request->post('Events') == 'EXRoomAutoload') {
-                $Qnum = TbQuequ::find()->where(['serviceid' => $request->post('serviceid'), 'q_statusid' => 1])->max('q_qty');
-                $count = TbQuequ::find()->where(['serviceid' => $request->post('serviceid'), 'q_statusid' => 1])->count('q_ids');
+                $Qnum = TbQuequ::find()->where(['serviceid' => $request->post('serviceid'), 'q_statusid' => 12])->max('q_qty');
+                $count = TbQuequ::find()->where(['serviceid' => $request->post('serviceid'), 'q_statusid' => 12])->count('q_ids');
                 $num = $Qnum == null ? '0' : $Qnum;
                 $arr = [
                     'result' => '<strong>' . $num . '/' . $count . '</strong><p style="line-height: 0.9;"><strong>คิว</strong></p>',

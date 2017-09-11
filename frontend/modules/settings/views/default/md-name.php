@@ -9,7 +9,7 @@ use kartik\builder\TabularForm;
 
 echo $this->render('_assets');
 
-$this->title = 'Service Group';
+$this->title = 'แพทย์';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row">
@@ -42,25 +42,13 @@ $this->params['breadcrumbs'][] = $this->title;
                                             'id' => 'crud-datatable',
                                             'striped' => true,
                                             'pjax' => true,
-                                        /*
-                                          'panel' => [
-                                          'heading' => '<h3 class="panel-title">' . Icon::show('television', ['class' => 'fa-2x']) . $this->title . '</h3>',
-                                          'type' => GridView::TYPE_PRIMARY,
-                                          'after' =>
-                                          Html::a('<i class="glyphicon glyphicon-plus"></i> Add New', ['/settings/default/create-servicegroup'], ['class' => 'btn btn-success', 'role' => 'modal-remote',]) . ' ' .
-                                          Html::a('<i class="glyphicon glyphicon-remove"></i> Delete', false, [
-                                          'class' => 'btn btn-danger',
-                                          'onclick' => 'Delete();',
-                                          ]) . ' ' .
-                                          Html::submitButton('<i class="glyphicon glyphicon-floppy-disk"></i> Save', ['class' => 'btn btn-primary'])
-                                          ], */
                                         ],
                                         'attributes' => [
-                                            'servicegroupid' => [// primary key attribute
+                                            'service_md_name_id' => [// primary key attribute
                                                 'type' => TabularForm::INPUT_HIDDEN,
                                                 'columnOptions' => ['hidden' => true]
                                             ],
-                                            'servicegroup_name' => ['type' => TabularForm::INPUT_TEXT,'label' => 'ชื่อกลุ่มบริการ'],
+                                            'service_md_name' => ['type' => TabularForm::INPUT_TEXT,'label' => 'ชื่อแพทย์'],
                                         ],
                                     ]);
                                     ?>
@@ -69,7 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <?=
-                                    Html::a('<i class="glyphicon glyphicon-plus"></i> Add New', ['/settings/default/create-servicegroup'], ['class' => 'btn btn-success', 'role' => 'modal-remote',]) . ' ' .
+                                    Html::a('<i class="glyphicon glyphicon-plus"></i> Add New', ['/settings/default/create-mdname'], ['class' => 'btn btn-success', 'role' => 'modal-remote',]) . ' ' .
                                     Html::a('<i class="glyphicon glyphicon-remove"></i> Delete', false, [
                                         'class' => 'btn btn-danger',
                                         'onclick' => 'Delete();',
@@ -88,4 +76,4 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 </div>
 <?php echo $this->render('_modal'); ?>
-<?php echo $this->render('_script', ['url' => \yii\helpers\Url::to(['/settings/default/delete-servicegroup'])]); ?>
+<?php echo $this->render('_script', ['url' => \yii\helpers\Url::to(['/settings/default/delete-md'])]); ?>

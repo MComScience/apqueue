@@ -66,7 +66,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 'type' => TabularForm::INPUT_HIDDEN,
                                                 'columnOptions' => ['hidden' => true]
                                             ],
-                                            'service_name' => ['type' => TabularForm::INPUT_TEXT],
+                                            'service_name' => ['type' => TabularForm::INPUT_TEXT,'label' => 'ชื่อการบริการ'],
                                             'service_groupid' => [
                                                 'type' => TabularForm::INPUT_WIDGET,
                                                 'widgetClass' => Select2::classname(),
@@ -76,7 +76,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                                         'placeholder' => 'Select a state ...',
                                                     //'allowClear' => true
                                                     ],
-                                                ]
+                                                ],
+                                                'label' => 'กลุ่มบริการ'
                                             ],
                                             'service_route' => [
                                                 'type' => TabularForm::INPUT_WIDGET,
@@ -87,13 +88,14 @@ $this->params['breadcrumbs'][] = $this->title;
                                                         'placeholder' => 'Select a state ...',
                                                     //'allowClear' => true
                                                     ],
-                                                ]
+                                                ],
+                                                'label' => 'เส้นทางการบริการที่'
                                             ],
-                                            'prn_profileid' => ['type' => TabularForm::INPUT_TEXT],
-                                            'prn_copyqty' => ['type' => TabularForm::INPUT_TEXT],
-                                            'service_numdigit' => ['type' => TabularForm::INPUT_TEXT],
-                                            'service_prefix' => ['type' => TabularForm::INPUT_TEXT],
-                                            'service_status' => ['type' => TabularForm::INPUT_TEXT],
+                                            'prn_profileid' => ['type' => TabularForm::INPUT_TEXT,'label' => 'รูปแบบการพิมพ์'],
+                                            'prn_copyqty' => ['type' => TabularForm::INPUT_TEXT,'label' => 'จำนวนบัตรคิว'],
+                                            'service_numdigit' => ['type' => TabularForm::INPUT_TEXT,'label' => 'จำนวนหลักเลขคิว'],
+                                            'service_prefix' => ['type' => TabularForm::INPUT_TEXT,'label' => 'ตัวอักษรนำหน้าเลขคิว'],
+                                            'service_status' => ['type' => TabularForm::INPUT_TEXT,'label' => 'สถานะ'],
                                         ],
                                     ]);
                                     ?>

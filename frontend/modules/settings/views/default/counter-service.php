@@ -9,6 +9,7 @@ use kartik\icons\Icon;
 use yii\helpers\ArrayHelper;
 use frontend\modules\main\models\TbServicegroup;
 use frontend\modules\kiosk\models\TbService;
+use frontend\modules\settings\models\TbServiceMdName;
 
 echo $this->render('_assets');
 
@@ -34,6 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <?php
+                                    $mdData = ArrayHelper::map(TbServiceMdName::find()->all(), 'service_md_name_id', 'service_md_name');
                                     $data = ArrayHelper::map(TbServicegroup::find()->all(), 'servicegroupid', 'servicegroup_name');
                                     $dataService = ArrayHelper::map(TbService::find()->all(), 'serviceid', 'service_name');
                                     echo TabularForm::widget([
@@ -65,9 +67,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                                 'type' => TabularForm::INPUT_HIDDEN,
                                                 'columnOptions' => ['hidden' => true]
                                             ],
-                                            'counterservice_name' => ['type' => TabularForm::INPUT_TEXT],
-                                            'counterservice_callnumber' => ['type' => TabularForm::INPUT_TEXT],
-                                            'counterservice_type' => ['type' => TabularForm::INPUT_TEXT],
+                                            'counterservice_name' => ['type' => TabularForm::INPUT_TEXT,'label' => 'ชื่อช่องบริการ'],
+                                            'counterservice_callnumber' => ['type' => TabularForm::INPUT_TEXT,'label' => 'หมายเลข'],
+                                            'counterservice_type' => ['type' => TabularForm::INPUT_TEXT,'label' => 'ประเภท'],
                                             'servicegroupid' => [
                                                 'type' => TabularForm::INPUT_WIDGET,
                                                 'widgetClass' => \kartik\widgets\Select2::classname(),
@@ -77,7 +79,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                                         'placeholder' => 'Select a state ...',
                                                     //'allowClear' => true
                                                     ],
-                                                ]
+                                                ],
+                                                'label' => 'กลุ่มบริการ'
                                             ],
                                             'serviceid' => [
                                                 'type' => TabularForm::INPUT_WIDGET,
@@ -86,13 +89,26 @@ $this->params['breadcrumbs'][] = $this->title;
                                                     'data' => $dataService,
                                                     'pluginOptions' => [
                                                         'placeholder' => 'Select a state ...',
-                                                    //'allowClear' => true
+                                                        'allowClear' => true
                                                     ],
                                                 ],
+                                                'label' => 'กลุ่มบริการ'
                                             ],
-                                            'sound_stationid' => ['type' => TabularForm::INPUT_TEXT],
-                                            'sound_typeid' => ['type' => TabularForm::INPUT_TEXT],
-                                            'counterservice_status' => ['type' => TabularForm::INPUT_TEXT],
+                                            'userid' => [
+                                                'type' => TabularForm::INPUT_WIDGET,
+                                                'widgetClass' => \kartik\widgets\Select2::classname(),
+                                                'options' => [
+                                                    'data' => $mdData,
+                                                    'pluginOptions' => [
+                                                        'placeholder' => 'Select a state ...',
+                                                        'allowClear' => true
+                                                    ],
+                                                ],
+                                                'label' => 'แพทย์'
+                                            ],
+                                            'sound_stationid' => ['type' => TabularForm::INPUT_TEXT,'label' => 'เครื่องเล่นเสียงที่'],
+                                            'sound_typeid' => ['type' => TabularForm::INPUT_TEXT,'label' => 'ประเภทเสียง'],
+                                            'counterservice_status' => ['type' => TabularForm::INPUT_TEXT,'label' => 'สถานะ'],
                                         ],
                                     ]);
                                     ?>

@@ -24,6 +24,8 @@ use yii\helpers\Json;
 use yii\helpers\ArrayHelper;
 use yii\db\Expression;
 use yii\helpers\FileHelper;
+use frontend\modules\kiosk\models\TbQuequSearch;
+use frontend\modules\settings\models\TbServiceMdName;
 
 /**
  * Default controller for the `settings` module
@@ -266,6 +268,34 @@ class DefaultController extends Controller {
         }
     }
 
+    public function actionMdName() {
+        $model = new TbServiceMdName();
+        $dataProvider = new ActiveDataProvider([
+            'query' => TbServiceMdName::find()->indexBy('service_md_name_id'),
+        ]);
+        $models = $dataProvider->getModels();
+        if (Model::loadMultiple($models, Yii::$app->request->post()) && Model::validateMultiple($models)) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            $count = 0;
+            foreach ($models as $index => $model) {
+                if ($model->save()) {
+                    $count++;
+                }
+            }
+            return "Processed {$count} records successfully.";
+        } elseif (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', "Save successfully.");
+                return $this->redirect(['md-name']);
+            } else {
+                return \yii\widgets\ActiveForm::validate($model);
+            }
+        } else {
+            return $this->render('md-name', ['dataProvider' => $dataProvider, 'model' => $model]);
+        }
+    }
+
     public function actionServiceRoute() {
         $model = new TbServiceRoute();
         $dataProvider = new ActiveDataProvider([
@@ -454,6 +484,56 @@ class DefaultController extends Controller {
         }
     }
 
+    public function actionCreateMdname() {
+        $request = Yii::$app->request;
+        $model = new TbServiceMdName();
+
+        if ($request->isAjax) {
+            /*
+             *   Process for ajax request
+             */
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            if ($request->isGet) {
+                return [
+                    'title' => "เพิ่มรายชื่อแพทย์",
+                    'content' => $this->renderAjax('_from_md', [
+                        'model' => $model,
+                    ]),
+                    'footer' => Html::button('Close', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"]) .
+                    Html::button('<i class="glyphicon glyphicon-floppy-disk"></i>' . ' Save', ['class' => 'btn btn-primary', 'type' => "submit"])
+                ];
+            } else if ($model->load($request->post()) && $model->save()) {
+                return [
+                    'forceReload' => '#crud-datatable-pjax',
+                    'title' => "เพิ่มรายชื่อแพทย์",
+                    'content' => '<span class="text-success">Create TbCounterservice success</span>',
+                    'footer' => Html::button('Close', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"]) .
+                    Html::a('Create More', ['create-servicegroup'], ['class' => 'btn btn-primary', 'role' => 'modal-remote'])
+                ];
+            } else {
+                return [
+                    'title' => "เพิ่มรายชื่อแพทย์",
+                    'content' => $this->renderAjax('_from_md', [
+                        'model' => $model,
+                    ]),
+                    'footer' => Html::button('Close', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"]) .
+                    Html::button('<i class="glyphicon glyphicon-floppy-disk"></i>' . ' Save', ['class' => 'btn btn-primary', 'type' => "submit"])
+                ];
+            }
+        } else {
+            /*
+             *   Process for non-ajax request
+             */
+            if ($model->load($request->post()) && $model->save()) {
+//return $this->redirect(['view', 'id' => $model->counterserviceid]);
+            } else {
+                return $this->render('_from_md', [
+                            'model' => $model,
+                ]);
+            }
+        }
+    }
+
     public function actionCreateService() {
         $request = Yii::$app->request;
         $model = new TbService();
@@ -570,6 +650,22 @@ class DefaultController extends Controller {
         }
     }
 
+    public function actionDeleteMd() {
+        $request = Yii::$app->request;
+        $pks = $request->post('pks'); // Array or selected records primary keys;
+        foreach ($pks as $pk) {
+            $model = TbServiceMdName::findOne($pk);
+            $model->delete();
+        }
+
+        if ($request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ['forceClose' => true, 'forceReload' => '#crud-datatable-pjax'];
+        } else {
+            return $this->redirect(['md-name']);
+        }
+    }
+
     public function actionDeleteService() {
         $request = Yii::$app->request;
         $pks = $request->post('pks'); // Array or selected records primary keys;
@@ -630,13 +726,12 @@ class DefaultController extends Controller {
     }
 
     public function actionResetQ() {
-        $provider = new ActiveDataProvider([
-            'query' => TbQuequ::find(),
-            'pagination' => [
-                'pageSize' => 10,
-            ],
+        $searchModel = new TbQuequSearch();
+        $provider = $searchModel->search(Yii::$app->request->queryParams);
+        return $this->render('reset-q', [
+            'searchModel' => $searchModel,
+            'provider' => $provider,
         ]);
-        return $this->render('reset-q', ['provider' => $provider]);
     }
 
     public function actionDelete($id) {

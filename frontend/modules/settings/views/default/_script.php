@@ -25,7 +25,7 @@ $this->registerJs($js);
 
 <script type="text/javascript">
     function Delete() {
-        event.preventDefault();
+        //event.preventDefault();
         var selectedIds = [];
         $('input:checkbox[name="selection[]"]').each(function () {
             if (this.checked)
@@ -35,39 +35,32 @@ $this->registerJs($js);
             swal("No selection!", "กรุณาเลือกรายการที่ต้องการลบ!", "error");
         } else {
             swal({
-                title: "Are you sure?",
+                title: 'Are you sure?',
                 text: selectedIds.length + " รายการที่เลือก",
-                type: "warning",
+                type: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Confirm!",
-                cancelButtonText: "Cancel!",
-                closeOnConfirm: false,
-                closeOnCancel: true,
-                showLoaderOnConfirm: true,
-            },
-                    function (isConfirm) {
-                        if (isConfirm) {
-                            $.ajax({
-                                method: "POST",
-                                url: "<?= $url ?>",
-                                data: {pks: selectedIds},
-                                dataType: "json",
-                                success: function (result) {
-                                    $.pjax.reload({container: '#crud-datatable-pjax'});
-                                    swal.close();
-                                },
-                                error: function (xhr, status, error) {
-                                    swal({
-                                        title: error,
-                                        text: "",
-                                        type: "error",
-                                        confirmButtonText: "OK"
-                                    });
-                                },
-                            });
-                        }
-                    });
+                confirmButtonText: 'Confirm!',
+                cancelButtonText: 'Cancel!',
+            }).then(function () {
+                $.ajax({
+                    method: "POST",
+                    url: "<?= $url ?>",
+                    data: {pks: selectedIds},
+                    dataType: "json",
+                    success: function (result) {
+                        $.pjax.reload({container: '#crud-datatable-pjax'});
+                        swal.close();
+                    },
+                    error: function (xhr, status, error) {
+                        swal({
+                            title: error,
+                            text: "",
+                            type: "error",
+                            confirmButtonText: "OK"
+                        });
+                    },
+                });
+            });
         }
 
     }
