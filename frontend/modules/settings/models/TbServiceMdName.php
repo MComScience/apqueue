@@ -26,6 +26,7 @@ class TbServiceMdName extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['service_md_name'], 'required'],
             [['service_md_name'], 'string', 'max' => 100],
         ];
     }
@@ -37,7 +38,7 @@ class TbServiceMdName extends \yii\db\ActiveRecord
     {
         return [
             'service_md_name_id' => 'Service Md Name ID',
-            'service_md_name' => 'Service Md Name',
+            'service_md_name' => 'ชื่อแพทย์',
         ];
     }
 

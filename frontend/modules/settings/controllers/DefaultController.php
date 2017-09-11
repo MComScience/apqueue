@@ -508,7 +508,7 @@ class DefaultController extends Controller {
                     'title' => "เพิ่มรายชื่อแพทย์",
                     'content' => '<span class="text-success">Create TbCounterservice success</span>',
                     'footer' => Html::button('Close', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"]) .
-                    Html::a('Create More', ['create-servicegroup'], ['class' => 'btn btn-primary', 'role' => 'modal-remote'])
+                    Html::a('Create More', ['create-mdname'], ['class' => 'btn btn-primary', 'role' => 'modal-remote'])
                 ];
             } else {
                 return [
