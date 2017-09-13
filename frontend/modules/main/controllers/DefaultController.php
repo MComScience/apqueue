@@ -431,11 +431,20 @@ class DefaultController extends Controller {
                         $source = ArrayHelper::merge($source, [$basePath.$prompt.'_'.$str.'.wav']);
                     }
                     $source = ArrayHelper::merge(["/sounds/".$prompt."/".$prompt."_Number.wav"], $source);
-                    $source = ArrayHelper::merge($source,[
-                        "/sounds/".$prompt."/".$prompt."_Service.wav",
-                        "/sounds/".$prompt."/".$prompt."_".$query['counternumber'].".wav",
-                        "/sounds/".$prompt."/".$prompt."_Sir.wav"
-                    ]);
+                    if($request->post('servicegroup') == 1){
+                        $source = ArrayHelper::merge($source,[
+                            "/sounds/".$prompt."/".$prompt."_Service6.wav",
+                            "/sounds/".$prompt."/".$prompt."_".$query['counternumber'].".wav",
+                            "/sounds/".$prompt."/".$prompt."_Sir.wav"
+                        ]);
+                    }else{
+                        $source = ArrayHelper::merge($source,[
+                            "/sounds/".$prompt."/".$prompt."_Service2.wav",
+                            "/sounds/".$prompt."/".$prompt."_".$query['counternumber'].".wav",
+                            "/sounds/".$prompt."/".$prompt."_Sir.wav"
+                        ]);
+                    }
+                    
 
                     $data = [
                         'caller_ids' => $query['rows']['caller_ids'],
@@ -471,11 +480,19 @@ class DefaultController extends Controller {
                             }
                         }
                         $source = ArrayHelper::merge(["/sounds/".$prompt."/".$prompt."_Number.wav"], $source);
-                        $source = ArrayHelper::merge($source,[
-                            "/sounds/".$prompt."/".$prompt."_Service.wav",
-                            "/sounds/".$prompt."/".$prompt."_".$query['counternumber'].".wav",
-                            "/sounds/".$prompt."/".$prompt."_Sir.wav"
-                        ]);
+                        if($request->post('servicegroup') == 1){
+                            $source = ArrayHelper::merge($source,[
+                                "/sounds/".$prompt."/".$prompt."_Service6.wav",
+                                "/sounds/".$prompt."/".$prompt."_".$query['counternumber'].".wav",
+                                "/sounds/".$prompt."/".$prompt."_Sir.wav"
+                            ]);
+                        }else{
+                            $source = ArrayHelper::merge($source,[
+                                "/sounds/".$prompt."/".$prompt."_Service2.wav",
+                                "/sounds/".$prompt."/".$prompt."_".$query['counternumber'].".wav",
+                                "/sounds/".$prompt."/".$prompt."_Sir.wav"
+                            ]);
+                        }
                     }else{
                         $qnum_str = str_split($query['rows']['qnum']);
                         $caller_ids[] = $query['rows']['caller_ids'];
@@ -484,11 +501,19 @@ class DefaultController extends Controller {
                             $source = ArrayHelper::merge($source, [$basePath.$prompt.'_'.$str.'.wav']);
                         }
                         $source = ArrayHelper::merge(["/sounds/".$prompt."/".$prompt."_Number.wav"], $source);
-                        $source = ArrayHelper::merge($source,[
-                            "/sounds/".$prompt."/".$prompt."_Service.wav",
-                            "/sounds/".$prompt."/".$prompt."_".$query['counternumber'].".wav",
-                            "/sounds/".$prompt."/".$prompt."_Sir.wav"
-                        ]);
+                        if($request->post('servicegroup') == 1){
+                            $source = ArrayHelper::merge($source,[
+                                "/sounds/".$prompt."/".$prompt."_Service6.wav",
+                                "/sounds/".$prompt."/".$prompt."_".$query['counternumber'].".wav",
+                                "/sounds/".$prompt."/".$prompt."_Sir.wav"
+                            ]);
+                        }else{
+                            $source = ArrayHelper::merge($source,[
+                                "/sounds/".$prompt."/".$prompt."_Service2.wav",
+                                "/sounds/".$prompt."/".$prompt."_".$query['counternumber'].".wav",
+                                "/sounds/".$prompt."/".$prompt."_Sir.wav"
+                            ]);
+                        }
                     }
                     
                     $data = [
