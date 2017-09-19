@@ -667,7 +667,7 @@ class DefaultController extends Controller {
                         $model->orderdetailid = $order['order_ids'];
                         $model->q_result = !$modelqOrder ? null : $modelqOrder['q_result'];
                         $model->q_result_tsp = date('Y-m-d H:i:s');
-                        $model->save(false);
+                        $model->save();
                         if($modelqOrder){
                             $modelqOrder->delete();
                         }
