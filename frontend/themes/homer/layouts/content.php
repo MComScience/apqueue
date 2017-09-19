@@ -4,6 +4,11 @@ use yii\widgets\Breadcrumbs;
 use common\themes\homer\widgets\Alert;
 use yii\helpers\Html;
 ?>
+<style type="text/css">
+.swal2-shown, html{
+    overflow-x: unset!important;
+}
+</style>
 <div id="wrapper">
     <div class="normalheader transition animated fadeIn small-header">
         <div class="hpanel">
