@@ -12,6 +12,7 @@ use Yii;
  */
 class TbOrderdetail extends \yii\db\ActiveRecord
 {
+    public $order_ids;
     /**
      * @inheritdoc
      */

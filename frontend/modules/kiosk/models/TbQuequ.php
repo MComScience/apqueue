@@ -80,4 +80,22 @@ class TbQuequ extends \yii\db\ActiveRecord
     {
         return new TbQuequQuery(get_called_class());
     }
+
+    public function getValueOrder($qid,$orderid){
+        $order = TbQueueorderdetail::findOne(['q_ids' => $qid,'orderdetailid' => $orderid]);
+        if(!$order){
+            return 0;
+        }else{
+            return 1;
+        }
+    }
+
+    public function getOrderid($qid,$orderid){
+        $order = TbQueueorderdetail::findOne(['q_ids' => $qid,'orderdetailid' => $orderid]);
+        if(!$order){
+            return null;
+        }else{
+            return $orderid;
+        }
+    }
 }

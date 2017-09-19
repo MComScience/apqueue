@@ -9,18 +9,20 @@ use frontend\modules\main\models\TbCounterservice;
 SweetAlertAsset::register($this);
 WaitMeAsset::register($this);
 $modeldata = TbCounterservice::find()->where(['counterservice_type' => 2])->all();
-$col = 6;
 $this->title = 'คัดกรองผู้ป่วยนอก';
 ?>
 <style type="text/css">
 	.btn-success {
 		white-space: unset !important;
 	}
+    .normalheader{
+        display: none;
+    }
 </style>
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-5">
         <div class="hpanel hgreen">
-            <div class="panel-heading hbuilt" style="font-size: 22pt;">
+            <div class="panel-heading hbuilt" style="font-size: 14pt;">
                 <?= Html::encode($this->title) ?>
                 <div class="panel-tools">
                     <a class="showhide"><i class="fa fa-chevron-up"></i></a>
@@ -63,7 +65,7 @@ $this->title = 'คัดกรองผู้ป่วยนอก';
     </div>
     <div class="col-xs-12 col-sm-12 col-md-7">
         <div class="hpanel hgreen">
-            <div class="panel-heading hbuilt" style="font-size: 22pt;">
+            <div class="panel-heading hbuilt" style="font-size: 14pt;">
                 <?php echo Icon::show('address-card-o', []); ?><?= Html::encode('ห้องตรวจโรค') ?>
                 <div class="panel-tools">
                     <a class="showhide"><i class="fa fa-chevron-up"></i></a>
@@ -73,7 +75,7 @@ $this->title = 'คัดกรองผู้ป่วยนอก';
                 <?php foreach($modeldata as $model): ?>
                 	<div class="">
                         <div class="col-sm-4" style="border: 1px solid white;">
-                            <?= Html::a(Icon::show('user-md', []).'<strong>'.$model['counterservice_name'].'</strong><p style="line-height: 0.9;font-size: 12pt;">'.(empty(@$model->tbServiceMdName->service_md_name) ? '&nbsp;' : @$model->tbServiceMdName->service_md_name).'</p>', false, ['class' => 'btn btn-success btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'Kiosk.QService(2,'.$model['serviceid'].',"'.$model['counterservice_name'].'");']) ?>
+                            <?= Html::a(Icon::show('user-md', []).'<strong>'.$model['counterservice_name'].'</strong><p style="line-height: 0.9;font-size: 11pt;">'.(empty(@$model->tbServiceMdName->service_md_name) ? '&nbsp;' : @$model->tbServiceMdName->service_md_name).'</p>', false, ['class' => 'btn btn-success btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'Kiosk.QService(2,'.$model['serviceid'].',"'.$model['counterservice_name'].'");']) ?>
                         </div>
                         <div class="col-sm-2" style="border: 1px solid #62cb31;font-size: 18pt;background-color: white;color: #62cb31;text-align: center;height: 80px;border-radius: 6px;padding-top:10px">
                             <div id="Service<?= $model['serviceid']; ?>">

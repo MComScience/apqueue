@@ -29,9 +29,9 @@ use yii\helpers\Html;
                         ?>
                     </ol>
                 </div>
-                <h2 class="font-light m-b-xs" style="font-size: 25pt;">
+                <h3 class="font-light m-b-xs">
                     สถาบันบำราศนราดูร
-                </h2>
+                </h3>
                 <small></small>
             </div>
         </div>

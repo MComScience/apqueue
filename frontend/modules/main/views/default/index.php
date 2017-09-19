@@ -839,6 +839,51 @@ App = {
         }else{
             swal("ไม่ได้เลือกรายการใด", "", "error");
         }
+    },
+    EditLab: function (e){
+        var self = this;
+        var q_ids = (e.getAttribute("data-id"));
+        var btnsave = document.getElementById("btn-saveorder"); 
+        btnsave.setAttribute('func', e.getAttribute("func"));
+        $('.modal-title').html("รายการคำสั่ง QNum " + (e.getAttribute("qnum")));
+        $.ajax({
+            type: 'POST',
+            url: '$baseUrl/main/default/getmain-orderlist',
+            data: {q_ids: q_ids},
+            dataType: "json",
+            success: function (result) {
+                $("#order-list").html(result);
+                $('#wrapper').waitMe('hide');
+                $("#modal-orderdetail").modal('show');
+            },
+            error: function (xhr, status, error) {
+                swal({
+                    title: error,
+                    text: "",
+                    type: "error",
+                    confirmButtonText: "OK"
+                });
+            },
+        });
+    },
+    SaveOrder : function(e){
+        var form = $('#form-order');
+        var socket = io.connect('http://' + window.location.hostname + ':3000');
+        $.ajax({
+            type: 'POST',
+            url: '$baseUrl/main/default/save-orderlist',
+            data: $( form ).serialize(),
+            dataType: "json",
+            success: function (result) {
+                $("#modal-orderdetail").modal('hide');
+                socket.emit('request_service', {
+                    request_service: $('#servicegroup :selected').val()
+                });
+            },
+            error: function (xhr, status, error) {
+                
+            },
+        });
     }
 };
 

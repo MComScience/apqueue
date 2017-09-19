@@ -83,7 +83,7 @@ class DefaultController extends Controller {
                 return $Qnum;
             } elseif ($request->post('Events') == 'PrintWithoutOrder') {
                 $serviceid = $request->post('serviceid');
-                $q_printstationid = 1;
+                $q_printstationid = $request->post('action') == 'examinationroom' ? 2 : 1;
                 $servicegroupid = 2;
                 $Qnum = Yii::$app->db->createCommand('SELECT func_ticket_create(:userid,:serviceid,:q_printstationid,:servicegroupid) AS Qnum;')
                         ->bindParam(':userid', $userid)
@@ -95,7 +95,7 @@ class DefaultController extends Controller {
                 return '<strong>' . $Qnum . '/' . $count . '</strong><p style="line-height: 0.9;"><strong>คิว</strong></p>';
             } elseif ($request->post('Events') == 'Print') {
                 $serviceid = $request->post('serviceid');
-                $q_printstationid = 1;
+                $q_printstationid = $request->post('action') == 'examinationroom' ? 2 : 1;
                 $servicegroupid = 2;
                 $Qnum = Yii::$app->db->createCommand('SELECT func_ticket_create(:userid,:serviceid,:q_printstationid,:servicegroupid) AS Qnum;')
                         ->bindParam(':userid', $userid)

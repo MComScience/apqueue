@@ -19,11 +19,6 @@ use yii\bootstrap\Nav;
         <div class="small-logo">
             <span class="text-primary">HOMER APP</span>
         </div>
-        <form role="search" class="navbar-form-custom" method="post" action="#">
-            <div class="form-group">
-                <input type="text" placeholder="" class="form-control" name="search">
-            </div>
-        </form>
         <div class="mobile-menu">
             <button type="button" class="navbar-toggle mobile-menu-toggle" data-toggle="collapse" data-target="#mobile-collapse">
                 <i class="fa fa-chevron-down"></i>

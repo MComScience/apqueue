@@ -60,6 +60,11 @@ class TbQueueorderdetail extends \yii\db\ActiveRecord
         return $this->hasOne(TbQuequ::className(), ['q_ids' => 'q_ids']);
     }
 
+    public function getTbOrderdetail()
+    {
+        return $this->hasOne(TbOrderdetail::className(), ['orderdetailid' => 'orderdetailid']);
+    }
+
     /**
      * @inheritdoc
      * @return TbQueueorderdetailQuery the active query used by this AR class.

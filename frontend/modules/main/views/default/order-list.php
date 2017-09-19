@@ -2,6 +2,7 @@
 
 use kartik\checkbox\CheckboxX;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use frontend\modules\kiosk\models\TbQueueorderdetail;
 ?>
 <audio id="notif_audio">
@@ -79,7 +80,7 @@ use frontend\modules\kiosk\models\TbQueueorderdetail;
         } else {
             $.ajax({
                 type: 'POST',
-                url: '/apqueue/main/default/save-orderdetail',
+                url: '<?= Url::to(['/main/default/save-orderdetail']); ?>',
                 data: {orderid: $(this).val(), q_ids: <?= $q_ids ?>},
                 dataType: "json",
                 success: function (result) {

@@ -56,7 +56,9 @@ class DefaultController extends Controller {
                 $table .= Html::tag('td', $result['service_name'], ['style' => 'font-size:16pt; text-align: center;']);
                 $table .= Html::tag('td', $result['counterservice_name'], ['style' => 'font-size:16pt; text-align: center;']);
                 $table .= Html::beginTag('td', ['style' => 'text-align: center;white-space: nowrap']);
-                $table .= Html::a('Recall', FALSE, ['class' => 'btn btn-primary2 btn-sm', 'onclick' => 'App.Recall(this);', 'data-id' => $result['caller_ids'], 'qnum' => $result['qnum']]) . ' '
+                $table .= 
+                        (($result['order_ids'] != null) ? Html::a('EditLAB', FALSE, ['class' => 'btn btn-warning  btn-sm', 'onclick' => 'App.EditLab(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['qnum'],'func' => 'QueryTableCalling']) : '') . ' '
+                        . Html::a('Recall', FALSE, ['class' => 'btn btn-primary2 btn-sm', 'onclick' => 'App.Recall(this);', 'data-id' => $result['caller_ids'], 'qnum' => $result['qnum']]) . ' '
                         . Html::a('Hold', FALSE, ['class' => 'btn btn-primary  btn-sm', 'onclick' => 'App.Hold(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['qnum']]) . ' '
                         . Html::a('Delete', FALSE, ['class' => 'btn btn-danger btn-sm', 'onclick' => 'App.Delete(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['qnum']]) . ' '
                         . Html::a('End', FALSE, ['class' => 'btn btn-success btn-sm', 'onclick' => 'App.End(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['qnum']]);
@@ -89,7 +91,9 @@ class DefaultController extends Controller {
                     $table .= Html::tag('td', $result['q_num'], ['style' => 'font-size:16pt; text-align: center;']);
                     $table .= Html::tag('td', $result['service_name'], ['style' => 'font-size:16pt; text-align: center;']);
                     $table .= Html::beginTag('td', ['style' => 'text-align: center;white-space: nowrap']);
-                    $table .= Html::a('Call', FALSE, ['class' => 'btn btn-success  btn-sm', 'onclick' => 'App.CallButton(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num'],'serviceid' => 0]) . ' '
+                    $table .= 
+                            (($result['order_ids'] != null) ? Html::a('EditLAB', FALSE, ['class' => 'btn btn-warning  btn-sm', 'onclick' => 'App.EditLab(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num'],'func' => 'QueryTableWaiting']) : '') . ' '
+                            . Html::a('Call', FALSE, ['class' => 'btn btn-success  btn-sm', 'onclick' => 'App.CallButton(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num'],'serviceid' => 0]) . ' '
                             . Html::a('Hold', FALSE, ['class' => 'btn btn-primary  btn-sm', 'onclick' => 'App.Hold(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num']]) . ' '
                             . Html::a('Delete', FALSE, ['class' => 'btn btn-danger btn-sm', 'onclick' => 'App.Delete(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num']]);
                     $table .= Html::endTag('td');
@@ -140,7 +144,9 @@ class DefaultController extends Controller {
                 $table .= Html::tag('td', $result['q_num'], ['style' => 'font-size:16pt; text-align: center;']);
                 $table .= Html::tag('td', $result['service_name'], ['style' => 'font-size:16pt; text-align: center;']);
                 $table .= Html::beginTag('td', ['style' => 'text-align: center;white-space: nowrap']);
-                $table .= Html::a('Call', FALSE, ['class' => 'btn btn-success  btn-sm', 'onclick' => 'App.CallButton(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num']]) . ' '
+                $table .= 
+                        (($result['order_ids'] != null) ? Html::a('EditLAB', FALSE, ['class' => 'btn btn-warning  btn-sm', 'onclick' => 'App.EditLab(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num'],'func' => 'QueryTableHoldlist']) : '') . ' '
+                        . Html::a('Call', FALSE, ['class' => 'btn btn-success  btn-sm', 'onclick' => 'App.CallButton(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num']]) . ' '
                         . Html::a('Delete', FALSE, ['class' => 'btn btn-danger btn-sm', 'onclick' => 'App.Delete(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num']]);
                 $table .= Html::endTag('td');
                 $table .= Html::endTag('tr');
@@ -265,6 +271,23 @@ class DefaultController extends Controller {
         }
     }
 
+    public function actionGetmainOrderlist() {
+        $request = Yii::$app->request;
+        if ($request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            if (($tbq = TbQuequ::findOne(['q_ids' => $request->post('q_ids')])) == null) {
+                return 'ไม่มีหมายเลขคิว';
+            } else {
+                $orderdetail = TbOrderdetail::find()->orderBy('orderdetailid ASC')->all();
+                $form = $this->renderAjax('_main_orderlist', [
+                    'tbq' => $tbq,
+                    'orderdetail' => $orderdetail
+                ]);
+                return $form;
+            }
+        }
+    }
+
     public function actionSaveOrderdetail() {
         $request = Yii::$app->request;
         if ($request->isAjax) {
@@ -367,7 +390,9 @@ class DefaultController extends Controller {
                 //$table .= Html::tag('td', $result['servicegroup_name'], ['style' => 'font-size:16pt; text-align: center;']);
                 $table .= Html::tag('td', $result['orderdetail'], ['style' => 'font-size:16pt; text-align: left;']);
                 $table .= Html::beginTag('td', ['style' => 'text-align: center;white-space: nowrap']);
-                $table .= Html::a('Call', FALSE, ['class' => 'btn btn-success  btn-sm', 'onclick' => 'App.CallButton(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num']]) . ' '
+                $table .= 
+                          Html::a('EditLAB', FALSE, ['class' => 'btn btn-warning  btn-sm', 'onclick' => 'App.EditLab(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num'],'func' => 'QueryTableWaitingOrder']) . ' '
+                        . Html::a('Call', FALSE, ['class' => 'btn btn-success  btn-sm', 'onclick' => 'App.CallButton(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num']]) . ' '
                         . Html::a('Hold', FALSE, ['class' => 'btn btn-primary  btn-sm', 'onclick' => 'App.Hold(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num']]) . ' '
                         . Html::a('Delete', FALSE, ['class' => 'btn btn-danger btn-sm', 'onclick' => 'App.Delete(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num']]);
                 $table .= Html::endTag('td');
@@ -625,6 +650,34 @@ class DefaultController extends Controller {
         // $array1 = ArrayHelper::merge(['qnum' => implode(',',$qnums)], ['counterservice_callnumber' => 10]);
         // $rowdata = ArrayHelper::merge([$array1], $array2);
         echo Json::encode($query);
+    }
+
+    public function actionSaveOrderlist(){
+        $request = Yii::$app->request;
+        if($request->isAjax){
+            $orderLists  = $request->post('TbOrderdetail',[]);
+            $dataQ  = $request->post('TbQuequ',[]);
+            if(is_array($orderLists)){
+                //TbQueueorderdetail::deleteAll(['q_ids' => $dataQ['q_ids']]);
+                foreach($orderLists as $key => $order){
+                    if($order['orderdetailid'] == 1 && $order['order_ids'] != ''){
+                        $modelqOrder = TbQueueorderdetail::findOne(['q_ids' => $dataQ['q_ids'],'orderdetailid' => $order['order_ids']]);
+                        $model = new TbQueueorderdetail();
+                        $model->q_ids = $dataQ['q_ids'];
+                        $model->orderdetailid = $order['order_ids'];
+                        $model->q_result = !$modelqOrder ? null : $modelqOrder['q_result'];
+                        $model->q_result_tsp = date('Y-m-d H:i:s');
+                        $model->save(false);
+                        if($modelqOrder){
+                            $modelqOrder->delete();
+                        }
+                    }
+                }
+                return Json::encode('Success');
+            }
+        }else {
+            throw new NotFoundHttpException('The requested method does not exist.');
+        }
     }
 
 }

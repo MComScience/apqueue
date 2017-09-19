@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Url;
 $baseUrl = Url::base(true);
+$action = Yii::$app->controller->action->id;
 ?>
 <?php
 $js = <<< JS
@@ -106,7 +107,7 @@ Kiosk = {
             $.ajax({
                 type: 'POST',
                 url: base_url,
-                data: {serviceid: serviceid, Events: 'PrintWithoutOrder'},
+                data: {serviceid: serviceid, Events: 'PrintWithoutOrder',action : '{$action}'},
                 dataType: "json",
                 success: function (result) {
                     $('#Service' + serviceid).html(result);
@@ -144,7 +145,7 @@ Kiosk = {
                 $.ajax({
                     type: 'POST',
                     url: base_url,
-                    data: {serviceid: serviceid, Events: 'Print'},
+                    data: {serviceid: serviceid, Events: 'Print',action : '{$action}'},
                     dataType: "json",
                     success: function (result) {
                         self.SaveorderDetail(serviceid, orderids, result.qnum);
