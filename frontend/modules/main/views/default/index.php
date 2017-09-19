@@ -351,7 +351,7 @@ App = {
                     },
                     "ordering": false,
                     //"paging": false,
-                    //"responsive": true
+                    "responsive": true
                 });
             },
             error: function (xhr, status, error) {
@@ -372,7 +372,7 @@ App = {
                 var table = $('#table-waiting').DataTable({
                     "dom": '<"pull-left"f><"pull-right"l>t<"pull-left"i>p',
                     "pageLength": 10,
-                    //"responsive": true,
+                    "responsive": true,
                     "info": true,
                     "language": {
                         "lengthMenu": "_MENU_",
@@ -413,7 +413,7 @@ App = {
                 $('#table-holdlist').DataTable({
                     "dom": '<"pull-left"f><"pull-right"l>t<"pull-left"i>p',
                     "pageLength": 10,
-                    //"responsive": true,
+                    "responsive": true,
                     "info": false,
                     "language": {
                         "lengthMenu": "_MENU_",
@@ -437,7 +437,7 @@ App = {
                 $('#table-waitingorder').DataTable({
                     "dom": '<"pull-left"f><"pull-right"l>t<"pull-left"i>p',
                     "pageLength": 10,
-                    //"responsive": true,
+                    "responsive": true,
                     "info": false,
                     "language": {
                         "lengthMenu": "_MENU_",
