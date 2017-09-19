@@ -657,23 +657,34 @@ class DefaultController extends Controller {
         if($request->isAjax){
             $orderLists  = $request->post('TbOrderdetail',[]);
             $dataQ  = $request->post('TbQuequ',[]);
+            $ids = [];
             if(is_array($orderLists)){
                 //TbQueueorderdetail::deleteAll(['q_ids' => $dataQ['q_ids']]);
-                foreach($orderLists as $key => $order){
-                    if($order['orderdetailid'] == 1 && $order['order_ids'] != ''){
-                        $modelqOrder = TbQueueorderdetail::findOne(['q_ids' => $dataQ['q_ids'],'orderdetailid' => $order['order_ids']]);
-                        $model = new TbQueueorderdetail();
-                        $model->q_ids = $dataQ['q_ids'];
-                        $model->orderdetailid = $order['order_ids'];
-                        $model->q_result = !$modelqOrder ? null : $modelqOrder['q_result'];
-                        $model->q_result_tsp = date('Y-m-d H:i:s');
-                        $model->save();
-                        if($modelqOrder){
-                            $modelqOrder->delete();
+                $transaction = \Yii::$app->db->beginTransaction();
+                try {
+                    foreach($orderLists as $key => $order){
+                        if($order['orderdetailid'] == 1 && $order['order_ids'] != ''){
+                            $modelqOrder = TbQueueorderdetail::findOne(['q_ids' => $dataQ['q_ids'],'orderdetailid' => $order['order_ids']]);
+                            $model = new TbQueueorderdetail();
+                            $model->q_ids = $dataQ['q_ids'];
+                            $model->orderdetailid = $order['order_ids'];
+                            $model->q_result = !$modelqOrder ? null : $modelqOrder['q_result'];
+                            $model->q_result_tsp = date('Y-m-d H:i:s');
+                            $model->save();
+                            $ids[] = $model['ids'];
+                            if($modelqOrder){
+                                $modelqOrder->delete();
+                            }
                         }
                     }
+                    $transaction->commit();
+                    TbQueueorderdetail::deleteAll('q_ids = '. $dataQ['q_ids'].' AND ids NOT IN ('.implode(",",$ids).')');
+                    return Json::encode('Success');
+                }catch (Exception $e) {
+                    $transaction->rollBack();
+                    return Json::encode('Error');
                 }
-                return Json::encode('Success');
+                
             }
         }else {
             throw new NotFoundHttpException('The requested method does not exist.');
