@@ -58,28 +58,67 @@ $this->params['breadcrumbs'][] = $this->title;
 <script type="text/javascript">
     function ResetQ() {
         swal({
-            title: "Are you sure?",
-            text: "Delete All record!",
-            type: "warning",
+            title: 'ต้องการ Backup ข้อมูลด้วยหรือไม่ ?',
+            text: "",
+            type: 'warning',
+            html: "<span class='text-danger'>กด Esc เพื่อยกเลิก</span>",
             showCancelButton: true,
-            confirmButtonText: "Confirm",
-            cancelButtonText: "Cancel",
-            closeOnConfirm: false,
-            showLoaderOnConfirm: true,
-        },
-                function (isConfirm) {
-                    if (isConfirm) {
-                        $.post(
-                                "delete-all-q",
-                                function (result)
-                                {
-                                    swal.close();
-                                    $.pjax.reload({container: '#w1-pjax'});
-                                }
-                        ).fail(function (xhr, status, error) {
-                            swal(error, "", "error");
-                        });
+            confirmButtonText: 'ต้องการ',
+            cancelButtonText: 'ไม่ต้องการ',
+            }).then(function () {
+                $.ajax({
+                    type: "POST",
+                    url: 'delete-all-q',
+                    data: {backup : true},
+                    dataType: 'JSON',
+                    success: function(result){
+                        swal.close();
+                        $.pjax.reload({container: '#w1-pjax'});
+                    },
+                    error : function(jqXHR,textStatus,errorThrown){
+                        swal(errorThrown, "", "error");
                     }
                 });
+            }, function (dismiss) {
+                if (dismiss === 'cancel') {
+                    $.ajax({
+                        type: "POST",
+                        url: 'delete-all-q',
+                        data: {backup : false},
+                        dataType: 'JSON',
+                        success: function(result){
+                            swal.close();
+                            $.pjax.reload({container: '#w1-pjax'});
+                        },
+                        error : function(jqXHR,textStatus,errorThrown){
+                            swal(errorThrown, "", "error");
+                        }
+                    });
+                }
+        });
+        // swal({
+        //     title: "Are you sure?",
+        //     text: "Delete All record!",
+        //     type: "warning",
+        //     showCancelButton: true,
+        //     confirmButtonText: "Confirm",
+        //     cancelButtonText: "Cancel",
+        //     closeOnConfirm: false,
+        //     showLoaderOnConfirm: true,
+        // },
+        //         function (isConfirm) {
+        //             if (isConfirm) {
+        //                 $.post(
+        //                         "delete-all-q",
+        //                         function (result)
+        //                         {
+        //                             swal.close();
+        //                             $.pjax.reload({container: '#w1-pjax'});
+        //                         }
+        //                 ).fail(function (xhr, status, error) {
+        //                     swal(error, "", "error");
+        //                 });
+        //             }
+        //         });
     }
 </script>

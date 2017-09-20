@@ -742,9 +742,18 @@ class DefaultController extends Controller {
     }
 
     public function actionDeleteAllQ() {
-        TbQuequ::deleteAll();
-        TbCaller::deleteAll();
-        return 'Delete Completed!';
+        $request = Yii::$app->request;
+        if($request->isAjax){
+            if($request->post('backup') == 'true'){
+                Yii::$app->db->createCommand('SELECT func_dailyqdata();')->execute();
+            }
+            TbQuequ::deleteAll();
+            TbCaller::deleteAll();
+            return Json::encode('Delete Completed!');
+        }else{
+            throw new NotFoundHttpException('The requested method does not exist.');
+        }
+        
     }
 
 }
