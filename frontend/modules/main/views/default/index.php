@@ -345,7 +345,7 @@ App = {
                 $('#table-calling').DataTable({
                     "dom": '<"pull-left"f><"pull-right"l>t<"pull-left"i>p',
                     "pageLength": 10,
-                    "info": false,
+                    "info": true,
                     "language": {
                         "lengthMenu": "_MENU_",
                     },
@@ -377,6 +377,7 @@ App = {
                     "language": {
                         "lengthMenu": "_MENU_",
                     },
+                    "ordering": false,
                     /*"columnDefs": [
                         {
                             "targets": [ 0 ],
@@ -414,7 +415,7 @@ App = {
                     "dom": '<"pull-left"f><"pull-right"l>t<"pull-left"i>p',
                     "pageLength": 10,
                     "responsive": true,
-                    "info": false,
+                    "info": true,
                     "language": {
                         "lengthMenu": "_MENU_",
                     },
@@ -438,7 +439,7 @@ App = {
                     "dom": '<"pull-left"f><"pull-right"l>t<"pull-left"i>p',
                     "pageLength": 10,
                     "responsive": true,
-                    "info": false,
+                    "info": true,
                     "language": {
                         "lengthMenu": "_MENU_",
                     },

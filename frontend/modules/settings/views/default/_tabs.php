@@ -37,6 +37,11 @@ echo Tabs::widget([
             'active' => $action == 'service' ? true : false,
         ],
         [
+            'label' => 'การเตือนบัตรคิว',
+            'url' => Url::to(['/settings/default/print-alert']),
+            'active' => $action == 'print-alert' ? true : false,
+        ],
+        [
             'label' => 'เสียงเรียก',
             'url' => Url::to(['/settings/default/sound-list']),
             'active' => $action == 'sound-list' ? true : false,

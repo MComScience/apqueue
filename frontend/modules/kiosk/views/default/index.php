@@ -5,10 +5,12 @@ use frontend\assets\SweetAlertAsset;
 use frontend\assets\WaitMeAsset;
 use kartik\icons\Icon;
 use frontend\modules\main\models\TbCounterservice;
+use frontend\modules\kiosk\models\TbService;
 
 SweetAlertAsset::register($this);
 WaitMeAsset::register($this);
 $modeldata = TbCounterservice::find()->where(['counterservice_type' => 2])->all();
+$dataService = TbService::find()->where(['service_groupid' => 1])->all();
 $this->title = 'คัดกรองผู้ป่วยนอก';
 ?>
 <style type="text/css">
@@ -21,48 +23,68 @@ $this->title = 'คัดกรองผู้ป่วยนอก';
 </style>
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-5">
-        <div class="hpanel hgreen">
-            <div class="panel-heading hbuilt" style="font-size: 14pt;">
-                <?= Html::encode($this->title) ?>
-                <div class="panel-tools">
-                    <a class="showhide"><i class="fa fa-chevron-up"></i></a>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="hpanel hgreen">
+                    <div class="panel-heading hbuilt" style="font-size: 14pt;">
+                        <?= Html::encode($this->title) ?>
+                        <div class="panel-tools">
+                            <a class="showhide"><i class="fa fa-chevron-up"></i></a>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <?php foreach($dataService as $key => $item): ?>
+                            <div class="row">
+                                <div class="col-sm-8" style="border: 1px solid white;">
+                                    <?= Html::a('<strong>'.$item['service_name'].'</strong>', false, ['class' => 'btn btn-info btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'Kiosk.QService('.$item['service_groupid'].','.$item['serviceid'].',"'.$item['service_name'].'");']) ?>
+                                </div>
+                                <div class="col-sm-4" style="border: 1px solid #3498db;font-size: 20pt;background-color: white;color: #3498db;text-align: center;height: 54px;border-radius: 6px;padding-top:10px">
+                                    <div id="Service<?= $item['serviceid']; ?>">
+                                        <strong>0 คิว</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
             </div>
-            <div class="panel-body">
-
-                <div class="row">
-                    <div class="col-sm-8" style="border: 1px solid white;">
-                        <?= Html::a('<strong>ผู้ป่วยนัดหมาย</strong>', false, ['class' => 'btn btn-info btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'Kiosk.QService(1,1,"ผู้ป่วยนัดหมาย");']) ?>
-                    </div>
-                    <div class="col-sm-4" style="border: 1px solid #3498db;font-size: 20pt;background-color: white;color: #3498db;text-align: center;height: 54px;border-radius: 6px;padding-top:10px">
-                        <div id="Service1">
-                            <strong>- คิว</strong>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="hpanel hgreen">
+                    <div class="panel-heading hbuilt" style="font-size: 14pt;">
+                        <?= Html::encode('จำนวนคิวรอทั้งหมด') ?>
+                        <div class="panel-tools">
+                            <a class="showhide"><i class="fa fa-chevron-up"></i></a>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-8" style="border: 1px solid white;">
-                        <?= Html::a('<strong>ผู้ป่วยใหม่/ไม่ตรงนัดหมาย</strong>', false, ['class' => 'btn btn-info btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'Kiosk.QService(1,2,"ผู้ป่วยใหม่/ไม่ตรงนัดหมาย");']) ?>
-                    </div>
-                    <div class="col-sm-4" style="border: 1px solid #3498db;font-size: 20pt;background-color: white;color: #3498db;text-align: center;height: 54px;border-radius: 6px;padding-top:10px">
-                        <div id="Service2">
-                            <strong>- คิว</strong>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-8" style="border: 1px solid white;">
+                                <?= Html::a('<strong>คัดกรองผู้ป่วยนอก</strong>', false, ['class' => 'btn btn-default btn-lg btn-block', 'style' => 'font-size: 18pt;']) ?>
+                            </div>
+                            <div class="col-sm-4" style="border: 1px solid #d9dbdd;font-size: 20pt;background-color: white;text-align: center;height: 54px;border-radius: 6px;padding-top:10px">
+                                <div id="SumAll-Service1">
+                                    <strong>0 คิว</strong>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-8" style="border: 1px solid white;">
-                        <?= Html::a('<strong>ผู้สูงอายุ 70 ปี</strong>', false, ['class' => 'btn btn-info btn-lg btn-block', 'style' => 'font-size: 18pt;', 'onclick' => 'Kiosk.QService(1,3,"ผู้สูงอายุ 70 ปี");']) ?>
-                    </div>
-                    <div class="col-sm-4" style="border: 1px solid #3498db;font-size: 20pt;background-color: white;color: #3498db;text-align: center;height: 54px;border-radius: 6px;padding-top:10px">
-                        <div id="Service3">
-                            <strong>- คิว</strong>
+                        <div class="row">
+                            <div class="col-sm-8" style="border: 1px solid white;">
+                                <?= Html::a('<strong>ห้องตรวจโรค</strong>', false, ['class' => 'btn btn-default btn-lg btn-block', 'style' => 'font-size: 18pt;']) ?>
+                            </div>
+                            <div class="col-sm-4" style="border: 1px solid #d9dbdd;font-size: 20pt;background-color: white;text-align: center;height: 54px;border-radius: 6px;padding-top:10px">
+                                <div id="SumAll-Service2">
+                                    <strong>0 คิว</strong>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="col-xs-12 col-sm-12 col-md-7">
         <div class="hpanel hgreen">
             <div class="panel-heading hbuilt" style="font-size: 14pt;">

@@ -12,6 +12,9 @@ use frontend\modules\settings\models\TbDisplayConfig;
 use frontend\modules\main\models\TbCaller;
 use yii\helpers\ArrayHelper;
 use frontend\modules\kiosk\models\VwDisplayService2;
+use frontend\modules\main\classes\MainQuery;
+use frontend\modules\kiosk\models\TbPrintlimit;
+use frontend\modules\kiosk\models\TbService;
 
 /**
  * Default controller for the `kiosk` module
@@ -59,65 +62,111 @@ class DefaultController extends Controller {
         if ($request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             $userid = Yii::$app->user->getId();
+            $q_printstationid = $request->post('action') == 'index' ? 1 : 2;
 
             if ($request->post('Events') == 'Autoload') {
-                $qservice1 = TbQuequ::find()->where(['serviceid' => 1, 'q_statusid' => 12])->count('q_qty');
-                $qservice2 = TbQuequ::find()->where(['serviceid' => 2, 'q_statusid' => 12])->count('q_qty');
-                $qservice3 = TbQuequ::find()->where(['serviceid' => 3, 'q_statusid' => 12])->count('q_qty');
-                $arr = [
-                    'qserive1' => $qservice1 == null ? 0 : $qservice1,
-                    'qserive2' => $qservice2 == null ? 0 : $qservice2,
-                    'qserive3' => $qservice3 == null ? 0 : $qservice3,
-                ];
-                return $arr;
+                return $this->getQCount();
             } elseif ($request->post('Events') == 'ByConfirm') {
                 $serviceid = $request->post('serviceid');
-                $q_printstationid = 1;
                 $servicegroupid = 1;
-                $Qnum = Yii::$app->db->createCommand('SELECT func_ticket_create(:userid,:serviceid,:q_printstationid,:servicegroupid) AS Qnum;')
-                        ->bindParam(':userid', $userid)
-                        ->bindParam(':serviceid', $serviceid)
-                        ->bindParam(':q_printstationid', $q_printstationid)
-                        ->bindParam(':servicegroupid', $servicegroupid)
-                        ->queryScalar();
-                return $Qnum;
+                $transaction = \Yii::$app->db->beginTransaction();
+                try {
+                    $modelService = TbService::findOne($serviceid);
+                    $Qnum = Yii::$app->db->createCommand('SELECT func_ticket_create(:userid,:serviceid,:q_printstationid,:servicegroupid) AS Qnum;')
+                    ->bindParam(':userid', $userid)
+                    ->bindParam(':serviceid', $serviceid)
+                    ->bindParam(':q_printstationid', $q_printstationid)
+                    ->bindParam(':servicegroupid', $servicegroupid)
+                    ->queryScalar();
+
+                    $printLimit = TbPrintlimit::findOne(['q_printstationid' => $q_printstationid]);
+                    if($printLimit && $modelService){
+                        $printLimit->q_printstationid = $q_printstationid;
+                        $printLimit->q_count = $printLimit['q_count'] + $modelService['prn_copyqty'];
+                    }else{
+                        $printLimit = new TbPrintlimit();
+                        $printLimit->q_printstationid = $q_printstationid;
+                        $printLimit->q_count = $modelService['prn_copyqty'];
+                    }
+                    $printLimit->save(false);
+
+                    $transaction->commit();
+                    return $this->getQCount($printLimit);
+                } catch (\Exception $e) {
+                    $transaction->rollBack();
+                    throw $e;
+                } catch (\Throwable $e) {
+                    $transaction->rollBack();
+                    throw $e;
+                }
             } elseif ($request->post('Events') == 'PrintWithoutOrder') {
                 $serviceid = $request->post('serviceid');
-                $q_printstationid = $request->post('action') == 'examinationroom' ? 2 : 1;
                 $servicegroupid = 2;
-                $Qnum = Yii::$app->db->createCommand('SELECT func_ticket_create(:userid,:serviceid,:q_printstationid,:servicegroupid) AS Qnum;')
-                        ->bindParam(':userid', $userid)
-                        ->bindParam(':serviceid', $serviceid)
-                        ->bindParam(':q_printstationid', $q_printstationid)
-                        ->bindParam(':servicegroupid', $servicegroupid)
-                        ->queryScalar();
-                $count = TbQuequ::find()->where(['serviceid' => $serviceid, 'q_statusid' => 12])->count('q_ids');
-                return '<strong>' . $Qnum . '/' . $count . '</strong><p style="line-height: 0.9;"><strong>คิว</strong></p>';
+                $transaction = \Yii::$app->db->beginTransaction();
+                try {
+                    $modelService = TbService::findOne($serviceid);
+                    $Qnum = Yii::$app->db->createCommand('SELECT func_ticket_create(:userid,:serviceid,:q_printstationid,:servicegroupid) AS Qnum;')
+                    ->bindParam(':userid', $userid)
+                    ->bindParam(':serviceid', $serviceid)
+                    ->bindParam(':q_printstationid', $q_printstationid)
+                    ->bindParam(':servicegroupid', $servicegroupid)
+                    ->queryScalar();
+
+                    $printLimit = TbPrintlimit::findOne(['q_printstationid' => $q_printstationid]);
+                    if($printLimit && $modelService){
+                        $printLimit->q_printstationid = $q_printstationid;
+                        $printLimit->q_count = $printLimit['q_count'] + $modelService['prn_copyqty'];
+                    }else{
+                        $printLimit = new TbPrintlimit();
+                        $printLimit->q_printstationid = $q_printstationid;
+                        $printLimit->q_count = $modelService['prn_copyqty'];
+                    }
+                    $printLimit->save(false);
+
+                    $transaction->commit();
+                    return $this->getQCount($printLimit);
+                } catch (\Exception $e) {
+                    $transaction->rollBack();
+                    throw $e;
+                } catch (\Throwable $e) {
+                    $transaction->rollBack();
+                    throw $e;
+                }
             } elseif ($request->post('Events') == 'Print') {
                 $serviceid = $request->post('serviceid');
-                $q_printstationid = $request->post('action') == 'examinationroom' ? 2 : 1;
                 $servicegroupid = 2;
-                $Qnum = Yii::$app->db->createCommand('SELECT func_ticket_create(:userid,:serviceid,:q_printstationid,:servicegroupid) AS Qnum;')
-                        ->bindParam(':userid', $userid)
-                        ->bindParam(':serviceid', $serviceid)
-                        ->bindParam(':q_printstationid', $q_printstationid)
-                        ->bindParam(':servicegroupid', $servicegroupid)
-                        ->queryScalar();
-                $count = TbQuequ::find()->where(['serviceid' => $serviceid, 'q_statusid' => 12])->count('q_ids');
-                $arr = [
-                    'result' => '<strong>' . $Qnum . '/' . $count . '</strong><p style="line-height: 0.9;"><strong>คิว</strong></p>',
-                    'qnum' => $Qnum
-                ];
-                return $arr;
+                $transaction = \Yii::$app->db->beginTransaction();
+                try {
+                    $modelService = TbService::findOne($serviceid);
+                    $Qnum = Yii::$app->db->createCommand('SELECT func_ticket_create(:userid,:serviceid,:q_printstationid,:servicegroupid) AS Qnum;')
+                    ->bindParam(':userid', $userid)
+                    ->bindParam(':serviceid', $serviceid)
+                    ->bindParam(':q_printstationid', $q_printstationid)
+                    ->bindParam(':servicegroupid', $servicegroupid)
+                    ->queryScalar();
+
+                    $printLimit = TbPrintlimit::findOne(['q_printstationid' => $q_printstationid]);
+                    if($printLimit && $modelService){
+                        $printLimit->q_printstationid = $q_printstationid;
+                        $printLimit->q_count = $printLimit['q_count'] + $modelService['prn_copyqty'];
+                    }else{
+                        $printLimit = new TbPrintlimit();
+                        $printLimit->q_printstationid = $q_printstationid;
+                        $printLimit->q_count = $modelService['prn_copyqty'];
+                    }
+                    $printLimit->save(false);
+
+                    $transaction->commit();
+                    return $this->getQCount($printLimit);
+                } catch (\Exception $e) {
+                    $transaction->rollBack();
+                    throw $e;
+                } catch (\Throwable $e) {
+                    $transaction->rollBack();
+                    throw $e;
+                }
             } elseif ($request->post('Events') == 'EXRoomAutoload') {
-                $Qnum = TbQuequ::find()->where(['serviceid' => $request->post('serviceid'), 'q_statusid' => 12])->max('q_qty');
-                $count = TbQuequ::find()->where(['serviceid' => $request->post('serviceid'), 'q_statusid' => 12])->count('q_ids');
-                $num = $Qnum == null ? '0' : $Qnum;
-                $arr = [
-                    'result' => '<strong>' . $num . '/' . $count . '</strong><p style="line-height: 0.9;"><strong>คิว</strong></p>',
-                    'serviceid' => $request->post('serviceid')
-                ];
-                return $arr;
+                return $this->getQCount();
             }
         }
     }
@@ -435,6 +484,59 @@ class DefaultController extends Controller {
                 'limit' => 3
             ];
         }
+    }
+
+    static function getQCount($printLimit = null){
+        $dataService1 = TbQuequ::find()
+        ->where([
+            'NOT IN' ,'tb_quequ.q_statusid',[1,4]
+        ])
+        ->andWhere([
+            'tb_quequ.servicegroupid' => 1
+        ])
+        ->leftJoin('tb_caller','tb_caller.q_ids = tb_quequ.q_ids')
+        ->groupBy('tb_quequ.q_ids')
+        ->all();
+
+        $dataService2 = TbQuequ::find()
+        ->where([
+            'NOT IN' ,'tb_quequ.q_statusid',[1,4]
+        ])
+        ->andWhere([
+            'tb_quequ.servicegroupid' => 2
+        ])
+        ->leftJoin('tb_caller','tb_caller.q_ids = tb_quequ.q_ids')
+        ->groupBy('tb_quequ.q_ids')
+        ->all();
+
+        $qservideGroup2 = MainQuery::qServiceGroup2();
+        $servicewait = ArrayHelper::index($qservideGroup2['qwait'], null, 'serviceid');
+        $serviceall = ArrayHelper::index($qservideGroup2['qall'], null, 'serviceid');
+        $qcount = [];
+        if(is_array($serviceall)){
+            foreach($serviceall as $key => $item){
+                $qcount[$key] = '<strong>' . (isset($servicewait[$key]) ? count($servicewait[$key]) : 0) . '/' . count($item) . '</strong><p style="line-height: 0.9;"><strong>คิว</strong></p>';
+            }
+        }
+        
+        $s1 = ArrayHelper::index($dataService1, null, 'serviceid');
+        $alert = 'false';
+        if(isset($printLimit) && ($printLimit['q_count'] == $printLimit['q_limitqty'] || $printLimit['q_count'] > $printLimit['q_limitqty'])){
+            $alert = 'true';
+        }
+        //$qservice1 = TbQuequ::find()->where(['serviceid' => 1, 'q_statusid' => 12])->count('q_qty');
+        //$qservice2 = TbQuequ::find()->where(['serviceid' => 2, 'q_statusid' => 12])->count('q_qty');
+        //$qservice3 = TbQuequ::find()->where(['serviceid' => 3, 'q_statusid' => 12])->count('q_qty');
+        $arr = [
+            'qserive1' => isset($s1[1]) ? count($s1[1]) : 0,
+            'qserive2' => isset($s1[2]) ? count($s1[2]) : 0,
+            'qserive3' => isset($s1[3]) ? count($s1[3]) : 0,
+            'dataService1' => $dataService1,
+            'dataService2' => $dataService2,
+            'qcount' => $qcount,
+            'alert' => $alert
+        ];
+        return $arr;
     }
 
 }

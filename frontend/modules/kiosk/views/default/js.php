@@ -7,7 +7,7 @@ $action = Yii::$app->controller->action->id;
 $js = <<< JS
 $(function () {
     Kiosk.QueryQNum('AutoLoad', '0');
-    Kiosk.QueryQNum('EXRoomAutoload', '0');
+    //Kiosk.QueryQNum('EXRoomAutoload', '0');
     $('#modal-orderdetail').on('hidden.bs.modal', function (e) {
         $('input[type=radio]').iCheck('uncheck');
         $('input[type=checkbox]').iCheck('uncheck');
@@ -16,17 +16,17 @@ $(function () {
     var socket = io.connect('http://' + window.location.hostname + ':3000');
     socket.on('request_service', function (data) {
         Kiosk.QueryQNum('AutoLoad', '0');
-        Kiosk.QueryQNum('EXRoomAutoload', '0');
+        //Kiosk.QueryQNum('EXRoomAutoload', '0');
         $('#notif_audio')[0].play();
     });
     socket.on('request_calling', function (data) {
         Kiosk.QueryQNum('AutoLoad', '0');
-        Kiosk.QueryQNum('EXRoomAutoload', '0');
+        //Kiosk.QueryQNum('EXRoomAutoload', '0');
         $('#notif_audio')[0].play();
     });
     socket.on('request_delete_hold_recall', function (data) {
         Kiosk.QueryQNum('AutoLoad', '0');
-        Kiosk.QueryQNum('EXRoomAutoload', '0');
+        //Kiosk.QueryQNum('EXRoomAutoload', '0');
     });
 });
 Kiosk = {
@@ -61,12 +61,27 @@ Kiosk = {
             $.ajax({
                 type: 'POST',
                 url: base_url,
-                data: {Events: 'Autoload'},
+                data: {Events: 'Autoload',action : '{$action}'},
                 dataType: "json",
                 success: function (result) {
                     $('#Service1').html('<strong>' + result.qserive1 + ' คิว</strong>');
                     $('#Service2').html('<strong>' + result.qserive2 + ' คิว</strong>');
                     $('#Service3').html('<strong>' + result.qserive3 + ' คิว</strong>');
+                    $('#SumAll-Service1').html('<strong>' + result.dataService1.length + ' คิว</strong>');
+                    $('#SumAll-Service2').html('<strong>' + result.dataService2.length + ' คิว</strong>');
+
+                    $.each(result.qcount, function (i, value) {
+                        $('#Service' + i).html(value);
+                    });
+
+                    if(result.alert === 'true'){
+                        swal({
+                            title: "กระดาษปริ้นใกล้หมด!",
+                            text: "",
+                            type: "warning",
+                            confirmButtonText: "OK"
+                        });
+                    }
                 },
                 error: function (xhr, status, error) {
                     swal({
@@ -81,10 +96,19 @@ Kiosk = {
             $.ajax({
                 type: 'POST',
                 url: base_url,
-                data: {serviceid: serviceid, Events: 'ByConfirm'},
+                data: {serviceid: serviceid, Events: 'ByConfirm',action : '{$action}'},
                 dataType: "json",
                 success: function (result) {
-                    $('#Service' + serviceid).html('<strong>' + result + ' คิว</strong>');
+                    $('#Service1').html('<strong>' + result.qserive1 + ' คิว</strong>');
+                    $('#Service2').html('<strong>' + result.qserive2 + ' คิว</strong>');
+                    $('#Service3').html('<strong>' + result.qserive3 + ' คิว</strong>');
+                    $('#SumAll-Service1').html('<strong>' + result.dataService1.length + ' คิว</strong>');
+                    $('#SumAll-Service2').html('<strong>' + result.dataService2.length + ' คิว</strong>');
+
+                    $.each(result.qcount, function (i, value) {
+                        $('#Service' + i).html(value);
+                    });
+
                     $('#wrapper').waitMe('hide');
                     swal.close();
                     $('#notif_audio')[0].play();
@@ -92,6 +116,15 @@ Kiosk = {
                     socket.emit('request_service', {
                         request_service: 1
                     });
+
+                    if(result.alert === 'true'){
+                        swal({
+                            title: "กระดาษปริ้นใกล้หมด!",
+                            text: "",
+                            type: "warning",
+                            confirmButtonText: "OK"
+                        });
+                    }
                 },
                 error: function (xhr, status, error) {
                     swal({
@@ -110,7 +143,15 @@ Kiosk = {
                 data: {serviceid: serviceid, Events: 'PrintWithoutOrder',action : '{$action}'},
                 dataType: "json",
                 success: function (result) {
-                    $('#Service' + serviceid).html(result);
+                    $('#Service1').html('<strong>' + result.qserive1 + ' คิว</strong>');
+                    $('#Service2').html('<strong>' + result.qserive2 + ' คิว</strong>');
+                    $('#Service3').html('<strong>' + result.qserive3 + ' คิว</strong>');
+                    $('#SumAll-Service1').html('<strong>' + result.dataService1.length + ' คิว</strong>');
+                    $('#SumAll-Service2').html('<strong>' + result.dataService2.length + ' คิว</strong>');
+
+                    $.each(result.qcount, function (i, value) {
+                        $('#Service' + i).html(value);
+                    });
                     $('#wrapper').waitMe('hide');
                     $('#modal-orderdetail').modal('hide');
                     swal.close();
@@ -119,6 +160,15 @@ Kiosk = {
                     socket.emit('request_service', {
                         request_service: serviceid
                     });
+
+                    if(result.alert === 'true'){
+                        swal({
+                            title: "กระดาษปริ้นใกล้หมด!",
+                            text: "",
+                            type: "warning",
+                            confirmButtonText: "OK"
+                        });
+                    }
                 },
                 error: function (xhr, status, error) {
                     swal({
@@ -149,7 +199,15 @@ Kiosk = {
                     dataType: "json",
                     success: function (result) {
                         self.SaveorderDetail(serviceid, orderids, result.qnum);
-                        $('#Service' + serviceid).html(result.result);
+                        $('#Service1').html('<strong>' + result.qserive1 + ' คิว</strong>');
+                        $('#Service2').html('<strong>' + result.qserive2 + ' คิว</strong>');
+                        $('#Service3').html('<strong>' + result.qserive3 + ' คิว</strong>');
+                        $('#SumAll-Service1').html('<strong>' + result.dataService1.length + ' คิว</strong>');
+                        $('#SumAll-Service2').html('<strong>' + result.dataService2.length + ' คิว</strong>');
+
+                        $.each(result.qcount, function (i, value) {
+                            $('#Service' + i).html(value);
+                        });
                         $('#wrapper').waitMe('hide');
                         $('#modal-orderdetail').modal('hide');
                         swal.close();
@@ -158,6 +216,15 @@ Kiosk = {
                         socket.emit('request_service', {
                             request_service: serviceid
                         });
+
+                        if(result.alert === 'true'){
+                            swal({
+                                title: "กระดาษปริ้นใกล้หมด!",
+                                text: "",
+                                type: "warning",
+                                confirmButtonText: "OK"
+                            });
+                        }
                     },
                     error: function (xhr, status, error) {
                         swal({
@@ -178,10 +245,27 @@ Kiosk = {
                     $.ajax({
                         type: 'POST',
                         url: base_url,
-                        data: {serviceid: myStringArray[i], Events: 'EXRoomAutoload'},
+                        data: {serviceid: myStringArray[i], Events: 'EXRoomAutoload',action : '{$action}'},
                         dataType: "json",
                         success: function (result) {
-                            $('#Service' + result.serviceid).html(result.result);
+                            $('#Service1').html('<strong>' + result.qserive1 + ' คิว</strong>');
+                            $('#Service2').html('<strong>' + result.qserive2 + ' คิว</strong>');
+                            $('#Service3').html('<strong>' + result.qserive3 + ' คิว</strong>');
+                            $('#SumAll-Service1').html('<strong>' + result.dataService1.length + ' คิว</strong>');
+                            $('#SumAll-Service2').html('<strong>' + result.dataService2.length + ' คิว</strong>');
+
+                            $.each(result.qcount, function (i, value) {
+                                $('#Service' + i).html(value);
+                            });
+
+                            if(result.alert === 'true'){
+                                swal({
+                                    title: "กระดาษปริ้นใกล้หมด!",
+                                    text: "",
+                                    type: "warning",
+                                    confirmButtonText: "OK"
+                                });
+                            }
                         },
                         error: function (xhr, status, error) {
                             swal({
@@ -260,7 +344,7 @@ Kiosk = {
     }
 };
 JS;
-$this->registerJs($js);
+$this->registerJs($js,\yii\web\View::POS_END);
 ?>
 <?php $this->registerJsFile(Yii::getAlias('@web') . '/js/jquery.modern-blink.js', ['depends' => [\yii\web\JqueryAsset::className()]]); ?>
 <?php // $this->registerJsFile(Yii::getAlias('@web') . '/js/kiosk/app.js', ['depends' => [\yii\web\JqueryAsset::className()]]); ?>

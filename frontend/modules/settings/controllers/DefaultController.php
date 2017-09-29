@@ -26,6 +26,7 @@ use yii\db\Expression;
 use yii\helpers\FileHelper;
 use frontend\modules\kiosk\models\TbQuequSearch;
 use frontend\modules\settings\models\TbServiceMdName;
+use frontend\modules\kiosk\models\TbPrintlimit;
 
 /**
  * Default controller for the `settings` module
@@ -354,6 +355,31 @@ class DefaultController extends Controller {
         }
     }
 
+    public function actionPrintAlert() {
+        $model = new TbPrintlimit();
+        $dataProvider = new ActiveDataProvider([
+            'query' => TbPrintlimit::find()->indexBy('ids'),
+        ]);
+        $models = $dataProvider->getModels();
+        if (Model::loadMultiple($models, Yii::$app->request->post()) && Model::validateMultiple($models)) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            $count = 0;
+            foreach ($models as $index => $model) {
+                if ($model->save()) {
+                    $count++;
+                }
+            }
+            return "Processed {$count} records successfully.";
+        } elseif ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', "Save successfully.");
+                return $this->redirect(['print-alert']);
+            }
+        } else {
+            return $this->render('print-alert', ['dataProvider' => $dataProvider, 'model' => $model]);
+        }
+    }
+
     public function actionDeleteAll() {
         $delete_ids = explode(',', Yii::$app->request->post('ids'));
         TbDisplayConfig::deleteAll(['in', 'id', $delete_ids]);
@@ -478,6 +504,57 @@ class DefaultController extends Controller {
 //return $this->redirect(['view', 'id' => $model->counterserviceid]);
             } else {
                 return $this->render('_from_service_group', [
+                            'model' => $model,
+                ]);
+            }
+        }
+    }
+
+    public function actionCreatePrintAlert() {
+        $request = Yii::$app->request;
+        $model = new TbPrintlimit();
+        $model->q_count = 0;
+
+        if ($request->isAjax) {
+            /*
+             *   Process for ajax request
+             */
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            if ($request->isGet) {
+                return [
+                    'title' => "Create",
+                    'content' => $this->renderAjax('_from_print_alert', [
+                        'model' => $model,
+                    ]),
+                    'footer' => Html::button('Close', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"]) .
+                    Html::button('<i class="glyphicon glyphicon-floppy-disk"></i>' . ' Save', ['class' => 'btn btn-primary', 'type' => "submit"])
+                ];
+            } else if ($model->load($request->post()) && $model->save()) {
+                return [
+                    'forceReload' => '#crud-datatable-pjax',
+                    'title' => "Create",
+                    'content' => '<span class="text-success">Create TbCounterservice success</span>',
+                    'footer' => Html::button('Close', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"]) .
+                    Html::a('Create More', ['create-print-alert'], ['class' => 'btn btn-primary', 'role' => 'modal-remote'])
+                ];
+            } else {
+                return [
+                    'title' => "Create",
+                    'content' => $this->renderAjax('_from_print_alert', [
+                        'model' => $model,
+                    ]),
+                    'footer' => Html::button('Close', ['class' => 'btn btn-default pull-left', 'data-dismiss' => "modal"]) .
+                    Html::button('<i class="glyphicon glyphicon-floppy-disk"></i>' . ' Save', ['class' => 'btn btn-primary', 'type' => "submit"])
+                ];
+            }
+        } else {
+            /*
+             *   Process for non-ajax request
+             */
+            if ($model->load($request->post()) && $model->save()) {
+//return $this->redirect(['view', 'id' => $model->counterserviceid]);
+            } else {
+                return $this->render('_from_print_alert', [
                             'model' => $model,
                 ]);
             }
@@ -631,6 +708,22 @@ class DefaultController extends Controller {
                             'model' => $model,
                 ]);
             }
+        }
+    }
+
+    public function actionDeletePrintAlert() {
+        $request = Yii::$app->request;
+        $pks = $request->post('pks'); // Array or selected records primary keys;
+        foreach ($pks as $pk) {
+            $model = TbPrintlimit::findOne($pk);
+            $model->delete();
+        }
+
+        if ($request->isAjax) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ['forceClose' => true, 'forceReload' => '#crud-datatable-pjax'];
+        } else {
+            return $this->redirect(['print-alert']);
         }
     }
 

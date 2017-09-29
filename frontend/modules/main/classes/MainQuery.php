@@ -4,6 +4,7 @@ namespace frontend\modules\main\classes;
 
 use frontend\modules\main\models\TbCounterservice;
 use frontend\modules\main\models\TbCaller;
+use frontend\modules\kiosk\models\TbQuequ;
 
 class MainQuery {
 
@@ -20,6 +21,7 @@ class MainQuery {
                     'tb_caller.q_ids',
                     'tb_quequ.q_statusid',
                     'tb_counterservice.counterservice_name',
+                    'tb_counterservice.counterservice_callnumber',
                     'tb_queueorderdetail.ids AS order_ids'
                 ])
                 ->from('tb_caller')
@@ -38,12 +40,13 @@ class MainQuery {
     public static function getTablewaiting($ServiceGroupID) {
         if ($ServiceGroupID == 1) {
             $rows = (new \yii\db\Query())
-                    ->select(['tb_quequ.q_num', 'tb_quequ.serviceid', 'tb_service.service_name', 'tb_quequ.serviceid', 'tb_quequ.q_ids', 'tb_quequ.servicegroupid'])
+                    ->select(['tb_quequ.q_num', 'tb_quequ.serviceid', 'tb_service.service_name', 'tb_quequ.serviceid', 'tb_quequ.q_ids', 'tb_quequ.servicegroupid','tb_queueorderdetail.ids AS order_ids'])
                     ->from('tb_quequ')
                     ->leftJoin('tb_caller', 'tb_quequ.q_ids = tb_caller.q_ids')
                     ->innerJoin('tb_service', 'tb_quequ.serviceid = tb_service.serviceid')
                     ->innerJoin('tb_qstatus', 'tb_quequ.q_statusid = tb_qstatus.q_statusid')
                     ->innerJoin('tb_servicegroup', 'tb_quequ.servicegroupid = tb_servicegroup.servicegroupid')
+                    ->leftJoin('tb_queueorderdetail', 'tb_queueorderdetail.q_ids = tb_quequ.q_ids')
                     //->innerJoin('tb_counterservice', 'tb_counterservice.serviceid = tb_service.serviceid')
                     ->where(['tb_quequ.servicegroupid' => $ServiceGroupID, 'tb_quequ.q_statusid' => 12])
                     ->andWhere('tb_caller.q_ids IS NULL')
@@ -94,6 +97,7 @@ class MainQuery {
                 ->leftJoin('tb_queueorderdetail', 'tb_queueorderdetail.q_ids = tb_quequ.q_ids')
                 ->where(['tb_quequ.servicegroupid' => $ServiceGroupID, 'tb_quequ.q_statusid' => 3])
                 ->andWhere('isnull (tb_caller.qnum)')
+                ->groupBy('tb_quequ.q_ids')
                 ->all();
         return $rows;
     }
@@ -114,7 +118,8 @@ class MainQuery {
                     'tb_caller.call_status',
                     'tb_caller.q_ids',
                     'tb_quequ.q_statusid',
-                    'tb_counterservice.counterservice_name'
+                    'tb_counterservice.counterservice_name',
+                    'tb_counterservice.counterservice_callnumber'
                 ])
                 ->from('tb_caller')
                 ->innerJoin('tb_quequ', 'tb_caller.q_ids = tb_quequ.q_ids')
@@ -253,6 +258,20 @@ class MainQuery {
                 ];
             }
         }
+    }
+
+    public static function qServiceGroup2($serviceid = null){
+        $qwait = TbQuequ::find()
+            ->where(['NOT IN','q_statusid',[1,4]])
+            ->andWhere(['servicegroupid' => 2])
+            ->all();
+        $qall = TbQuequ::find()
+            ->where(['servicegroupid' => 2])
+            ->all();
+        return [
+            'qwait' => $qwait,
+            'qall' => $qall
+        ];
     }
 
 }

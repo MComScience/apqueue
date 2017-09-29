@@ -54,10 +54,10 @@ class DefaultController extends Controller {
                 $table .= Html::beginTag('tr', ['id' => 'tr-' . $result['qnum'], 'class' => 'default']);
                 $table .= Html::tag('td', $result['qnum'], ['style' => 'font-size:16pt; text-align: center;']);
                 $table .= Html::tag('td', $result['service_name'], ['style' => 'font-size:16pt; text-align: center;']);
-                $table .= Html::tag('td', $result['counterservice_name'], ['style' => 'font-size:16pt; text-align: center;']);
+                $table .= Html::tag('td', $result['counterservice_callnumber'], ['style' => 'font-size:16pt; text-align: center;']);
                 $table .= Html::beginTag('td', ['style' => 'text-align: center;white-space: nowrap']);
                 $table .= 
-                        (($result['order_ids'] != null) ? Html::a('EditLAB', FALSE, ['class' => 'btn btn-warning  btn-sm', 'onclick' => 'App.EditLab(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['qnum'],'func' => 'QueryTableCalling']) : '') . ' '
+                        Html::a('EditLAB', FALSE, ['class' => 'btn btn-warning  btn-sm', 'onclick' => 'App.EditLab(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['qnum'],'func' => 'QueryTableCalling']).' '
                         . Html::a('Recall', FALSE, ['class' => 'btn btn-primary2 btn-sm', 'onclick' => 'App.Recall(this);', 'data-id' => $result['caller_ids'], 'qnum' => $result['qnum']]) . ' '
                         . Html::a('Hold', FALSE, ['class' => 'btn btn-primary  btn-sm', 'onclick' => 'App.Hold(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['qnum']]) . ' '
                         . Html::a('Delete', FALSE, ['class' => 'btn btn-danger btn-sm', 'onclick' => 'App.Delete(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['qnum']]) . ' '
@@ -92,7 +92,7 @@ class DefaultController extends Controller {
                     $table .= Html::tag('td', $result['service_name'], ['style' => 'font-size:16pt; text-align: center;']);
                     $table .= Html::beginTag('td', ['style' => 'text-align: center;white-space: nowrap']);
                     $table .= 
-                            (($result['order_ids'] != null) ? Html::a('EditLAB', FALSE, ['class' => 'btn btn-warning  btn-sm', 'onclick' => 'App.EditLab(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num'],'func' => 'QueryTableWaiting']) : '') . ' '
+                              Html::a('EditLAB', FALSE, ['class' => 'btn btn-warning  btn-sm', 'onclick' => 'App.EditLab(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num'],'func' => 'QueryTableWaiting']). ' '
                             . Html::a('Call', FALSE, ['class' => 'btn btn-success  btn-sm', 'onclick' => 'App.CallButton(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num'],'serviceid' => 0]) . ' '
                             . Html::a('Hold', FALSE, ['class' => 'btn btn-primary  btn-sm', 'onclick' => 'App.Hold(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num']]) . ' '
                             . Html::a('Delete', FALSE, ['class' => 'btn btn-danger btn-sm', 'onclick' => 'App.Delete(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num']]);
@@ -114,7 +114,9 @@ class DefaultController extends Controller {
                     $table .= Html::tag('td', $result['q_num'], ['style' => 'font-size:16pt; text-align: center;']);
                     $table .= Html::tag('td', $result['service_name'], ['style' => 'font-size:16pt; text-align: center;']);
                     $table .= Html::beginTag('td', ['style' => 'text-align: center;white-space: nowrap']);
-                    $table .= Html::a('Call', FALSE, ['class' => 'btn btn-success  btn-sm', 'onclick' => 'App.CallButton(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num'],'serviceid' => 0]) . ' '
+                    $table .= 
+                              Html::a('EditLAB', FALSE, ['class' => 'btn btn-warning  btn-sm', 'onclick' => 'App.EditLab(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num'],'func' => 'QueryTableWaiting']).' '
+                            . Html::a('Call', FALSE, ['class' => 'btn btn-success  btn-sm', 'onclick' => 'App.CallButton(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num'],'serviceid' => 0]) . ' '
                             . Html::a('Hold', FALSE, ['class' => 'btn btn-primary  btn-sm', 'onclick' => 'App.Hold(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num']]) . ' '
                             . Html::a('Delete', FALSE, ['class' => 'btn btn-danger btn-sm', 'onclick' => 'App.Delete(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num']]);
                     $table .= Html::endTag('td');
@@ -145,7 +147,7 @@ class DefaultController extends Controller {
                 $table .= Html::tag('td', $result['service_name'], ['style' => 'font-size:16pt; text-align: center;']);
                 $table .= Html::beginTag('td', ['style' => 'text-align: center;white-space: nowrap']);
                 $table .= 
-                        (($result['order_ids'] != null) ? Html::a('EditLAB', FALSE, ['class' => 'btn btn-warning  btn-sm', 'onclick' => 'App.EditLab(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num'],'func' => 'QueryTableHoldlist']) : '') . ' '
+                          Html::a('EditLAB', FALSE, ['class' => 'btn btn-warning  btn-sm', 'onclick' => 'App.EditLab(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num'],'func' => 'QueryTableHoldlist']) . ' '
                         . Html::a('Call', FALSE, ['class' => 'btn btn-success  btn-sm', 'onclick' => 'App.CallButton(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num']]) . ' '
                         . Html::a('Delete', FALSE, ['class' => 'btn btn-danger btn-sm', 'onclick' => 'App.Delete(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num']]);
                 $table .= Html::endTag('td');
