@@ -93,6 +93,7 @@ $(function () {
         var result = data.source;
         if(result.servicegroup === "คัดกรองผู้ป่วยนอก"){
            QueryTableDisplay('คัดกรองผู้ป่วยนอก',result); 
+           getHoldQ();
         }
     });
 

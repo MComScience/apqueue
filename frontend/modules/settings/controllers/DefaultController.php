@@ -849,4 +849,10 @@ class DefaultController extends Controller {
         
     }
 
+    public function actionResetPrintcount(){
+        TbPrintlimit::updateAll(['q_count' => 0]);
+        Yii::$app->session->setFlash('success', "Successfully.");
+        return $this->redirect(['print-alert']);
+    }
+
 }

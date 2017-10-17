@@ -114,6 +114,7 @@ $(function () {
         var result = data.source;
         if(result.servicegroup === "ห้องตรวจโรคอายุรกรรม"){
            QueryTableDisplay('ห้องตรวจโรคอายุรกรรม',result); 
+           getHoldQ();
         }
     });
 

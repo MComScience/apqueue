@@ -31,6 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <?php
+                                    echo '<p>'.Html::a('Reset จำนวนปริ้น',['/settings/default/reset-printcount'],['class' => 'btn btn-danger','data-pjax' => 0]).'</p>';
                                     echo TabularForm::widget([
                                         'dataProvider' => $dataProvider,
                                         'form' => $form,
@@ -50,6 +51,11 @@ $this->params['breadcrumbs'][] = $this->title;
                                             ],
                                             'q_printstationid' => ['type' => TabularForm::INPUT_TEXT,'label' => 'Station'],
                                             'q_limitqty' => ['type' => TabularForm::INPUT_TEXT,'label' => 'จำนวนที่ต้องการให้เตือน'],
+                                            'q_count'=>[
+                                                'type'=>TabularForm::INPUT_STATIC, 
+                                                'label'=>'จำนวนที่ปริ้นไปแล้ว',
+                                                'columnOptions'=>['hAlign'=>GridView::ALIGN_CENTER]
+                                            ],
                                         ],
                                     ]);
                                     ?>
