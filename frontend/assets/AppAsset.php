@@ -17,7 +17,8 @@ class AppAsset extends AssetBundle
     ];
     public $js = [
         'js/smoothscroll.js?v=1.0',
-        'vendor/jPlayer/dist/jplayer/jquery.jplayer.js'
+        'vendor/jPlayer/dist/jplayer/jquery.jplayer.js',
+        'js/core.js'
     ];
     public $depends = [
         'yii\web\YiiAsset',
