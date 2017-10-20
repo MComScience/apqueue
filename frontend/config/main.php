@@ -171,7 +171,8 @@ return [
             'site/*',
             'main/default/sound',
             'main/default/get-sound',
-            'kiosk/default/query-q-hold'
+            'kiosk/default/query-q-hold',
+            'main/default/update-status-call'
         ]
     ],
     'params' => $params,
