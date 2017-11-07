@@ -5,7 +5,7 @@ use yii\helpers\Html;
 use frontend\modules\main\classes\MainQuery;
 
 ?>
-<?php if (Yii::$app->controller->action->id == 'index') : ?>
+<?php if (Yii::$app->controller->action->id == 'index-v1' || Yii::$app->controller->action->id == 'index-v2') : ?>
     <div class="row">
         <div class="col-sm-12">
             <?php

@@ -14,6 +14,7 @@ use frontend\modules\kiosk\models\TbQueueorderdetail;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\web\NotFoundHttpException;
+use frontend\modules\main\models\TbCounterservice;
 /**
  * Default controller for the `main` module
  */
@@ -23,8 +24,12 @@ class DefaultController extends Controller {
      * Renders the index view for the module
      * @return string
      */
-    public function actionIndex() {
-        return $this->render('index');
+    public function actionIndexV2() {
+        return $this->render('index2');
+    }
+
+    public function actionIndexV1() {
+        return $this->render('index1');
     }
 
     public function actionSound() {
@@ -42,7 +47,8 @@ class DefaultController extends Controller {
         if ($request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             $rows = MainQuery::getTablecalling($request->post('ServiceGroupID'));
-            $table = Html::beginTag('table', ['class' => 'table table-striped', 'id' => 'table-calling','width' => '100%'])
+            if($request->post('ServiceGroupID') == 1){
+                $table = Html::beginTag('table', ['class' => 'table table-striped', 'id' => 'table-calling','width' => '100%'])
                     . Html::beginTag('thead', [])
                     . Html::tag('th', 'QNum', ['style' => 'font-size: 10pt; text-align: center;'])
                     . Html::tag('th', 'Service Name', ['style' => 'font-size: 10pt; text-align: center;'])
@@ -50,23 +56,51 @@ class DefaultController extends Controller {
                     . Html::tag('th', 'Actions', ['style' => 'font-size: 10pt; text-align: center;'])
                     . Html::endTag('thead')
                     . Html::beginTag('tbody', ['id' => 'tbody-tablecalling']);
-            foreach ($rows as $result) {
-                $table .= Html::beginTag('tr', ['id' => 'tr-' . $result['qnum'], 'class' => 'default']);
-                $table .= Html::tag('td', $result['qnum'], ['style' => 'font-size:16pt; text-align: center;']);
-                $table .= Html::tag('td', $result['service_name'], ['style' => 'font-size:16pt; text-align: center;']);
-                $table .= Html::tag('td', $result['counterservice_callnumber'], ['style' => 'font-size:16pt; text-align: center;']);
-                $table .= Html::beginTag('td', ['style' => 'text-align: center;white-space: nowrap']);
-                $table .= 
-                        Html::a('EditLAB', FALSE, ['class' => 'btn btn-warning  btn-sm', 'onclick' => 'App.EditLab(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['qnum'],'func' => 'QueryTableCalling']).' '
-                        . Html::a('Recall', FALSE, ['class' => 'btn btn-primary2 btn-sm', 'onclick' => 'App.Recall(this);', 'data-id' => $result['caller_ids'], 'qnum' => $result['qnum']]) . ' '
-                        . Html::a('Hold', FALSE, ['class' => 'btn btn-primary  btn-sm', 'onclick' => 'App.Hold(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['qnum']]) . ' '
-                        . Html::a('Delete', FALSE, ['class' => 'btn btn-danger btn-sm', 'onclick' => 'App.Delete(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['qnum']]) . ' '
-                        . Html::a('End', FALSE, ['class' => 'btn btn-success btn-sm', 'onclick' => 'App.End(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['qnum']]);
-                $table .= Html::endTag('td');
-                $table .= Html::endTag('tr');
+                foreach ($rows as $result) {
+                    $table .= Html::beginTag('tr', ['id' => 'tr-' . $result['qnum'], 'class' => 'default']);
+                    $table .= Html::tag('td', $result['qnum'], ['style' => 'font-size:16pt; text-align: center;']);
+                    $table .= Html::tag('td', $result['service_name'], ['style' => 'font-size:16pt; text-align: center;']);
+                    $table .= Html::tag('td', $result['counterservice_callnumber'], ['style' => 'font-size:16pt; text-align: center;']);
+                    $table .= Html::beginTag('td', ['style' => 'text-align: center;white-space: nowrap']);
+                    $table .= 
+                            //Html::a('EditLAB', FALSE, ['class' => 'btn btn-warning  btn-sm', 'onclick' => 'App.EditLab(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['qnum'],'func' => 'QueryTableCalling']).' '
+                            Html::a('Recall', FALSE, ['class' => 'btn btn-primary2 btn-sm', 'onclick' => 'App.Recall(this);', 'data-id' => $result['caller_ids'], 'qnum' => $result['qnum']]) . ' '
+                            . Html::a('Hold', FALSE, ['class' => 'btn btn-primary  btn-sm', 'onclick' => 'App.Hold(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['qnum']]) . ' '
+                            . Html::a('Delete', FALSE, ['class' => 'btn btn-danger btn-sm', 'onclick' => 'App.Delete(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['qnum']]) . ' '
+                            . Html::a('End', FALSE, ['class' => 'btn btn-success btn-sm', 'onclick' => 'App.End(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['qnum']]);
+                    $table .= Html::endTag('td');
+                    $table .= Html::endTag('tr');
+                }
+                $table .= Html::endTag('tbody');
+                $table .= Html::endTag('table');
+            }else{
+                $table = Html::beginTag('table', ['class' => 'table table-striped', 'id' => 'table-calling','width' => '100%'])
+                    . Html::beginTag('thead', [])
+                    . Html::tag('th', 'QNum', ['style' => 'font-size: 10pt; text-align: center;'])
+                    . Html::tag('th', 'Service Name', ['style' => 'font-size: 10pt; text-align: center;'])
+                    . Html::tag('th', 'Counter Number', ['style' => 'font-size: 10pt; text-align: center;'])
+                    . Html::tag('th', 'Actions', ['style' => 'font-size: 10pt; text-align: center;'])
+                    . Html::endTag('thead')
+                    . Html::beginTag('tbody', ['id' => 'tbody-tablecalling']);
+                foreach ($rows as $result) {
+                    $table .= Html::beginTag('tr', ['id' => 'tr-' . $result['qnum'], 'class' => 'default']);
+                    $table .= Html::tag('td', $result['qnum'], ['style' => 'font-size:16pt; text-align: center;']);
+                    $table .= Html::tag('td', $result['service_name'], ['style' => 'font-size:16pt; text-align: center;']);
+                    $table .= Html::tag('td', $result['counterservice_callnumber'], ['style' => 'font-size:16pt; text-align: center;']);
+                    $table .= Html::beginTag('td', ['style' => 'text-align: center;white-space: nowrap']);
+                    $table .= 
+                            Html::a('EditLAB', FALSE, ['class' => 'btn btn-warning  btn-sm', 'onclick' => 'App.EditLab(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['qnum'],'func' => 'QueryTableCalling']).' '
+                            . Html::a('Recall', FALSE, ['class' => 'btn btn-primary2 btn-sm', 'onclick' => 'App.Recall(this);', 'data-id' => $result['caller_ids'], 'qnum' => $result['qnum']]) . ' '
+                            . Html::a('Hold', FALSE, ['class' => 'btn btn-primary  btn-sm', 'onclick' => 'App.Hold(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['qnum']]) . ' '
+                            . Html::a('Delete', FALSE, ['class' => 'btn btn-danger btn-sm', 'onclick' => 'App.Delete(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['qnum']]) . ' '
+                            . Html::a('End', FALSE, ['class' => 'btn btn-success btn-sm', 'onclick' => 'App.End(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['qnum']]);
+                    $table .= Html::endTag('td');
+                    $table .= Html::endTag('tr');
+                }
+                $table .= Html::endTag('tbody');
+                $table .= Html::endTag('table');
             }
-            $table .= Html::endTag('tbody');
-            $table .= Html::endTag('table');
+            
             return $table;
         }
     }
@@ -115,8 +149,8 @@ class DefaultController extends Controller {
                     $table .= Html::tag('td', $result['service_name'], ['style' => 'font-size:16pt; text-align: center;']);
                     $table .= Html::beginTag('td', ['style' => 'text-align: center;white-space: nowrap']);
                     $table .= 
-                              Html::a('EditLAB', FALSE, ['class' => 'btn btn-warning  btn-sm', 'onclick' => 'App.EditLab(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num'],'func' => 'QueryTableWaiting']).' '
-                            . Html::a('Call', FALSE, ['class' => 'btn btn-success  btn-sm', 'onclick' => 'App.CallButton(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num'],'serviceid' => 0]) . ' '
+                              //Html::a('EditLAB', FALSE, ['class' => 'btn btn-warning  btn-sm', 'onclick' => 'App.EditLab(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num'],'func' => 'QueryTableWaiting']).' '
+                            Html::a('Call', FALSE, ['class' => 'btn btn-success  btn-sm', 'onclick' => 'App.CallButton(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num'],'serviceid' => 0]) . ' '
                             . Html::a('Hold', FALSE, ['class' => 'btn btn-primary  btn-sm', 'onclick' => 'App.Hold(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num']]) . ' '
                             . Html::a('Delete', FALSE, ['class' => 'btn btn-danger btn-sm', 'onclick' => 'App.Delete(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num']]);
                     $table .= Html::endTag('td');
@@ -134,27 +168,52 @@ class DefaultController extends Controller {
         if ($request->isAjax) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             $rows = MainQuery::getTableholdlist($request->post('ServiceGroupID'));
-            $table = Html::beginTag('table', ['class' => 'table table-striped', 'id' => 'table-holdlist','width' => '100%'])
+            if($request->post('ServiceGroupID') == 1){
+                $table = Html::beginTag('table', ['class' => 'table table-striped', 'id' => 'table-holdlist','width' => '100%'])
+                        . Html::beginTag('thead', [])
+                        . Html::tag('th', 'QNum', ['style' => 'font-size: 10pt; text-align: center;'])
+                        . Html::tag('th', 'Service Name', ['style' => 'font-size: 10pt; text-align: center;'])
+                        . Html::tag('th', 'Actions', ['style' => 'font-size: 10pt; text-align: center;'])
+                        . Html::endTag('thead')
+                        . Html::beginTag('tbody', []);
+                foreach ($rows as $result) {
+                    $table .= Html::beginTag('tr', []);
+                    $table .= Html::tag('td', $result['q_num'], ['style' => 'font-size:16pt; text-align: center;']);
+                    $table .= Html::tag('td', $result['service_name'], ['style' => 'font-size:16pt; text-align: center;']);
+                    $table .= Html::beginTag('td', ['style' => 'text-align: center;white-space: nowrap']);
+                    $table .= 
+                             // Html::a('EditLAB', FALSE, ['class' => 'btn btn-warning  btn-sm', 'onclick' => 'App.EditLab(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num'],'func' => 'QueryTableHoldlist']) . ' '
+                            Html::a('Call', FALSE, ['class' => 'btn btn-success  btn-sm', 'onclick' => 'App.CallButton(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num']]) . ' '
+                            . Html::a('Delete', FALSE, ['class' => 'btn btn-danger btn-sm', 'onclick' => 'App.Delete(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num']]);
+                    $table .= Html::endTag('td');
+                    $table .= Html::endTag('tr');
+                }
+                $table .= Html::endTag('tbody');
+                $table .= Html::endTag('table');
+            }else{
+                $table = Html::beginTag('table', ['class' => 'table table-striped', 'id' => 'table-holdlist','width' => '100%'])
                     . Html::beginTag('thead', [])
                     . Html::tag('th', 'QNum', ['style' => 'font-size: 10pt; text-align: center;'])
                     . Html::tag('th', 'Service Name', ['style' => 'font-size: 10pt; text-align: center;'])
                     . Html::tag('th', 'Actions', ['style' => 'font-size: 10pt; text-align: center;'])
                     . Html::endTag('thead')
                     . Html::beginTag('tbody', []);
-            foreach ($rows as $result) {
-                $table .= Html::beginTag('tr', []);
-                $table .= Html::tag('td', $result['q_num'], ['style' => 'font-size:16pt; text-align: center;']);
-                $table .= Html::tag('td', $result['service_name'], ['style' => 'font-size:16pt; text-align: center;']);
-                $table .= Html::beginTag('td', ['style' => 'text-align: center;white-space: nowrap']);
-                $table .= 
-                          Html::a('EditLAB', FALSE, ['class' => 'btn btn-warning  btn-sm', 'onclick' => 'App.EditLab(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num'],'func' => 'QueryTableHoldlist']) . ' '
-                        . Html::a('Call', FALSE, ['class' => 'btn btn-success  btn-sm', 'onclick' => 'App.CallButton(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num']]) . ' '
-                        . Html::a('Delete', FALSE, ['class' => 'btn btn-danger btn-sm', 'onclick' => 'App.Delete(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num']]);
-                $table .= Html::endTag('td');
-                $table .= Html::endTag('tr');
+                foreach ($rows as $result) {
+                    $table .= Html::beginTag('tr', []);
+                    $table .= Html::tag('td', $result['q_num'], ['style' => 'font-size:16pt; text-align: center;']);
+                    $table .= Html::tag('td', $result['service_name'], ['style' => 'font-size:16pt; text-align: center;']);
+                    $table .= Html::beginTag('td', ['style' => 'text-align: center;white-space: nowrap']);
+                    $table .= 
+                              Html::a('EditLAB', FALSE, ['class' => 'btn btn-warning  btn-sm', 'onclick' => 'App.EditLab(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num'],'func' => 'QueryTableHoldlist']) . ' '
+                            . Html::a('Call', FALSE, ['class' => 'btn btn-success  btn-sm', 'onclick' => 'App.CallButton(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num']]) . ' '
+                            . Html::a('Delete', FALSE, ['class' => 'btn btn-danger btn-sm', 'onclick' => 'App.Delete(this);', 'data-id' => $result['q_ids'], 'qnum' => $result['q_num']]);
+                    $table .= Html::endTag('td');
+                    $table .= Html::endTag('tr');
+                }
+                $table .= Html::endTag('tbody');
+                $table .= Html::endTag('table');
             }
-            $table .= Html::endTag('tbody');
-            $table .= Html::endTag('table');
+            
             return $table;
         }
     }
@@ -691,6 +750,46 @@ class DefaultController extends Controller {
         }else {
             throw new NotFoundHttpException('The requested method does not exist.');
         }
+    }
+
+    public function actionSubServicegroup() {
+        $out = [];
+        $session = Yii::$app->session;
+        if (isset($_POST['depdrop_parents'])) {
+            $parents = $_POST['depdrop_parents'];
+            $list = TbCounterservice::find()->andWhere(['servicegroupid'=>$parents])->asArray()->all();
+            $selected  = null;
+            if ($parents != null) {
+                $selected = '';
+                foreach ($list as $i => $counter) {
+                    $out[] = ['id' => $counter['counterserviceid'], 'name' => $counter['counterservice_name']];
+                    if ($i == 0) {
+                        $selected = $counter['counterserviceid'];
+                    }
+                }
+                $session->set('selected_id', $parents[0]);
+                // Shows how you can preselect a value
+                echo Json::encode(['output' => $out, 'selected'=>'']);
+                return;
+            }
+        }
+        $session->remove('selected_id');
+        $session->remove('selected_depdop');
+        echo Json::encode(['output' => '', 'selected'=>'']);
+    }
+
+    public function actionSetSessionDepdop(){
+        $request = Yii::$app->request;
+        $session = Yii::$app->session;
+        if($request->isAjax){
+            if( !empty($request->post('id')) ){
+                $session->set('selected_depdop', $request->post('id'));
+            }else{
+                $session->remove('selected_depdop');
+            }
+            return Json::encode('completed!');
+        }
+        return Json::encode('error');
     }
 
 }

@@ -4,6 +4,7 @@ namespace frontend\modules\main\models;
 
 use Yii;
 use frontend\modules\settings\models\TbServiceMdName;
+use yii\helpers\ArrayHelper;
 /**
  * This is the model class for table "tb_counterservice".
  *
@@ -68,5 +69,13 @@ class TbCounterservice extends \yii\db\ActiveRecord
     public static function find()
     {
         return new TbCounterserviceQuery(get_called_class());
+    }
+
+    public function getChildServeice($id){
+        $result = [];
+        if($id != null){
+            $result = ArrayHelper::map(TbCounterservice::find()->andWhere(['servicegroupid'=>$id])->asArray()->all(),'counterserviceid','counterservice_name');
+        }
+        return $result;
     }
 }

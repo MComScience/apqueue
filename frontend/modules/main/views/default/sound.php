@@ -82,7 +82,7 @@ $(function () {
     GetSound();
 });
 
-function SoundPlay(data,i = 0,qnum = []){
+function SoundPlay(data,i,qnum){
     var url;
     var source = data.source;
     var sound = new Howl({
