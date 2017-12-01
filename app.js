@@ -66,4 +66,19 @@ io.on('connection', function (socket) {
             source: data.source,
         });
     });
+
+    app.get('/', function(req, res) {
+        res.send('It works');
+    });
+    
+    app.get('/api/:bookId', function(req, res) {
+       res.send(req.params.bookId);
+       Send(req.params.bookId);
+    });
+    
+    function Send(id){
+        socket.emit('sounds_request', {
+            source: id,
+        });
+    }
 });
