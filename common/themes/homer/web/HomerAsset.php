@@ -13,7 +13,7 @@ class HomerAsset extends BaseHomerAsset
         'vendor/animate.css/animate.css',
         'fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css',
         'fonts/pe-icon-7-stroke/css/helper.css',
-        'styles/style.css',
+        'styles/style-new.css',
         'styles/static_custom.css'
         //'vendor/bootstrap/dist/css/bootstrap.css'
     ];
