@@ -155,6 +155,17 @@ return [
                 ],
             ],
         ],
+        'assetManager' => [
+            'appendTimestamp' => true,
+            'bundles' => [
+                'yii\web\JqueryAsset' => [
+                    'sourcePath' => null,
+                    'js' => [
+                        YII_ENV_DEV ? 'js/jquery-2.2.4.js?v2.2.4' : 'js/jquery-2.2.4.min.js?v2.2.4'
+                    ]
+                ],
+            ],
+        ],
     ],
     'as access' => [
         'class' => 'mdm\admin\components\AccessControl',

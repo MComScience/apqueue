@@ -34,7 +34,7 @@ Modal::begin([
     <?php
     echo CheckboxX::widget([
         'name' => 'kv-adv-'.$v['orderdetailid'],
-        //'value' => $v['orderdetailid'],
+        
         'initInputType' => CheckboxX::INPUT_CHECKBOX,
         'autoLabel' => true,
         'labelSettings' => [
@@ -52,6 +52,9 @@ Modal::begin([
             'theme' => 'krajee-flatblue',
             'valueChecked' => $v['orderdetailid'],
         ],
+        'options' => [
+            'value' => 0,
+        ]
     ]);
     ?>  
 </div>

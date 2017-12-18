@@ -16,10 +16,11 @@ use frontend\modules\kiosk\models\TbQueueorderdetail;
     <?php if (!empty($query)): ?>
         <div class="form-group has-success">
             <?php
+            $order = TbQueueorderdetail::findOne(['q_ids' => $q_ids, 'orderdetailid' => $v['orderdetailid'], 'q_result' => 'Y']);
             echo CheckboxX::widget([
                 'name' => 'kv-adv-' . $v['orderdetailid'],
-                'value' => TbQueueorderdetail::findOne(['q_ids' => $q_ids, 'orderdetailid' => $v['orderdetailid'], 'q_result' => 'Y']) != null ? $v['orderdetailid'] : 0,
-                'options' => ['id' => $v['orderdetailid']],
+                //'value' => TbQueueorderdetail::findOne(['q_ids' => $q_ids, 'orderdetailid' => $v['orderdetailid'], 'q_result' => 'Y']) != null ? $v['orderdetailid'] : 0,
+                'options' => ['id' => $v['orderdetailid'],'value' => $order ? 1 : 0],
                 'initInputType' => CheckboxX::INPUT_CHECKBOX,
                 'autoLabel' => true,
                 'labelSettings' => [

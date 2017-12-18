@@ -755,7 +755,7 @@ class DefaultController extends Controller {
     public function actionSubServicegroup() {
         $out = [];
         $session = Yii::$app->session;
-        if (isset($_POST['depdrop_parents'])) {
+        if (isset($_POST['depdrop_parents'][0]) && !empty($_POST['depdrop_parents'][0])) {
             $parents = $_POST['depdrop_parents'];
             $list = TbCounterservice::find()->andWhere(['servicegroupid'=>$parents])->asArray()->all();
             $selected  = null;
