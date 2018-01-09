@@ -66,6 +66,8 @@ class QDataController extends \yii\rest\ActiveController
         // disable the "delete" and "create" actions
         unset($actions['delete'], $actions['create']);
 
+        $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
+
         return $actions;
     }
 
@@ -73,6 +75,16 @@ class QDataController extends \yii\rest\ActiveController
     {
         return new ActiveDataProvider([
             'query' => $this->modelClass::find(),
+        ]);
+    }
+
+    public function prepareDataProvider()
+    {
+        return new ActiveDataProvider([
+            'query' => (new \yii\db\Query())
+            ->select(['tb_caller.*','tb_counterservice.*'])
+            ->from('tb_caller')
+            ->innerJoin('tb_counterservice','tb_counterservice.counterserviceid = tb_caller.counterserviceid'),
         ]);
     }
 
