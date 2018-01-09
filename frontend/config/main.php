@@ -97,12 +97,31 @@ return [
         'settings' => [
             'class' => 'frontend\modules\settings\Module',
         ],
+        'api' => [
+            'class' => 'app\modules\api\Module',
+        ],
     ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
             //'baseUrl' => $baseUrl,
             'baseUrl' => '',
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ]
+        ],
+        'response' => [
+            'class' => 'yii\web\Response',
+            'on beforeSend' => function ($event) {
+                $response = $event->sender;
+                if ($response->data !== null && Yii::$app->request->get('suppress_response_code')) {
+                    $response->data = [
+                        'success' => $response->isSuccessful,
+                        'data' => $response->data,
+                    ];
+                    $response->statusCode = 200;
+                }
+            },
         ],
         # Yii2-User Extension
         'user' => [
@@ -145,6 +164,11 @@ return [
             'rules' => [
                 'display1' => 'kiosk/default/display1',
                 'display2' => 'kiosk/default/display2',
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'api/v1/q-data',
+                    'except' => ['index'],
+                ]
             ]
         ],
         'view' => [
@@ -183,7 +207,8 @@ return [
             'main/default/sound',
             'main/default/get-sound',
             'kiosk/default/query-q-hold',
-            'main/default/update-status-call'
+            'main/default/update-status-call',
+            'api/v1/q-data/index'
         ]
     ],
     'params' => $params,
