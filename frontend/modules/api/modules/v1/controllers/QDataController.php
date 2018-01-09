@@ -85,6 +85,9 @@ class QDataController extends \yii\rest\ActiveController
             ->select(['tb_caller.*','tb_counterservice.*'])
             ->from('tb_caller')
             ->innerJoin('tb_counterservice','tb_counterservice.counterserviceid = tb_caller.counterserviceid'),
+            'pagination' => [
+                'pageSize' => false,
+            ],
         ]);
     }
 
