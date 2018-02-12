@@ -23,7 +23,8 @@ class AutoNumber extends Component
             return $this->prefix.sprintf("%'.0".$this->digit."d", 1);
         }
         if(is_numeric($this->number)){
-            return $this->prefix.sprintf("%'.0".$this->digit."d", $this->number + 1);
+            $number = substr($this->number,strlen($this->prefix));
+            return $this->prefix.sprintf("%'.0".$this->digit."d", $number + 1);
         }elseif (is_string($this->number)) {
             $prefix = substr($this->number,0,strlen($this->prefix));
             $number = substr($this->number,strlen($this->prefix));
