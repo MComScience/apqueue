@@ -15,7 +15,8 @@ use frontend\modules\kiosk\models\VwDisplayService2;
 use frontend\modules\main\classes\MainQuery;
 use frontend\modules\kiosk\models\TbPrintlimit;
 use frontend\modules\kiosk\models\TbService;
-
+use common\components\AutoNumber;
+use yii\helpers\Json;
 /**
  * Default controller for the `kiosk` module
  */
@@ -72,11 +73,26 @@ class DefaultController extends Controller {
                 $transaction = \Yii::$app->db->beginTransaction();
                 try {
                     $modelService = TbService::findOne($serviceid);
-                    $Qnum = Yii::$app->db->createCommand('SELECT func_ticket_create(:userid,:serviceid,:q_printstationid,:servicegroupid) AS Qnum;')
+                    $maxids = TbQuequ::find()->where(['serviceid' => $serviceid])->max('q_ids');
+                    if($maxids){
+                        $model = TbQuequ::findOne($maxids);
+                        $q  = $model['q_num'];
+                    }else{
+                        $q = null;
+                    }
+                    $auto = \Yii::createObject([
+                        'class' => AutoNumber::className(),
+                        'prefix' => $modelService['service_prefix'],
+                        'number' => $q,
+                        'digit' => $modelService['service_numdigit']
+                    ]);
+                    $q_num = $auto->generate();
+                    $Qnum = Yii::$app->db->createCommand('SELECT func_ticket_create(:userid,:serviceid,:q_printstationid,:servicegroupid,:q_num) AS Qnum;')
                     ->bindParam(':userid', $userid)
                     ->bindParam(':serviceid', $serviceid)
                     ->bindParam(':q_printstationid', $q_printstationid)
                     ->bindParam(':servicegroupid', $servicegroupid)
+                    ->bindParam(':q_num', $q_num)
                     ->queryScalar();
 
                     $printLimit = TbPrintlimit::findOne(['q_printstationid' => $q_printstationid]);
@@ -105,11 +121,26 @@ class DefaultController extends Controller {
                 $transaction = \Yii::$app->db->beginTransaction();
                 try {
                     $modelService = TbService::findOne($serviceid);
-                    $Qnum = Yii::$app->db->createCommand('SELECT func_ticket_create(:userid,:serviceid,:q_printstationid,:servicegroupid) AS Qnum;')
+                    $maxids = TbQuequ::find()->where(['serviceid' => $serviceid])->max('q_ids');
+                    if($maxids){
+                        $model = TbQuequ::findOne($maxids);
+                        $q  = $model['q_num'];
+                    }else{
+                        $q = null;
+                    }
+                    $auto = \Yii::createObject([
+                        'class' => AutoNumber::className(),
+                        'prefix' => $modelService['service_prefix'],
+                        'number' => $q,
+                        'digit' => $modelService['service_numdigit']
+                    ]);
+                    $q_num = $auto->generate();
+                    $Qnum = Yii::$app->db->createCommand('SELECT func_ticket_create(:userid,:serviceid,:q_printstationid,:servicegroupid,:q_num) AS Qnum;')
                     ->bindParam(':userid', $userid)
                     ->bindParam(':serviceid', $serviceid)
                     ->bindParam(':q_printstationid', $q_printstationid)
                     ->bindParam(':servicegroupid', $servicegroupid)
+                    ->bindParam(':q_num', $q_num)
                     ->queryScalar();
 
                     $printLimit = TbPrintlimit::findOne(['q_printstationid' => $q_printstationid]);
@@ -138,11 +169,26 @@ class DefaultController extends Controller {
                 $transaction = \Yii::$app->db->beginTransaction();
                 try {
                     $modelService = TbService::findOne($serviceid);
-                    $Qnum = Yii::$app->db->createCommand('SELECT func_ticket_create(:userid,:serviceid,:q_printstationid,:servicegroupid) AS Qnum;')
+                    $maxids = TbQuequ::find()->where(['serviceid' => $serviceid])->max('q_ids');
+                    if($maxids){
+                        $model = TbQuequ::findOne($maxids);
+                        $q  = $model['q_num'];
+                    }else{
+                        $q = null;
+                    }
+                    $auto = \Yii::createObject([
+                        'class' => AutoNumber::className(),
+                        'prefix' => $modelService['service_prefix'],
+                        'number' => $q,
+                        'digit' => $modelService['service_numdigit']
+                    ]);
+                    $q_num = $auto->generate();
+                    $Qnum = Yii::$app->db->createCommand('SELECT func_ticket_create(:userid,:serviceid,:q_printstationid,:servicegroupid,:q_num) AS Qnum;')
                     ->bindParam(':userid', $userid)
                     ->bindParam(':serviceid', $serviceid)
                     ->bindParam(':q_printstationid', $q_printstationid)
                     ->bindParam(':servicegroupid', $servicegroupid)
+                    ->bindParam(':q_num', $q_num)
                     ->queryScalar();
 
                     $printLimit = TbPrintlimit::findOne(['q_printstationid' => $q_printstationid]);
