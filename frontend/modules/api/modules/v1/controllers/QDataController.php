@@ -84,9 +84,12 @@ class QDataController extends \yii\rest\ActiveController
             'query' => (new \yii\db\Query())
             ->select(['tb_caller.*','tb_counterservice.*'])
             ->from('tb_caller')
-            ->innerJoin('tb_counterservice','tb_counterservice.counterserviceid = tb_caller.counterserviceid'),
+            ->innerJoin('tb_counterservice','tb_counterservice.counterserviceid = tb_caller.counterserviceid')
+            ->where(['tb_caller.call_status' => 'calling'])
+            ->limit(1)
+            ->orderBy('tb_caller.call_timestp ASC'),
             'pagination' => [
-                'pageSize' => false,
+                'pageSize' => 1,
             ],
         ]);
     }
