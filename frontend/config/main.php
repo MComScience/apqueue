@@ -89,7 +89,7 @@ return [
             'class' => 'app\modules\kiosk\Module',
         ],
         'menu' => [
-            'class' => 'firdows\menu\Module',
+            'class' => 'msoft\menu\Module',
         ],
          'menuconfig' => [
             'class' => 'app\modules\menu\Module',
