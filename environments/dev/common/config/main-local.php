@@ -9,12 +9,13 @@ return [
             'charset' => 'utf8',
             'enableQueryCache' => true
         ],
+        /*
         'redis' => [
             'class' => 'yii\redis\Connection',
             'hostname' => 'redis',
             'port' => 6379,
             'database' => 0,
-        ],
+        ],*/
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
             'viewPath' => '@common/mail',
@@ -22,6 +23,9 @@ return [
             // 'useFileTransport' to false and configure a transport
             // for the mailer to send real emails.
             'useFileTransport' => true,
+        ],
+        'thaiYearformat' => [
+            'class' => 'common\components\ThaiYearFormat',
         ],
     ],
 ];

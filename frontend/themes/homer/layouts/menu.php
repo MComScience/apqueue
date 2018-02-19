@@ -39,7 +39,7 @@ $url = '/' . $ctrl->module->id . '/' . $ctrl->id . '/' . $ctrl->action->id;
             </div>
         </div>
         <?php 
-          $nav = new firdows\menu\models\Navigate();
+          $nav = new msoft\menu\models\Navigate();
           $menu = $nav->menu(2);
           echo Menu::widget([
           'items' => $menu,

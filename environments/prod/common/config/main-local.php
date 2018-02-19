@@ -19,5 +19,8 @@ return [
             'class' => 'yii\swiftmailer\Mailer',
             'viewPath' => '@common/mail',
         ],
+        'thaiYearformat' => [
+            'class' => 'common\components\ThaiYearFormat',
+        ],
     ],
 ];
