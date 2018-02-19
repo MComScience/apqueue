@@ -8,7 +8,8 @@ return [
     'timeZone' => 'Asia/Bangkok', // ตั้งค่า TimeZone
     # Yii2-Admin Extension
     'aliases' => [
-        '@mdm/admin' => '@vendor/mdmsoft/yii2-admin'
+        '@mdm/admin' => '@vendor/mdmsoft/yii2-admin',
+        '@msoft/menu' => '@common/modules/yii2-menu'
     ],
     'bootstrap' => ['languagepicker','log'],
     'components' => [
